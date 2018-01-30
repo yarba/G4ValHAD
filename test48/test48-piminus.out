@@ -1,0 +1,73 @@
+========================================================
+======      Stopping Particles Test Start       ========
+========================================================
+Available commands are: 
+#events
+#particle
+#energy(MeV)
+#momentum(MeV/c)
+#step(mm)
+#material
+#generator
+#verbose
+#position(mm)
+#direction
+#time(ns)
+#randomSeed
+#jobID
+#run
+#exit
+Next line #verbose
+Next line #rad
+Next line #events
+nevt : 100000
+Next line //--------Proton_processes
+Next line #particle
+Next line #position(mm)
+Next line #direction
+Next line //--------
+Next line #material
+Next line #momentum(MeV/c)
+Next line //
+Next line ---
+Next line #generator
+Bertini
+Next line #run
+###### Start new run # 0     #####
+###### Material: G4_Pb derived from Pb
+pi-Bertini initializing 0
+pi-Bertini initializing 1
+ Model <Bertini> is initialized
+ For materials G4_Pb Number of NISTIsotopes = 34
+The particle:  pi-
+The material:  G4_Pb  Z= 82  A of the first element= 207  A of the last  element= 207.217
+Number of isotopes 4
+The step:      1e-05 mm
+The position:  (0,0,0) mm
+The direction: (0,0,1)
+The time:      0 ns
+energy = 0.13957 GeV
+Initializing histograms for: pi- on Pb
+=======================================================================
+======       Pre-compound/De-excitation Physics Parameters     ========
+=======================================================================
+Type of pre-compound inverse x-section              3
+Pre-compound model active                           1
+Pre-compound low energy (MeV)                       0.1
+Type of de-excitation inverse x-section             3
+Type of de-excitation factory                       Evaporation
+Number of de-excitation channels                    8
+Min excitation energy (keV)                         0.01
+Min energy per nucleon for multifragmentation (MeV) 1e+05
+Level density (1/MeV)                               0.1
+Time limit for long lived isomeres (ns)             1e+12
+Internal e- conversion flag                         1
+Store e- internal conversion data                   0
+Electron internal conversion ID                     0
+Correlated gamma emission flag                      0
+Max 2J for sampling of angular correlations         10
+=======================================================================
+  User=95.04s Real=95.56s Sys=0.09s
+Writing histogram file: piminusPbBertini.root
+Next line #exit
+###### End of test #####
