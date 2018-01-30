@@ -1,0 +1,68 @@
+{
+
+  "p45deg" : {
+    "mctoolkw": "Geant4",
+    "testkw": "test75",
+    "modelkw": "Bertini",
+    "versiontagkw": "VTAG",
+    "beamkw": "Schumacher Gamma",
+    "targetkw": "Cu",
+    "observablekw": "differential cross section dsig / dtheta dp", 
+    "secondarykw": "proton",
+    "reactionkw": "particle production",   
+    "parnames": ["theta [deg] of secondary particle"], 
+    "parvalues": ["45"], 
+    "imageblobslnk": 0,
+    "scoreskw": "passed",
+    "accesskw": "public"
+  },
+  "p90deg" : {
+    "mctoolkw": "Geant4",
+    "testkw": "test75",
+    "modelkw": "Bertini",
+    "versiontagkw": "VTAG",
+    "beamkw": "Schumacher Gamma",
+    "targetkw": "Cu",
+    "observablekw": "differential cross section dsig / dtheta dp", 
+    "secondarykw": "proton",
+    "reactionkw": "particle production",   
+    "parnames": ["theta [deg] of secondary particle"], 
+    "parvalues": ["90"], 
+    "imageblobslnk": 0,
+    "scoreskw": "passed",
+    "accesskw": "public"
+  },
+  "p135deg" : {
+    "mctoolkw": "Geant4",
+    "testkw": "test75",
+    "modelkw": "Bertini",
+    "versiontagkw": "VTAG",
+    "beamkw": "Schumacher Gamma",
+    "targetkw": "Cu",
+    "observablekw": "differential cross section dsig / dtheta dp", 
+    "secondarykw": "proton",
+    "reactionkw": "particle production",   
+    "parnames": ["theta [deg] of secondary particle"], 
+    "parvalues": ["135"], 
+    "imageblobslnk": 0,
+    "scoreskw": "passed",
+    "accesskw": "public"
+  },
+  "p150deg" : {
+    "mctoolkw": "Geant4",
+    "testkw": "test75",
+    "modelkw": "Bertini",
+    "versiontagkw": "VTAG",
+    "beamkw": "Schumacher Gamma",
+    "targetkw": "Cu",
+    "observablekw": "differential cross section dsig / dtheta dp", 
+    "secondarykw": "proton",
+    "reactionkw": "particle production",   
+    "parnames": ["theta [deg] of secondary particle"], 
+    "parvalues": ["150"], 
+    "imageblobslnk": 0,
+    "scoreskw": "passed",
+    "accesskw": "public"
+  }
+
+}

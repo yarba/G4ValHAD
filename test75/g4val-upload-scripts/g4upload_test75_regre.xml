@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testslist>
+    <tests>
+        <testdes>test75</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>kinetic energy of secondary proton</observable>
+        <reaction>gamma+Cu -> proton+X</reaction>
+        <beam>gamma</beam>
+	<beammomentum>300 MeV/c</beammomentum>
+        <beamenergy></beamenergy>
+        <target>Cu</target>
+        <secondary>proton</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>gamma-300-Cu-p-bert-regre.gif</imageblob>
+        <taglist>
+            <tag>
+                <name>Model</name>
+                <value>Bertini</value>
+            </tag>
+            <tag>              
+                <name>Regression testing:</name>
+                <value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>             
+        </taglist>    
+    </tests>
+    <tests>
+        <testdes>test75</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>momentum for secondary pi+/-</observable>
+        <reaction>gamma+Cu -> pion+X</reaction>
+        <beam>gamma</beam>
+	<beammomentum>668MeV/c</beammomentum>
+        <beamenergy></beamenergy>
+        <target>Cu</target>
+        <secondary>pi+ or pi-</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>gamma-668-Cu-pions-bert-regre.gif</imageblob>
+        <taglist>
+            <tag>
+                <name>Model</name>
+                <value>Bertini</value>
+            </tag>            
+            <tag>            
+                <name>Regression testing:</name>
+                <value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>             
+        </taglist>    
+    </tests>
+    <tests>
+        <testdes>test75</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>momentum for secondary pi+-</observable>
+        <reaction>gamma+Pb -> pion+X</reaction>
+        <beam>gamma</beam>
+	<beammomentum>668MeV/c</beammomentum>
+        <beamenergy></beamenergy>
+        <target>Pb</target>
+        <secondary>pi+ or pi-</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>gamma-668-Pb-pions-bert-regre.gif</imageblob>
+        <taglist>
+            <tag>
+                <name>Model</name>
+                <value>Bertini</value>
+            </tag>            
+            <tag>            
+                <name>Regression testing:</name>
+                <value>Geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>             
+        </taglist>    
+    </tests>
+</testslist>

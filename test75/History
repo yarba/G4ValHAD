@@ -1,0 +1,93 @@
+$Id: $
+-------------------------------------------------------------------
+
+     =========================================================
+     Geant4 - an Object-Oriented Toolkit for Simulation in HEP
+     =========================================================
+
+                    Test 75 History file
+                    --------------------
+This file should be used by the test developer to briefly
+summarize all major modifications introduced in the code and keep
+track of all tags.
+
+     ----------------------------------------------------------
+     * Reverse chronological order (last date on top), please *
+     ----------------------------------------------------------
+
+Nov 28, 2017 Ben Morgan (test75-V10-03-00)
+- Replace ROOT_INCLUDE_DIR with ROOT_INCLUDE_DIRS
+
+June 17, 2016 Julia Yarba (test75-V10-02-01)
+- Start migration to Root6
+
+May 16, 2016 Julia Yarba (test75-V10-02-00)
+- Update PBS submit script(s) - queue amd32_g4val on Wilson cluster
+
+Sept 17, 2015 Julia Yarba (test75-V10-01-07)
+- Analysis, production scripts adapted to the Wilson cluster (tev.fnal.gov)
+
+Sept 8, 2015 Julia Yarba (test75-V10-01-06)
+- Minor cleanups
+- Also, this is the last tag that has production scripts for running 
+  on cluck.fnal.gov; subsequent tags will have scripts for running on
+  the Wilson cluster (tev.fnal.gov) 
+
+24 July 2015 Andrea Dotti (test75-V10-01-05)
+- Using macro ROOT_INCLUDE_DIR to identify root/include path
+
+May 19, 2015 Julia Yarba (test75-V10-01-04)
+- Minor cleanups
+
+April 9, 2015 Julia Yarba (test75-V10-01-03)
+- Updates to gen_upload scripts (better handling of versions 
+  in regression testing)
+
+April 7, 2015 Julia Yarba (test75-V10-01-02)
+- Re-tag for consistenmt "proposal" into 10.1-ref series,
+  with a group of other tags
+
+March 9, 2015 Julia Yarba (test75-V10-01-01)
+- Update CMakeList
+
+February 6, 2015 Julia Yarba (test75-V10-01-00)
+- (Re)Tag it to "propose" all recent updates into 10.1refXX
+
+November 16, 2014 Julia Yarba (test75-V10-00-04)
+- Replace g4val gen upload scripts with executable ones
+  (as it's impossible to change mode in SVN)
+
+November 14, 2014 Julia Yarba (test75-V10-00-03)
+- Cleanup typo in do_regression.sh
+
+Novermber 12, 2014 Julia Yarba (test75-V10-00-02)
+- Introduce post-MC-gen regression test script (optional)
+- Maake submit (and all other) shell scripts executable
+- Minor cleanups
+
+October 28, 2014 Julia Yarba (test75-V10-00-01)
+- Restructured analysis scripts
+- Added various scripts for the procedure's automation 
+- Updated CMakeList.txt to allow copy ovre necessary scripts 
+  to the work/build area
+- Requires co-working tag(s):
+                              test23-V10-00-09
+
+December 11, 2013 Julia Yarba (test75-V10-00-00)
+- restructure and make use shared code (curr. from test23/shared)
+- requires (at least) test23-V10-00-01
+- tested/operational with geant4.10.00
+
+January 30, 2013 Julia Yarba (test75-V09-06-02)
+- fix type in (c)test definition/addition
+
+January 29, 2013 Julia Yarba (test75-V09-06-01)
+-- include exp.data for 668MeV gamma on Cu or Pb target
+-- improve the code and analysis scripts
+-- add CMakeList.txt
+-- add config for CTest
+
+November 28, 2012 Julia Yarba (test75-V09-05-01)
+- first version of gamma-nuclear validation package 
+  (incl. Bertini and CHIPS, plus exp.points)
+
