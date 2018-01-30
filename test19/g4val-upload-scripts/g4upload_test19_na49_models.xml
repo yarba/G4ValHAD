@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testslist>
+
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity or average pT vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi+</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-pip-models.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>FTF(P), QGS(P), QGS(P)+G4LundStringFragmentation</value>	    
+	    </tag>            
+	    <tag>              
+	       <name>Comment</name>
+	       <value>Both FTF and QGS models are backed with PreCompound model</value>
+            </tag>
+	</taglist>    
+    </tests>
+
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity or average pT vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi-</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-pim-models.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>FTF(P), QGS(P), QGS(P)+G4LundStringFragmentation</value>	    
+	    </tag>            
+	    <tag>              
+	       <name>Comment</name>
+	       <value>Both FTF and QGS models are backed with PreCompound model</value>
+            </tag>
+	</taglist>    
+    </tests>
+
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity or average pT vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>proton</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-p-models.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>FTF(P), QGS(P), QGS(P)+G4LundStringFragmentation</value>	    
+	    </tag>            
+	    <tag>              
+	       <name>Comment</name>
+	       <value>Both FTF and QGS models are backed with PreCompound model</value>
+            </tag>
+	</taglist>    
+    </tests>
+
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity or average pT vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>antiproton</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-pbar-models.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>FTF(P), QGS(P), QGS(P)+G4LundStringFragmentation</value>	    
+	    </tag>            
+	    <tag>              
+	       <name>Comment</name>
+	       <value>Both FTF and QGS models are backed with PreCompound model</value>
+            </tag>
+	</taglist>    
+    </tests>
+
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>neutron</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-n-models.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>FTF(P), QGS(P), QGS(P)+G4LundStringFragmentation</value>	    
+	    </tag>            
+	    <tag>              
+	       <name>Comment</name>
+	       <value>Both FTF and QGS models are backed with PreCompound model</value>
+            </tag>
+	</taglist>    
+    </tests>
+
+</testslist>

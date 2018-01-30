@@ -1,0 +1,578 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testslist>
+
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>production cross section vs momentun of secondary particle, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi+</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-pip-ftfp-regre-p1.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>FTF(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>production cross section vs momentun of secondary particle, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi+</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-pip-ftfp-regre-p2.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>FTF(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>production cross section vs momentun of secondary particle, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi-</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-pim-ftfp-regre-p1.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>FTF(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>production cross section vs momentun of secondary particle, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi-</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-pim-ftfp-regre-p2.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>FTF(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>production cross section vs momentun of secondary particle, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>proton</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-p-ftfp-regre-p1.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>FTF(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>production cross section vs momentun of secondary particle, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>proton</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-p-ftfp-regre-p2.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>FTF(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>K+/pi+ vs momentun, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>K+,pi+</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-K-pi-ratio-ftfp-regre.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>FTF(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+
+
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>production cross section vs momentun of secondary particle, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi+</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-pip-qgsp-regre-p1.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>production cross section vs momentun of secondary particle, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi+</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-pip-qgsp-regre-p2.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>production cross section vs momentun of secondary particle, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi-</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-pim-qgsp-regre-p1.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>production cross section vs momentun of secondary particle, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi-</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-pim-qgsp-regre-p2.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>production cross section vs momentun of secondary particle, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>proton</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-p-qgsp-regre-p1.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>production cross section vs momentun of secondary particle, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>proton</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-p-qgsp-regre-p2.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>K+/pi+ vs momentun, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>K+,pi+</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-K-pi-ratio-qgsp-regre.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+
+
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>production cross section vs momentun of secondary particle, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi+</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-pip-qgsp-g4lundstr-regre-p1.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)+G4LundStringFragmentation</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>production cross section vs momentun of secondary particle, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi+</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-pip-qgsp-g4lundstr-regre-p2.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)+G4LundStringFragmentation</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>production cross section vs momentun of secondary particle, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi-</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-pim-qgsp-g4lundstr-regre-p1.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)+G4LundStringFragmentation</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>production cross section vs momentun of secondary particle, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi-</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-pim-qgsp-g4lundstr-regre-p2.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)+G4LundStringFragmentation</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>production cross section vs momentun of secondary particle, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>proton</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-p-qgsp-g4lundstr-regre-p1.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)+G4LundStringFragmentation</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>production cross section vs momentun of secondary particle, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>proton</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-p-qgsp-g4lundstr-regre-p2.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)+G4LundStringFragmentation</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>K+/pi+ vs momentun, in different theta bins</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>31 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>K+,pi+</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-31GeV-K-pi-ratio-qgsp-g4lundstr-regre.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)+G4LundStringFragmentation</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+
+
+</testslist>

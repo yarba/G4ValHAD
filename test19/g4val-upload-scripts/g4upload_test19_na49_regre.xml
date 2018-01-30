@@ -1,0 +1,415 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testslist>
+
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity and average pT vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi+</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-pip-ftfp-regre.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>FTF(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity and average pT vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi-</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-pim-ftfp-regre.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>FTF(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity and average pT vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>proton</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-p-ftfp-regre.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>FTF(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity and average pT vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>antiproton</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-pbar-ftfp-regre.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>FTF(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>neutron</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-n-ftfp-regre.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>FTF(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+
+
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity and average pT vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi+</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-pip-qgsp-regre.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity and average pT vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi-</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-pim-qgsp-regre.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity and average pT vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>proton</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-p-qgsp-regre.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity and average pT vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>antiproton</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-pbar-qgsp-regre.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>neutron</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-n-qgsp-regre.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    
+    
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity and average pT vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi+</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-pip-qgsp-g4lundstr-regre.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)+G4LundStringFragmentation</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity and average pT vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>pi-</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-pim-qgsp-g4lundstr-regre.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)+G4LundStringFragmentation</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity and average pT vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>proton</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-p-qgsp-g4lundstr-regre.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)+G4LundStringFragmentation</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity and average pT vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>antiproton</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-pbar-qgsp-g4lundstr-regre.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)+G4LundStringFragmentation</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+    <tests>
+        <testdes>test19</testdes>
+        <g4version>geant4-10.00-p01</g4version>
+        <observable>average multiplicity vs xF</observable>
+        <reaction>proton on C</reaction>
+        <beam>proton</beam>
+	<beammomentum>158 GeV/c</beammomentum>
+	<beamenergy></beamenergy>
+        <target>Carbon</target>
+        <secondary>neutron</secondary>
+        <status>public</status>
+        <score>
+            <type>expert</type>
+            <value>passed</value>  
+        </score>
+        <imageblob>p-C-158GeV-n-qgsp-g4lundstr-regre.gif</imageblob>
+        <taglist>
+	    <tag>
+                <name>Model</name>
+                <value>QGS(P)+G4LundStringFragmentation</value>	    
+	    </tag>            
+            <tag>              
+                <name>Regression testing:</name>
+		<value>geant 4 versions: g4-9-6-p02,g4-9-6-p03,g4-10.00,g4-10.00-p01</value>
+            </tag>
+	</taglist>    
+    </tests>
+
+
+</testslist>
