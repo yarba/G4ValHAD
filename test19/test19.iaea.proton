@@ -1,5 +1,7 @@
 #verbose
 -1
+#randomSeed 
+12345
 #rad
 //--------Proton_processes
 #particle
@@ -15,7 +17,7 @@ C
 #momentum(MeV/c)
 3824.0
 #events
-100000
+250000
 #generator
 bertini
 #run

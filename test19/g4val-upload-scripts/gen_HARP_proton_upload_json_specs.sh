@@ -6,14 +6,23 @@
 #       python uploader (by A.Dotti) must be installed:
 #      git clone https://yarba@gitlab.cern.ch/PhysicsValidationDB/uploader.git
 
-MCDetails=( 'bertini=148' 'ftfp=150' 'inclxx=153' )
-BeamDetails=( '3.0GeV=37' '5.0GeV=38' '8.0GeV=39' '12.0GeV=40' )
+# MCDetails=( 'bertini=148' 'ftfp=150' 'inclxx=153' )
+# BeamDetails=( '3.0GeV=37' '5.0GeV=38' '8.0GeV=39' '12.0GeV=40' )
+BeamDetails=( '3.0GeV=CERN PS (p,3GeV)' '5.0GeV=CERN PS (p,5GeV)' '8.0GeV=CERN PS (p,8GeV)' '12.0GeV=CERN PS (p,12GeV)' )
+# --> just a test --> BeamDetails=( '5.0GeV=CERN PS (p,5GeV)'  )
 TargetDetails=( 'Be=4' 'C=6' 'Ta=73' )
+
+ModelDetails=( 'bertini=Bertini' 'ftfp=FTFP' 'inclxx=INCLXX' )
 
 gdir=/g4/g4p/pbs/g4-had-validation/regression-test-files
 g4version=${1}
+g4vtag=${2}
+access=${3}
+if [ "x" == "x${access}" ]; then
+   echo "ACCESS is not specified; setting it to \"public\""
+   access=public
+fi
 
-# beampart=${2}
 beampart=proton
 
 if [ "x" == "x${g4version}" ]; then
@@ -21,10 +30,10 @@ if [ "x" == "x${g4version}" ]; then
    exit
 fi
 
-#if [ "x" == "x${beampart}" ]; then
-#   echo " please provide beam particle type (proton, piplus, piminus) as the 2nd input argument"
-#   exit;
-#fi
+if [ "x" == "x${g4vtag}" ]; then
+   echo "please, provide geant4 version TAG as the 2nd input argument - it is mandatory"
+   exit
+fi
 
 upload_dir=${gdir}/test19/${g4version}/g4val-upload-json
 if [ ! -d "${upload_dir}" ]; then
@@ -32,9 +41,14 @@ if [ ! -d "${upload_dir}" ]; then
 fi
 
 
-for (( i=0; i<${#MCDetails[@]}; ++i )) do
-model=`echo ${MCDetails[$i]} | awk -F '=' '{print $1}'`
-mid=`echo ${MCDetails[$i]} | awk -F '=' '{print $2}'`
+# for (( i=0; i<${#MCDetails[@]}; ++i )) do
+# model=`echo ${MCDetails[$i]} | awk -F '=' '{print $1}'`
+# mid=`echo ${MCDetails[$i]} | awk -F '=' '{print $2}'`
+
+for (( i=0; i<${#ModelDetails[@]}; ++i )) do
+model=`echo ${ModelDetails[$i]} | awk -F '=' '{print $1}'`
+mid=`echo ${ModelDetails[$i]} | awk -F '=' '{print $2}'`
+
 
 for (( j=0; j<${#BeamDetails[@]}; ++j )) do
 bmom=`echo ${BeamDetails[$j]} | awk -F '=' '{print $1}'`
@@ -48,9 +62,10 @@ if [ -e HARP-${beampart}${target}${bmom}-metadata-${model}.json ]; then
 /bin/rm HARP-${beampart}${target}${bmom}-metadata-${model}.json
 fi
 
-sed "s/XXX/$mid/; s/TGT/$tgtid/; s/BEAM/$bid/" HARP-metadata-template.json > HARP-${beampart}${target}${bmom}-metadata-${model}.json
+sed "s/MODEL/$mid/; s/VTAG/$g4vtag/; s/TGT/$target/; s/BEAM/$bid/; s/ACCESS/$access/" HARP-metadata-template.json > HARP-${beampart}${target}${bmom}-metadata-${model}.json
 
-python ../../uploader/plot_histofiles.py -c convert -o HARP-${beampart}${target}${bmom}-${model}.json \
+# python ../../uploader/plot_histofiles.py -c convert -o HARP-${beampart}${target}${bmom}-${model}.json \
+python ../../uploader/DoSSiERconverter.py -c convert -o HARP-${beampart}${target}${bmom}-${model}.json \
 	--metadatafile HARP-${beampart}${target}${bmom}-metadata-${model}.json \
 	${gdir}/test19/${g4version}/harp-histo/${beampart}${target}${bmom}${model}.root:piplus_FW_0 \
 	${gdir}/test19/${g4version}/harp-histo/${beampart}${target}${bmom}${model}.root:piplus_FW_1 \
@@ -65,7 +80,7 @@ python ../../uploader/plot_histofiles.py -c convert -o HARP-${beampart}${target}
 	${gdir}/test19/${g4version}/harp-histo/${beampart}${target}${bmom}${model}.root:piplus_LA_6 \
 	${gdir}/test19/${g4version}/harp-histo/${beampart}${target}${bmom}${model}.root:piplus_LA_7 \
 	${gdir}/test19/${g4version}/harp-histo/${beampart}${target}${bmom}${model}.root:piplus_LA_8 \
-	${gdir}/test19/${g4version}/harp-histo/${beampart}${target}${bmom}${model}.root:piminus_FW_0 \
+	${gdir}/test19/${g4version}/harp-histo/${beampart}${target}${bmom}${model}.root:piminus_FW_0\
 	${gdir}/test19/${g4version}/harp-histo/${beampart}${target}${bmom}${model}.root:piminus_FW_1 \
 	${gdir}/test19/${g4version}/harp-histo/${beampart}${target}${bmom}${model}.root:piminus_FW_2 \
 	${gdir}/test19/${g4version}/harp-histo/${beampart}${target}${bmom}${model}.root:piminus_FW_3 \

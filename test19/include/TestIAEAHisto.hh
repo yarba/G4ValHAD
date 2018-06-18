@@ -32,7 +32,9 @@ private:
    std::vector<double> fCosThMax;
    std::vector<double> fDeltaCosTh;            
    
-   std::vector<TH1D*> fHistoNeutron;
+   std::vector<TH1D*>  fHistoNeutron;
+   
+   TH1D*               fNSec;
 
 };
 

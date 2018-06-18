@@ -56,6 +56,7 @@ TestIAEAHisto::TestIAEAHisto( G4String htitle )
    int nbinstmp = 3000. / binsmall;
    
    
+   fTheta.push_back(  7.5);
    fTheta.push_back( 15.);
    fTheta.push_back( 30.);
    fTheta.push_back( 60.);
@@ -73,14 +74,20 @@ TestIAEAHisto::TestIAEAHisto( G4String htitle )
       fCosThMax.push_back( std::max(cth1,cth2) );
       fDeltaCosTh.push_back( std::abs(cth1-cth2) );
 
-      int angle = fTheta[i];
-      std::string hname  = "EKinNeutron" + std::to_string(angle);
+//      int angle = fTheta[i];
+//      std::string hname  = "EKinNeutron" + std::to_string(angle);
       // std::string htit   = "theta=" + std::to_string( fTheta[i] ) + "deg";
-      std::string htit   = "theta = " + std::to_string( angle ) + " deg";
+//      std::string htit   = "theta = " + std::to_string( angle ) + " deg";
+      std::ostringstream os;
+      os << fTheta[i];
+      std::string hname  = "EKinNeutron" + os.str();
+      std::string htit = "theta=" + os.str() + " [deg]";
       fHistoNeutron.push_back( new TH1D( hname.c_str(), htit.c_str(), nbinstmp, 0., 3000.) );
       // fHistoNeutron.push_back( new TH1D( hname.c_str(), htit.c_str(), fNEKinBins, fEKinBins ) );    
    
    }
+   
+   fNSec = new TH1D( "NSec", "Number of secondaries per inelastic interaction", 100, 0., 100. );
       
 }
 
@@ -101,6 +108,8 @@ void TestIAEAHisto::FillEvt( G4VParticleChange* aChange, const G4LorentzVector&,
 
    int NSec = aChange->GetNumberOfSecondaries();
    
+   if ( NSec > 0 ) fNSec->Fill( (double)NSec );
+   
    const G4DynamicParticle* sec = 0;
    
    for ( int is=0; is<NSec; ++is )
@@ -112,10 +121,21 @@ void TestIAEAHisto::FillEvt( G4VParticleChange* aChange, const G4LorentzVector&,
       double ke = (sec->GetKineticEnergy())/CLHEP::MeV;
       // if ( ke < 0. ) ke = 0.;     
       
+      double pmom = (sec->Get4Momentum()).vect().mag();
+      pmom /= CLHEP::MeV;
+      double etot = (sec->Get4Momentum()).e();
+      etot /= CLHEP::MeV;
+      double mass = std::sqrt( etot*etot - pmom*pmom );
+      ke = etot - mass;
+      
+      double theta = (sec->Get4Momentum()).vect().theta();
+      double cth = std::cos(theta);
+          
+/*
       G4ThreeVector mom = sec->GetMomentum()/CLHEP::MeV;      
       double        theta = mom.theta();
       double        cth = std::cos(theta);
-      
+*/      
       for ( size_t ith=0; ith<fTheta.size(); ++ith )
       {
          if ( cth > fCosThMin[ith] && cth <= fCosThMax[ith] )
@@ -143,6 +163,10 @@ void TestIAEAHisto::Write( G4int nevt /* stat */, G4double xsec )
       err2[ib] = 0.;
       bcont[ib] = 0.;
    }
+   
+   double norm = fNSec->Integral();
+   fNSec->Scale( (1./(norm*fNSec->GetBinWidth(1))) );
+   fNSec->Write();
    
    for ( size_t i=0; i<fHistoNeutron.size(); ++i )
    {

@@ -1,24 +1,25 @@
 #!/usr/bin/env bash
 #
 
-# source /products/setup
-# setup root v5_34_01 -q "e2:prof"
 source /g4/g4p/pbs/g4-had-validation/build-scripts/g4_set_prod.sh
 
 # setup G4 datasets
 #
-#source /home/g4p/pbs/g4-had-validation/env-setup/g4-datasets-setup-${G4RELEASE}.sh
 source /g4/g4p/pbs/g4-had-validation/env-setup/g4-datasets-setup-${G4RELEASE}.sh
 
 export G4INSTALL=/g4/g4p/pbs/g4-had-validation/g4-releases/${G4RELEASE}
 
+echo "Variable SLURM_SUBMIT_DIR says: $SLURM_SUBMIT_DIR"
+
 # setup workdir
 #
 if [ "x" == "x$G4WORKDIR" ] ; then
-G4WORKDIR=${PBS_O_WORKDIR}/.. 
+# ---> PBS/obsolete ---> G4WORKDIR=${PBS_O_WORKDIR}/.. 
+G4WORKDIR=${SLURM_SUBMIT_DIR}/..
 else
     echo "Variable says: $G4WORKDIR"
-    echo "Variable PBS_O_WORKDIR says: $PBS_O_WORKDIR"
+    # ---> PBS/obsolete ---> echo "Variable PBS_O_WORKDIR says: $PBS_O_WORKDIR"
+    echo "Variable SLURM_SUBMIT_DIR says: $SLURM_SUBMIT_DIR"
 fi
 
 cd ${G4WORKDIR}

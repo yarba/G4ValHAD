@@ -31,7 +31,7 @@
 #include "G4Timer.hh"
 
 // random engine/seed settings
-// #include "Randomize.hh"
+#include "Randomize.hh"
 
 // #include "Test19Reader.hh"
 #include "TstDiscreteProcessReader.hh"
@@ -86,20 +86,34 @@ int main(int argc, char** argv)
       
       G4int NEvts = theConfigReader->GetNEvents();
       
+//      std::cout << " Engine is " << CLHEP::HepRandom::distributionName() << std::endl;
+//      CLHEP::HepRandom::showEngineStatus(); 
+      
+      
       TStopwatch timer;
       timer.Start();
       
       for (G4int iter=0; iter<NEvts; ++iter) 
       {
 
+         // CLHEP::HepRandom::showEngineStatus(); 
+
          aChange = exec->DoEvent();
-	 	 
+
+	 // aChange->DumpInfo();
+	 	 	 
 	 histo->FillEvt( aChange, exec->GetBeam()->GetLabV(), exec->GetBeam()->GetLabP() );
 	 
          G4int nsec = aChange->GetNumberOfSecondaries();
          for (G4int i=0; i<nsec; ++i) 
          {   
-            delete aChange->GetSecondary(i);
+/*
+            G4Track* tmpsec = aChange->GetSecondary(i);
+	    std::cout << " tmpsec type = " << tmpsec->GetDefinition()->GetParticleName() << std::endl;
+	    std::cout << " ekin = " << tmpsec->GetKineticEnergy() << std::endl;
+	    std::cout << " parent = " << tmpsec->GetParentID() << std::endl;
+*/	    
+	    delete aChange->GetSecondary(i);
          } 
          aChange->Clear();
 

@@ -1,6 +1,7 @@
 
+/* remove DbReader, revert to using local ASCII files
 R__LOAD_LIBRARY(libDbReader.so);
-
+*/
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -20,8 +21,10 @@ R__LOAD_LIBRARY(libDbReader.so);
 #include "TStyle.h"
 #include "TGraph.h"
 
+/* remove DbReader, revert to using local ASCII files
 // #include "../DbReader/DbReader.h"
 #include "/g4/g4p/pbs/g4-had-validation/g4-releases/geant4-10-02-patch-02/tests/DbReader/DbReader.h"
+*/
 
 std::string TEST_NAME="test19";
 #include "../test19/G4MODELS_HighEnergy.h"

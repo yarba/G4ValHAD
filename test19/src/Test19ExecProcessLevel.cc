@@ -72,6 +72,7 @@ void Test19ExecProcessLevel::InitProcess( const TstReader* pset )
    else if ( name.find("bertini") != std::string::npos )
    {
       //
+/*
       G4CascadeParameters::Instance();
       G4UImanager* uim = 0;
       G4ApplicationState currentstate = G4StateManager::GetStateManager()->GetCurrentState();   
@@ -88,11 +89,17 @@ void Test19ExecProcessLevel::InitProcess( const TstReader* pset )
          std::cout << " Bertini UsePreCo = " << G4CascadeParameters::usePreCompound() << std::endl;
          uim->ApplyCommand( "/process/had/cascade/usePreCompound 1" ); 
          std::cout << " Update: Bertini UsePreCo = " << G4CascadeParameters::usePreCompound() << std::endl;
-         G4DeexPrecoParameters* precoparams = G4NuclearLevelData::GetInstance()->GetParameters();
-	 precoparams->SetLevelDensity( 1.00/CLHEP::MeV );
 
+         // G4DeexPrecoParameters* precoparams = G4NuclearLevelData::GetInstance()->GetParameters();
+	 // precoparams->SetLevelDensity( 0.01/CLHEP::MeV );
+	 // std::cout << " Update: PreCo LevelDens = " << precoparams->GetLevelDensity() << std::endl;
+	 // precoparams->SetPrecoModelType(1);
+	 // precoparams->SetDeexModelType(1);
+	 // precoparams->SetUseAngularGen(false);
+	 // precoparams->SetDeexChannelsType(fGEM); // it's an enum, with fEvaporation=0, etc.
       }
       ok = G4StateManager::GetStateManager()->SetNewState( currentstate );
+*/
       //
       pw = new ProcessWrapper( "BertiniProcessWrapper" );
       G4CascadeInterface* bert = new G4CascadeInterface();

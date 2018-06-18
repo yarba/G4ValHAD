@@ -8,12 +8,21 @@
 
 # MCDetails=( 'FTFP=150' 'QGSP=151' 'QGSP_G4Lund=152' )
 # corresponds to 10.3.p03
-MCDetails=( 'ftfp=239' 'qgsp=240' 'qgsp-g4lund-str-fragm=241' )
-BeamDetails=( 'piplus=10' 'proton=12' )
+#MCDetails=( 'ftfp=239' 'qgsp=240' 'qgsp-g4lund-str-fragm=241' )
+#BeamDetails=( 'piplus=10' 'proton=12' )
+BeamDetails=( 'piplus=Fermilab ME6 beamline (pi+)' 'proton=Fermilab ME6 beamline (p)' )
 TargetDetails=( 'C=6' 'Cu=29' 'Pb=82' )
+
+ModelDetails=( 'ftfp=FTFP' 'qgsp=QGSP' 'qgsp-g4lund-str-fragm=QGSP_G4Lund' )
 
 gdir=/g4/g4p/pbs/g4-had-validation/regression-test-files
 g4version=${1}
+g4vtag=${2}
+access=${3}
+if [ "x" == "x${access}" ]; then
+   echo "ACCESS is not specified; setting it to \"public\""
+   access=public
+fi
 
 if [ "x" == "x${g4version}" ]; then
    echo "please, provide geant4 version as the 1st input argument - it is mandatory"
@@ -27,9 +36,13 @@ fi
 
 bmom=100.0GeV
 
-for (( i=0; i<${#MCDetails[@]}; ++i )) do
-model=`echo ${MCDetails[$i]} | awk -F '=' '{print $1}'`
-mid=`echo ${MCDetails[$i]} | awk -F '=' '{print $2}'`
+#for (( i=0; i<${#MCDetails[@]}; ++i )) do
+#model=`echo ${MCDetails[$i]} | awk -F '=' '{print $1}'`
+#mid=`echo ${MCDetails[$i]} | awk -F '=' '{print $2}'`
+
+for (( i=0; i<${#ModelDetails[@]}; ++i )) do
+model=`echo ${ModelDetails[$i]} | awk -F '=' '{print $1}'`
+mid=`echo ${ModelDetails[$i]} | awk -F '=' '{print $2}'`
 
 for (( j=0; j<${#BeamDetails[@]}; ++j )) do
 beampart=`echo ${BeamDetails[$j]} | awk -F '=' '{print $1}'`
@@ -43,9 +56,12 @@ if [ -e SASM6E-${beampart}${target}${bmom}-metadata-${model}.json ]; then
 /bin/rm SASM6E-${beampart}${target}${bmom}-metadata-${model}.json
 fi
 
-sed "s/XXX/$mid/; s/TGT/$tgtid/; s/BEAM/$bid/" SASM6E-metadata-template.json > SASM6E-${beampart}${target}${bmom}-metadata-${model}.json
+# sed "s/XXX/$mid/; s/TGT/$tgtid/; s/BEAM/$bid/" SASM6E-metadata-template.json > SASM6E-${beampart}${target}${bmom}-metadata-${model}.json
+sed "s/MODEL/$mid/; s/VTAG/$g4vtag/; s/TGT/$target/; s/BEAM/$bid/; s/ACCESS/$access/" SASM6E-metadata-template.json > SASM6E-${beampart}${target}${bmom}-metadata-${model}.json
 
-python ../../uploader/plot_histofiles.py -c convert -o SASM6E-${beampart}${target}${bmom}-${model}.json \
+
+# python ../../uploader/plot_histofiles.py -c convert -o SASM6E-${beampart}${target}${bmom}-${model}.json \
+python ../../uploader/DoSSiERconverter.py -c convert -o SASM6E-${beampart}${target}${bmom}-${model}.json \
 	--metadatafile SASM6E-${beampart}${target}${bmom}-metadata-${model}.json \
 	${gdir}/test19/${g4version}/sasm6e-histo/${beampart}${target}${bmom}${model}.root:piplus_pt180 \
 	${gdir}/test19/${g4version}/sasm6e-histo/${beampart}${target}${bmom}${model}.root:piplus_pt300 \

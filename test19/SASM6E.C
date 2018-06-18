@@ -24,8 +24,9 @@ std::string TEST_NAME="test19";
 #include "../test23/shared-root-macros/Chi2Calc.C"
 
 const int NV = 3;
-std::string version[4] = { "geant4-10-03", "geant4-10-02-ref-10", "geant4-10-01-patch-03", "geant4-09-06-patch-04" };
-int colorV[5] = { kRed, kGreen, kBlack, kMagenta, 7 };
+std::string version[3] = { "geant4-10-04-patch-02", "geant4-10-04-patch-01", "geant4-10-03-patch-03" };
+// ---> int colorV[5] = { kRed, kGreen, kBlack, kMagenta, 7 };
+int colorV[5] = { kBlack, kGreen, kRed, kMagenta, 7 };
 const int NM=2;
 std::string model[2] = { "qgsp", "ftfp" };
 int colorM[2] = { kBlack, 7 };

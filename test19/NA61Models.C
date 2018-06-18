@@ -31,9 +31,19 @@ std::string TEST_NAME="test19";
 void NA61Models()
 {
 
+/*
    plotSecondarySumCombined2pages("piplus");
    plotSecondarySumCombined2pages("piminus");
    plotSecondarySumCombined2pages("proton");
+*/   
+   plotModels2Data2015( "piplus" );
+   plotModels2Data2015( "piminus" );
+   plotModels2Data2015( "kplus" );
+   plotModels2Data2015( "kminus" );
+   plotModels2Data2015( "k0s" );
+   plotModels2Data2015( "lambda" );
+   plotModels2Data2015( "proton" );
+   
    
    plotKPlus2PiPlusRatio( "proton", "C" );
    
