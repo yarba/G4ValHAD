@@ -26,24 +26,6 @@
 
 #include "../test23/shared-root-macros/REGRESSION_TEST.h"
 
-// void ITEPRegre( char beam[8]="piminus" )
-void ITEPRegre( std::string beampart="piminus" )
-{
-
-   // std::string beampart(beam);
-   
-   for ( int m=0; m<NModels; ++m )
-   {
-   
-      plotModelRegreSummary( beampart, "C", Models[m] );
-      plotModelRegreSummary( beampart, "U", Models[m]);
-      
-   }
-
-   return;
-
-}
-
 void plotModelRegreMu2e( std::string beam, std::string target, std::string model )
 {
 
@@ -66,18 +48,17 @@ void plotModelRegreMu2e( std::string beam, std::string target, std::string model
    TPad* pad2 = new TPad( "pad2", "", 0.01, 0.14, 0.49, 0.56 );
    TPad* pad3 = new TPad( "pad3", "", 0.51, 0.57, 0.99, 0.99 );
    TPad* pad4 = new TPad( "pad4", "", 0.51, 0.14, 0.99, 0.56 );
-
    myc1->cd();
    pad1->Draw();
    pad1->cd();
    gPad->SetLogy();
-   plotMC2Data( beam, target, en, "proton", "59.1", model ); //, 4 );
+   plotMC2Data( beam, target, en, "neutron", "59.1", model ); //, 4 );
 
    myc1->cd();
    pad2->Draw();
    pad2->cd();
    gPad->SetLogy();
-   plotMC2Data( beam, target, en, "proton", "119.0", model ); //, 4 );
+   plotMC2Data( beam, target, en, "neutron", "89.0", model ); //, 4 );
    
    myc1->cd();
 
@@ -95,8 +76,8 @@ void plotModelRegreMu2e( std::string beam, std::string target, std::string model
    {
          chi2 = 0.;
          NDF = 0;
-         chi2 += Chi2KESpectrumITEP( beam, target, en, "proton", "59.1",  model, NDF, Versions[m] );
-         chi2 += Chi2KESpectrumITEP( beam, target, en, "proton", "119.0", model, NDF, Versions[m] );
+         chi2 += Chi2KESpectrumITEP( beam, target, en, "neutron", "59.1",  model, NDF, Versions[m] );
+         chi2 += Chi2KESpectrumITEP( beam, target, en, "neutron", "89.0", model, NDF, Versions[m] );
          std::ostringstream os;
          os << (chi2/NDF);
 //      std::string txt1 = "Integral over all agnular bins: #chi^{2}/NDF = ";
@@ -113,13 +94,13 @@ void plotModelRegreMu2e( std::string beam, std::string target, std::string model
    pad3->Draw();
    pad3->cd();
    gPad->SetLogy();
-   plotMC2Data( beam, target, en, "neutron", "59.1", model ); //,  4 );
+   plotMC2Data( beam, target, en, "neutron", "119.0", model ); //,  4 );
 
    myc1->cd();
    pad4->Draw();
    pad4->cd();
    gPad->SetLogy();
-   plotMC2Data( beam, target, en, "neutron", "119.0", model ); //, 4 );
+   plotMC2Data( beam, target, en, "neutron", "159.6", model ); //, 4 );
       
    myc1->cd();
 
@@ -137,8 +118,8 @@ void plotModelRegreMu2e( std::string beam, std::string target, std::string model
    {
          chi2 = 0.;
          NDF = 0;
-         chi2 += Chi2KESpectrumITEP( beam, target, en, "neutron", "59.1",  model, NDF, Versions[m] );
-         chi2 += Chi2KESpectrumITEP( beam, target, en, "neutron", "119.0", model, NDF, Versions[m] );
+         chi2 += Chi2KESpectrumITEP( beam, target, en, "neutron", "119.0",  model, NDF, Versions[m] );
+         chi2 += Chi2KESpectrumITEP( beam, target, en, "neutron", "159.6", model, NDF, Versions[m] );
          if ( NDF < 2 )
          {
             TText* txt2 = new TText( 0.1, 0.4, "Insufficient dataset" );
@@ -168,22 +149,3 @@ void plotModelRegreMu2e( std::string beam, std::string target, std::string model
    return;
 
 }
-
-const int NModels4Mu2e = 3;
-std::string Models4Mu2e[3] = { "bertini", "ftfp", "inclxx" }; 
-
-void ITEPRegreMu2e( std::string beampart="piminus" )
-{
-
-   for ( int m=0; m<NModels4Mu2e; ++m )
-   {
-   
-      plotModelRegreMu2e( beampart, "Pb", Models4Mu2e[m] );
-      plotModelRegreMu2e( beampart, "Cu", Models4Mu2e[m]);
-      
-   }
-
-   return;
-}
-
-

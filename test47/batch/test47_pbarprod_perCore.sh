@@ -1,4 +1,3 @@
-
 #!/usr/bin/env bash
 #
 
@@ -7,36 +6,41 @@ echo " you must specify the Geang4 release/version; exit"
 exit 3
 fi
 
-#source /products/setup
-#setup root v5_34_01 -q "e2:prof"
 source /g4/g4p/pbs/g4-had-validation/build-scripts/g4_set_prod.sh
 
 # setup G4 datasets
 #
-#source /home/g4p/pbs/g4-had-validation/env-setup/g4-datasets-setup-${G4RELEASE}.sh
 source /g4/g4p/pbs/g4-had-validation/env-setup/g4-datasets-setup-${G4RELEASE}.sh
 
 # setup workdir
 #
 if [ "x" == "x$G4WORKDIR" ] ; then
-G4WORKDIR=${PBS_O_WORKDIR}/.. 
+# ---> PBS/obsolete ---> G4WORKDIR=${PBS_O_WORKDIR}/.. 
+G4WORKDIR=${SLURM_SUBMIT_DIR}/..
 else
     echo "Variable says: $G4WORKDIR"
-    echo "Variable PBS_O_WORKDIR says: $PBS_O_WORKDIR"
+    # ---> PBS/obsolete ---> echo "Variable PBS_O_WORKDIR says: $PBS_O_WORKDIR"
+    echo "Variable SLURM_SUBMIT_DIR says: $SLURM_SUBMIT_DIR"
 fi
 
 cd ${G4WORKDIR}
 
-nevents=${1}
+# ---> leftover from using pbs_multiCore_master.sh 
+# ---> now passed in as an explicit env.var. ---> nevents=${1}
 
 # JobID=1
 #JobID=${PBS_ARRAYID}
-JobID=${2}
+# ---> leftover from using pbs_multiCore_master.sh ---> JobID=${2}
+JobID=${SLURM_ARRAY_TASK_ID}
 seed=$((1234+${JobID}))
+
+echo " JobID = $JobID"
+echo " seed = $seed"
+echo " nevents = $nevents"
+
 
 #config=test47.proton.${target}.pbarprod
 config=proton.${target}.${momentum}.pbarprod.${model}
-# if [ "x" == "x$PBS_ARRAYID" ]; then
 if [ "x" == "x$JobID" ]; then
    echo "Process entire statisticas in one job"
 else
@@ -51,7 +55,6 @@ printf "#verbose \n-1 \n#rad \n" >> ${config}
 printf "#events \n" >> ${config}
 printf "%d\n" ${nevents} >> ${config}
 
-# if [ "x" == "x$PBS_ARRAYID" ]; then
 if [ "x" == "x$JobID" ]; then
    echo "skip seed and jobid settings"
 else

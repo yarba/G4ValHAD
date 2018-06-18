@@ -150,7 +150,7 @@ TGraphErrors* getPbarProdAsGraph()
    gr->SetMarkerStyle(22);
    gr->SetMarkerSize(1.6);
    gr->GetXaxis()->SetTitle( "momentum of pbar [GeV/c]" );
-   gr->GetYaxis()->SetTitle( "d^{3}#sigma / dp^{3} [mb/(GeV/c)^{3}]");
+   gr->GetYaxis()->SetTitle( "E d^{3}#sigma / dp^{3} [GeV mb/(GeV/c)^{3}]");
 
    return gr;
 
@@ -666,10 +666,10 @@ TGraphErrors* getGraphMC2Data( TH1F* hi )
       gr->SetMarkerStyle( 21 );
       gr->SetMarkerSize( 1.6 ); 
       
-      delete MC2DataX;
-      delete MC2DataY;
-      delete DX;
-      delete DY;
+      delete [] MC2DataX;
+      delete [] MC2DataY;
+      delete [] DX;
+      delete [] DY;
       
       return gr;
 
@@ -695,8 +695,8 @@ TGraphErrors* getGraphData2Data()
    gr1->SetMarkerStyle(22);
    gr1->SetMarkerSize(1.6);
       
-   delete Value;
-   delete Error;
+   delete [] Value;
+   delete [] Error;
 
    return gr1;
 

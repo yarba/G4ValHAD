@@ -57,13 +57,17 @@ void fancyMerge( std::string beam, std::string target, std::string energy, std::
    
    std::string output = beam + target + energy + "GeV" + model + ".root" ;
    
-   targetFile = TFile::Open( output.c_str(), "RECREATE" );
+   TFile* targetFile = TFile::Open( output.c_str(), "RECREATE" );
    
    int nfiles = 32;
 //   int nfiles = 2;
    double scale = 1./((double)nfiles);
       
-   std::string input = dir + "/" + beam + target + model + energy + "GeV-1.root";
+   //
+   // NOTE (JVY): PBS job/task/array numbering starts at 1, while SLURM starts counting at 0
+   //
+   // std::string input = dir + "/" + beam + target + model + energy + "GeV-1.root";
+   std::string input = dir + "/" + beam + target + model + energy + "GeV-0.root";
    
    TFile*    iFile1 = TFile::Open( input.c_str() );
    TIter     next( iFile1->GetListOfKeys() );
@@ -81,7 +85,9 @@ void fancyMerge( std::string beam, std::string target, std::string energy, std::
          std::cout << " histoname = " << hName << std::endl;
 	 TH1F* h1 = (TH1F*)h->Clone();
 	 if ( h1->GetSumw2() == 0 ) h1->Sumw2();
-	 for ( int id=2; id<=nfiles; id++ )
+// NOTE (JVY): PBS job/task/array count from 1 to NN, while SLURM counts from 0 to NN-1
+//	 for ( int id=2; id<=nfiles; id++ )
+	 for ( int id=2; id<nfiles; id++ )
 	 {
 	    std::string input_t = dir + "/" + beam + target + model + energy + "GeV-" ;
             char buf[5];
