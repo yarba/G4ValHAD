@@ -63,10 +63,10 @@ void ExecBase::Init( const TstReader* config )
    
    // Choose the Random engine
    //
-   // ---> fRndmEngine = new CLHEP::RanecuEngine;
+   fRndmEngine = new CLHEP::RanecuEngine;
    // -> fRndmEngine = new CLHEP::HepJamesRandom; // default engine in CLHEP 2.3.x series  
 //   CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine);
-   // -> CLHEP::HepRandom::setTheEngine( fRndmEngine );
+   CLHEP::HepRandom::setTheEngine( fRndmEngine );
 //   G4Random::setTheEngine( fRndmEngine );   
 
 
@@ -84,6 +84,11 @@ void ExecBase::Init( const TstReader* config )
    if(!G4StateManager::GetStateManager()->SetNewState(G4State_Idle))
       G4cout << "G4StateManager PROBLEM! " << G4endl;
 
+   
+   std::cout << " Starting with seed = " << config->GetRndmSeed() << std::endl;
+   // std::cout << " Engine name is " << fRndmEngine->engineName() << std::endl;
+   fRndmEngine->showStatus();
+   
    return;
 
 }

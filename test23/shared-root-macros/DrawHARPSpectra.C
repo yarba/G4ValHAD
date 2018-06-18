@@ -20,8 +20,15 @@
 
 #include "HARP.h"
 
+#include "Chi2Calc.C"
+
 #ifndef G4VAL_DRAWHARPSPECTRA_C
 #define G4VAL_DRAWHARPSPECTRA_C
+
+double ChiSqThetaRegre[NVersions];
+int NDFThetaRegre[NVersions];
+double ChiSqThetaModel[NModels_IE];
+int NDFThetaModel[NModels_IE];
 
 void PlotHARPHisto( std::string beam, std::string target, std::string energy,
                     std::string secondary,
@@ -421,7 +428,7 @@ void PlotHARPHistoRegre( std::string beam, std::string target, std::string energ
          hi[m]->Draw("histE1");
       }
       else hi[m]->Draw("histE1same"); 
-            
+                  
    }
    
    TLegend* leg = 0;
@@ -472,11 +479,7 @@ void PlotHARPHistoRegre( std::string beam, std::string target, std::string energ
 void PlotHARPThetaSpectrum( std::string beam, std::string target, std::string energy,
                             std::string secondary, float pmin, float pmax )
 {
-
-//   std::string region = "LA";
-   
-//   ReadHARPData( beam, target, energy, secondary, region );
-   
+      
    int ibin = findHARPMomBin( pmin, pmax );
    if ( ibin < 0 ) 
    {
@@ -485,6 +488,12 @@ void PlotHARPThetaSpectrum( std::string beam, std::string target, std::string en
    }
    
    TGraphErrors* gr = getHARPAsThetaGraph( pmin, pmax );
+   
+   for ( int m=0; m<NModels_IE; ++m )
+   {
+      ChiSqThetaModel[m] = 0.;
+      NDFThetaModel[m] = 0;
+   }
    
    float ymin = 1000000.;
    float ymax = -1.; 
@@ -496,7 +505,7 @@ void PlotHARPThetaSpectrum( std::string beam, std::string target, std::string en
 
    for ( int m=0; m<NModels_IE; m++ )
    {
-
+      
       std::string histofile = "";
       
       histofile = "./harp-histo/";
@@ -544,11 +553,14 @@ void PlotHARPThetaSpectrum( std::string beam, std::string target, std::string en
 	 hi[m]->GetYaxis()->CenterTitle();
          hi[m]->Draw("histE1");
       }
-      else hi[m]->Draw("histE1same"); 
-                        
+      else hi[m]->Draw("histE1same");
+      
+      ChiSqThetaModel[m] = Chi2( gr, hi[m], NDFThetaModel[m] );
+                              
    }
    
 
+/*
    TLegend* leg = 0;
 //   if ( largeLegText )
 //   {
@@ -561,19 +573,21 @@ void PlotHARPThetaSpectrum( std::string beam, std::string target, std::string en
 //      leg->SetTextSize(0.055);
 //   }
 //   leg->SetTextSize( legTextSize );
-   
+*/   
    ymin = std::max( float(0.1), ymin );
    for ( int m=0; m<NModels_IE; m++ )
    {
       hi[m]->GetYaxis()->SetRangeUser(ymin,ymax*1.1); // hi[m]->SetTitle("");
-      leg->AddEntry( hi[m], ModelName_IE[m].c_str(), "L" );
+      // leg->AddEntry( hi[m], ModelName_IE[m].c_str(), "L" );
    }
 
    gr->Draw("psame"); 
 
+/*
    leg->AddEntry( gr, "exp.data (HARP)", "p");
       leg->Draw();
       leg->SetFillColor(kWhite); 
+*/
    
    return;
 
@@ -584,10 +598,12 @@ void PlotHARPThetaSpectrumRegre( std::string beam, std::string target, std::stri
 				 float pmin, float pmax, 
 				 std::string model )
 {
-
-//   std::string region = "LA";
    
-//   ReadHARPData( beam, target, energy, secondary, region );
+   for ( int m=0; m<NVersions; ++m )
+   {
+      ChiSqThetaRegre[m] = 0.;
+      NDFThetaRegre[m] = 0;
+   }
    
    int ibin = findHARPMomBin( pmin, pmax );
       
@@ -634,6 +650,7 @@ void PlotHARPThetaSpectrumRegre( std::string beam, std::string target, std::stri
       hi[m]->SetStats(0);
       hi[m]->SetLineColor(ColorVersion[m]);
       hi[m]->SetLineWidth(2);
+      // hi[m]->SetLineWidth(5-m);
 
       int nx = hi[m]->GetNbinsX();
       for (int k=1; k <= nx; k++) 
@@ -660,26 +677,30 @@ void PlotHARPThetaSpectrumRegre( std::string beam, std::string target, std::stri
          hi[m]->Draw("histE1");
       }
       else hi[m]->Draw("histE1same"); 
+      
+      ChiSqThetaRegre[m] = Chi2( gr, hi[m], NDFThetaRegre[m] );
 
    }
    
+/*
    TLegend* leg = 0;
-   leg = new TLegend(0.65, 0.6, 0.99, 0.9);
+   leg = new TLegend(0.65, 0.7, 0.99, 0.9);
    leg->SetTextSize(0.03);
-   
+*/   
    ymin = std::max( float(0.1), ymin );
    for ( int m=0; m<NVersions; m++ )
    {
       hi[m]->GetYaxis()->SetRangeUser(ymin,ymax*1.1); // hi[m]->SetTitle("");
-      leg->AddEntry( hi[m], Versions[m].c_str(), "L" );
+      // leg->AddEntry( hi[m], Versions[m].c_str(), "L" );
    }
 
    gr->Draw("psame"); 
 
+/*
    leg->AddEntry( gr, "exp.data (HARP)", "p");
    leg->Draw();
    leg->SetFillColor(kWhite); 
-
+*/
    return;
 
 }

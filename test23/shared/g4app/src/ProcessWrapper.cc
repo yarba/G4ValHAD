@@ -47,6 +47,7 @@ G4double ProcessWrapper::PostStepGetPhysicalInteractionLength(const G4Track&,
 
 }
 
+/*
 G4VParticleChange* ProcessWrapper::PostStepDoIt( const G4Track& track, const G4Step& )
 {
 
@@ -112,4 +113,4 @@ G4VParticleChange* ProcessWrapper::PostStepDoIt( const G4Track& track, const G4S
   return &fPartChange;
 
 }
-
+*/

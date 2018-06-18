@@ -33,7 +33,7 @@
 
 #include "G4HadronicInteraction.hh"
 #include "G4VPartonStringModel.hh"
-// #include "G4GeneratorPrecompoundInterface.hh"
+// #include "Geant4/G4GeneratorPrecompoundInterface.hh"
 #include "G4VIntraNuclearTransportModel.hh"
 #include "G4ExcitedStringDecay.hh"
 #include "G4HadronInelasticDataSet.hh"
@@ -52,7 +52,9 @@ class ProcessWrapper : public G4HadronicProcess
                            G4ProcessType processType = fHadronic ) : G4HadronicProcess(name,processType), 
                                                                      // fInteractionModel(0), 
 								     fStringModel(0),
-                                                                     fCascade(0), fStringDecay(0), fUseLundStrFragm(false) { AddDataSet(new G4HadronInelasticDataSet()); }
+                                                                     fCascade(0), 
+								     fStringDecay(0), 
+								     fUseLundStrFragm(false) { AddDataSet(new G4HadronInelasticDataSet()); }
      virtual ~ProcessWrapper();
      
      void UseG4LundStringFragm( bool g4lund=true ) { fUseLundStrFragm=g4lund; return ; } 
@@ -62,7 +64,7 @@ class ProcessWrapper : public G4HadronicProcess
                         			         G4double,
 			                                 G4ForceCondition* condition);
 
-     // ---> virtual G4VParticleChange* PostStepDoIt(const G4Track&, const G4Step&);
+     virtual G4VParticleChange* PostStepDoIt(const G4Track&, const G4Step&);
 
      G4bool IsApplicable(const G4ParticleDefinition&) {return true;};
 
@@ -70,6 +72,8 @@ class ProcessWrapper : public G4HadronicProcess
                                                         {return DBL_MAX;};
 
    protected:
+   
+      void CleanUp();
       
       // in principle, I can make it directly G4TheoFSGenerator*
       // because it's the same among FTF(p), QGS(P), and QGS(B)...
@@ -81,7 +85,14 @@ class ProcessWrapper : public G4HadronicProcess
       G4ExcitedStringDecay*            fStringDecay;
       bool                             fUseLundStrFragm;
       
-      G4VParticleChange                fPartChange;
+      // NO NEED for this since G4VProcess has a data member 
+      // G4VParticleChange* pParticleChange
+      // (which actually points at the (almsot obsolete)
+      // G4VParticleChange aParticleChange
+      // It can be used and is (presumeable) taken care of
+      // in terms of memory management, etc.
+      // 
+      // G4VParticleChange                fPartChange;
                                                  
 };
 

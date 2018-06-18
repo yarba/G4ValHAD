@@ -38,7 +38,11 @@ void fancyMerge( std::string beam, std::string target, std::string energy, std::
 
    // std::string input = "../t23-bld/na49-histo/" + beam + target + energy + "GeV" + physlist +"-1.root";
    
-   std::string input = dir + "/" + beam + target + energy + "GeV" + physlist + "-1.root";
+   //
+   // NOTE (JVY): PBS was numbering jobs from 1 to 32 while SLURM does from 0 to 31
+   //
+   // std::string input = dir + "/" + beam + target + energy + "GeV" + physlist + "-1.root";
+   std::string input = dir + "/" + beam + target + energy + "GeV" + physlist + "-0.root";
    
    TFile*    iFile1 = TFile::Open( input.c_str() );
    TIter     next( iFile1->GetListOfKeys() );
@@ -56,7 +60,9 @@ void fancyMerge( std::string beam, std::string target, std::string energy, std::
          std::cout << " histoname = " << hName << std::endl;
 	 TH1F* h1 = (TH1F*)h->Clone();
 	 if ( h1->GetSumw2() == 0 ) h1->Sumw2();
-	 for ( int id=2; id<=32; id++ )
+// NOTE: PBS numbering was starting from 1, while SLURM starts from 0
+//	 for ( int id=2; id<=32; id++ )
+         for ( int id=1; id<=31; id++ )
 //	 for ( int id=2; id<=64; id++ )
 	 {
 	    std::string input_t = dir + "/" + beam + target + energy + "GeV" + physlist + "-" ;

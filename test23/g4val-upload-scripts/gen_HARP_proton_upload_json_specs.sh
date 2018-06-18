@@ -9,15 +9,15 @@
 #
 # for Be & C, phys.lists are FTFP_BERT & NuBeam, for all momenta
 #
-# BeamDetails=( '3.0GeV=CERN PS (p,3GeV)' '5.0GeV=CERN PS (p,5GeV)' '8.0GeV=CERN PS (p,8GeV)' '12.0GeV=CERN PS (p,12GeV)' )
-# TargetDetails=( 'Be=4' 'C=6' )
-# ModelDetails=( 'ftfp_bert=FTFP_BERT' 'NuBeam=NuBeam' )
+BeamDetails=( '3.0GeV=CERN PS (p,3GeV)' '5.0GeV=CERN PS (p,5GeV)' '8.0GeV=CERN PS (p,8GeV)' '12.0GeV=CERN PS (p,12GeV)' )
+TargetDetails=( 'Be=4' 'C=6' )
+ModelDetails=( 'ftfp_bert=FTFP_BERT' 'NuBeam=NuBeam' )
 #
 # for Ta, phys.lists are FTFP_BERT, QGSP_BERT, Shielding, & ShieldingM, fot 8.0GeV/c only
 #
-BeamDetails=( '8.0GeV=CERN PS (p,8GeV)' )
-TargetDetails=( 'Ta=73' )
-ModelDetails=( 'ftfp_bert=FTFP_BERT' 'qgsp_bert=QGSP_BERT' 'Shielding=Shielding' 'ShieldingM=ShieldingM' )
+#BeamDetails=( '8.0GeV=CERN PS (p,8GeV)' )
+#TargetDetails=( 'Ta=73' )
+#ModelDetails=( 'ftfp_bert=FTFP_BERT' 'qgsp_bert=QGSP_BERT' 'Shielding=Shielding' 'ShieldingM=ShieldingM' )
 
 gdir=/g4/g4p/pbs/g4-had-validation/regression-test-files
 g4version=${1}

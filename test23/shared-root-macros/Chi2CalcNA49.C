@@ -56,7 +56,7 @@ double Chi2DDiffXSecNA49( std::string beam, std::string target,
 //   std::string histofile = "";
 //   histofile += version;
 //   histofile += ("/na49-histo/" + beam + target + "158.0GeV" + model + ".root"); 
-   TFile* f = new TFile( histofile.c_str() );
+   TFile* f = TFile::Open( histofile.c_str() );
 
    for ( int icount=0; icount<NSubSetsNA49; ++icount )
    {
@@ -94,6 +94,8 @@ double Chi2DDiffXSecNA49( std::string beam, std::string target,
    //  subtract 1 degree of freedom ?
    // NDF--;   
    
+   f->Close();
+   
    return chi2;
    
 }
@@ -124,7 +126,7 @@ double Chi2IntegratedSpectrumNA49( std::string beam, std::string target,
 //   std::string histofile = "";
 //   histofile += version;
 //   histofile += ("/na49-histo/" + beam + target + "158.0GeV" + model + ".root"); 
-   TFile* f = new TFile( histofile.c_str() );
+   TFile* f = TFile::Open( histofile.c_str() );
 
    std::string histoname = secondary + "_" + histo;
    TH1F* h = (TH1F*)f->Get( histoname.c_str() );
@@ -132,6 +134,8 @@ double Chi2IntegratedSpectrumNA49( std::string beam, std::string target,
    TGraphErrors* gdata = getIntegratedSpectrumAsGraph( histo );
    chi2 += Chi2( gdata, h, NDF ); 
 
+   f->Close();
+   
    return chi2;
 
 }

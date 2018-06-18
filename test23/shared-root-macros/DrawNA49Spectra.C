@@ -58,6 +58,7 @@ void drawIntegratedSpectrum( std::string beam, std::string target,
    double ymin = 10000.; // something big... don't know if I can use FLT_MAX
    double ymax = -1. ;
    
+/* remove DBReader, revert back to using local ASCII files 
    DbReader dbr;
    TGraphAsymmErrors* gr1 = new TGraphAsymmErrors( dbr.getDataByID( recid ) );
 
@@ -68,8 +69,8 @@ void drawIntegratedSpectrum( std::string beam, std::string target,
       if ( (YY[i]+gr1->GetErrorYhigh(i)) > ymax ) ymax = YY[i]+gr1->GetErrorYhigh(i);
       if ( (YY[i]-gr1->GetErrorYlow(i)) < ymin ) ymin = YY[i]-gr1->GetErrorYlow(i);  
    }
-   
-/*
+*/
+
    readIntegratedSpectra( beam, target, secondary );
 
    float* Value = new float[NPointsNA49];
@@ -96,7 +97,7 @@ void drawIntegratedSpectrum( std::string beam, std::string target,
       if ( Value[i]-Error[i] < ymin ) ymin = Value[i] - Error[i];
       if ( ymin < 0. ) ymin = 0.; 
    }
- */
+
    TH1F* hi[NModels_HE];
    std::string YTitle;
    if ( histo == "dNdxF" )
@@ -220,9 +221,8 @@ void drawIntegratedSpectrum( std::string beam, std::string target,
       leg->AddEntry( hi[m], ModelName_HE[m].c_str(), "L" );
    }
      
-/*
-   TGraph* gr = new TGraphErrors( NPointsNA49, xF, Value, 0, Error );
-*/
+   TGraph* gr1 = new TGraphErrors( NPointsNA49, xF, Value, 0, Error );
+
    // gr->GetYaxis()->SetRangeUser( 0., 2.5 );
    // gr->GetXaxis()->SetRangeUser( -0.3, 0.4 );
    // gr->SetRangeUser( 0.5, 2. );

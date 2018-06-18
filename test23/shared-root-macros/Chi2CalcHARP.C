@@ -51,7 +51,7 @@ double Chi2MomSpectrumHARP( std::string beam, std::string target, std::string en
 
    std::string histofile = location + "/harp-histo/" + beam + target + energy + "GeV" + model + ".root";
                      
-   TFile* f = new TFile( histofile.c_str() );
+   TFile* f = TFile::Open( histofile.c_str() );
    
    for ( int i=0; i<NSetsHARP; ++i )
    {
@@ -113,6 +113,8 @@ double Chi2MomSpectrumHARP( std::string beam, std::string target, std::string en
    
    // should I do subtract 1 degree of freedom at the end ? 
    // NDF--;     
+   
+   f->Close();
    
    return Chi2;
 

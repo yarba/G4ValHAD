@@ -1,6 +1,7 @@
 
+/* remove DbReader, revert to using local ASCII files
 R__LOAD_LIBRARY(libDbReader.so);
-
+*/
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -20,8 +21,9 @@ R__LOAD_LIBRARY(libDbReader.so);
 #include "TStyle.h"
 #include "TGraph.h"
 
+/* remove DbReader, revert to using local ASCII files
 #include "../DbReader/DbReader.h"
-
+*/
 std::string TEST_NAME="test23";
 
 #include "../test23/shared-root-macros/REGRESSION_TEST.h"

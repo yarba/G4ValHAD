@@ -53,7 +53,7 @@ double Chi2MomSpectrumNA61ThetaBin( std::string beam, std::string target, std::s
       }
       std::string histofile = location + "/na61-histo/" + beam + target + "31.0GeV" + model + ".root"; 
       
-   TFile* f = new TFile( histofile.c_str() );
+   TFile* f = TFile::Open( histofile.c_str() );
       
    // std::string histoname = secondary + "Mult_" + sec_angle_min + "_" + sec_angle_max;
    std::string histoname = secondary;
@@ -98,6 +98,8 @@ double Chi2MomSpectrumNA61ThetaBin( std::string beam, std::string target, std::s
    // basically, I seem to be using shape errors only, so... subtract 1 degree of freedom ?
    // NDF--;   
 
+   f->Close();
+   
    return chi2; 
 
 }

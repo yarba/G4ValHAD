@@ -55,7 +55,7 @@
     "beamkw": "CERN 158 GeV proton beam",
     "targetkw": "C",
     "observablekw": "average transverse momentum", 
-    "secondarykw": "pi+",
+    "secondarykw": "pi-",
     "reactionkw": "particle production",   
     "parnames": [],
     "parvalues": [],

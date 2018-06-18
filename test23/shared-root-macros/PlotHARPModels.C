@@ -377,49 +377,105 @@ void PlotHARPForMu2e( std::string secondary )
    TCanvas* myc = new TCanvas( "myc", "", 800, 800 );
    ReadHARPData( "proton", "Ta", "8.0", secondary, "LA" );
    
+   double ChiSqTotal[NModels_IE];
+   int NDFTotal[NModels_IE];
+   for ( int m=0; m<NModels_IE; ++m )
+   {
+      ChiSqTotal[m] = 0.;
+      NDFTotal[m] = 0;
+   }
+   
    std::string txt1 = "8.0GeV/c proton + Ta #rightarrow " + secondary;
    TLatex* ltxt1 = new TLatex( 0.35, 0.97, txt1.c_str() );
    ltxt1->SetTextSize(0.025);
-
-   // myc->cd(1);
-   TPad* pad1 = new TPad("pad1", "", 0.01, 0.46, 0.49, 0.9 );
+      
+   TPad* mypad = new TPad( "mypad", "", 0.01, 0.15, 0.99, 0.95 );
+   mypad->Divide( 2., 2., 0., 0. );
    myc->cd();
-   pad1->Draw();
-   pad1->cd();
+   mypad->Draw();
+   ltxt1->Draw();
+
+   mypad->cd(1);
    gPad->SetRightMargin(0.01);
-   gPad->SetLeftMargin(0.15);
-   
-   std::cout << " about to plot on pad1 " << std::endl;
-   
+   gPad->SetLeftMargin(0.15);   
    PlotHARPThetaSpectrum( "proton","Ta", "8.0", secondary, 0.1, 0.15 );
+   for ( int m=0; m<NModels_IE; ++m )
+   {
+      ChiSqTotal[m] += ChiSqThetaModel[m];
+      NDFTotal[m] += NDFThetaModel[m];
+   }
 
-   // myc->cd(2);
-   TPad* pad2 = new TPad("pad2", "", 0.51, 0.46, 0.99, 0.9 );
-   myc->cd();
-   pad2->Draw();
-   pad2->cd();
-   gPad->SetRightMargin(0.01);
-   gPad->SetLeftMargin(0.15);
+   mypad->cd(2);
+   gPad->SetRightMargin(0.1);
+   gPad->SetLeftMargin(0.1);
    PlotHARPThetaSpectrum( "proton","Ta", "8.0", secondary, 0.15, 0.2 );
+   for ( int m=0; m<NModels_IE; ++m )
+   {
+      ChiSqTotal[m] += ChiSqThetaModel[m];
+      NDFTotal[m] += NDFThetaModel[m];
+   }
 
-   // myc->cd(3);
-   TPad* pad3 = new TPad("pad3", "", 0.01, 0.01, 0.49, 0.45 );
-   myc->cd();
-   pad3->Draw();
-   pad3->cd();
-   gPad->SetRightMargin(0.01);
+   mypad->cd(3);
+   gPad->SetRightMargin(0.1);
    gPad->SetLeftMargin(0.15);
    PlotHARPThetaSpectrum( "proton","Ta", "8.0", secondary, 0.2, 0.25 );
+   for ( int m=0; m<NModels_IE; ++m )
+   {
+      ChiSqTotal[m] += ChiSqThetaModel[m];
+      NDFTotal[m] += NDFThetaModel[m];
+   }
 
-   // myc->cd(4);
-   TPad* pad4 = new TPad("pad4", "", 0.51, 0.01, 0.99, 0.45 );
-   myc->cd();
-   pad4->Draw();
-   pad4->cd();
+   mypad->cd(4);
    gPad->SetRightMargin(0.01);
-   gPad->SetLeftMargin(0.15);
+   gPad->SetLeftMargin(0.1);
    PlotHARPThetaSpectrum( "proton","Ta", "8.0", secondary, 0.25, 0.3 );
+   for ( int m=0; m<NModels_IE; ++m )
+   {
+      ChiSqTotal[m] += ChiSqThetaModel[m];
+      NDFTotal[m] += NDFThetaModel[m];
+      // std::cout << " chi2/NDF = " << ChiSqTotal[m] << "/" << NDFTotal[m] << " = " << ChiSqTotal[m]/NDFTotal[m] << " for " << ModelName_IE[m] << std::endl;
+   }
 
+   TLegend* leg = new TLegend(0.7,0.01,0.99,0.14);
+   TLegendEntry* entry = 0;
+   for ( int m=0; m<NModels_IE; ++m )
+   {
+      entry = leg->AddEntry( "", ModelName_IE[m].c_str(),"L" );
+      entry->SetLineColor( ColorModel_IE[m] );
+      entry->SetLineWidth(3);
+      entry->SetTextFont(62);
+   }
+   entry = leg->AddEntry("","exp.data","p");
+   entry->SetMarkerStyle(22);
+   entry->SetMarkerColor(kBlue);
+   entry->SetMarkerSize(1.5);
+   entry->SetTextFont(62);
+   leg->SetFillColor(kWhite);
+   myc->cd();
+   leg->Draw();
+   
+   TLatex* genltxt = new TLatex( 0.1, 0.12, "#chi^{2}/NDF is calculated for the given P(pi-) bins" );
+   genltxt->SetTextFont(62);
+   genltxt->SetTextSize(0.0225);
+   myc->cd();
+   genltxt->Draw();
+   TLatex* chi2ltxt[NModels_IE];
+   for ( int m=0; m<NModels_IE; ++m )
+   {
+      std::ostringstream os1;
+      std::ostringstream os2;
+      os1 << ChiSqTotal[m];
+      os2 << ChiSqTotal[m]/NDFTotal[m];
+      std::string chi2txt = "#chi^{2}/NDF = " + os1.str() + "/" + std::to_string(NDFTotal[m]) + " = " + os2.str() + " for " + ModelName_IE[m];
+      chi2ltxt[m] = new TLatex( 0.1, (0.09-0.025*m), chi2txt.c_str() );
+      chi2ltxt[m]->SetTextFont(62);
+      chi2ltxt[m]->SetTextSize(0.0225);
+      myc->cd();
+      chi2ltxt[m]->Draw();       
+   }
+   
+   
+   
    std::string out = "proton-Ta-8.0GeV-" + secondary + "-theta-spectra-models.gif";
    myc->Print( out.c_str() );
 

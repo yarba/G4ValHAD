@@ -818,7 +818,7 @@ void drawMomSpectMC2DataRegre( std::string beam, std::string target,
 	       break;
 	    }
 	 }
-
+	 
       }
       
       gr[m] = new TGraphErrors( np, MC2DataX, MC2DataY, DX, DY );

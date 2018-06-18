@@ -66,6 +66,7 @@
 // available staring 4.10.1.b01
 //
 #include "Shielding.hh"
+#include "ShieldingLEND.hh"
 
 
 #include "G4ParticleTable.hh"
@@ -209,6 +210,7 @@ int main(int argc, char** argv)
       // runManager->PhysicsHasBeenModified();    
 */      
       
+/* ---> FOR INTERNAL USE ONLY !!!
       //
       // G4 HAD model(s) parameters variation
       //
@@ -228,11 +230,12 @@ int main(int argc, char** argv)
          std::cout << " Bertini UsePreCo = " << G4CascadeParameters::usePreCompound() << std::endl;
          uim->ApplyCommand( "/process/had/cascade/usePreCompound 1" ); 
          std::cout << " Update: Bertini UsePreCo = " << G4CascadeParameters::usePreCompound() << std::endl;
-//         G4DeexPrecoParameters* precoparams = G4NuclearLevelData::GetInstance()->GetParameters();
-//	 precoparams->SetLevelDensity( 1.00/CLHEP::MeV );
+         G4DeexPrecoParameters* precoparams = G4NuclearLevelData::GetInstance()->GetParameters();
+	 precoparams->SetLevelDensity( 1.00/CLHEP::MeV );
 
       }
       ok = G4StateManager::GetStateManager()->SetNewState( currentstate );
+*/
       G4VModularPhysicsList* plist = 0;
       if ( theConfigReader->GetPhysics() == "ftfp_bert" )
       {
@@ -265,6 +268,10 @@ int main(int argc, char** argv)
       else if ( theConfigReader->GetPhysics() ==  "Shielding" )
       {
          plist = new Shielding();
+      }
+      else if ( theConfigReader->GetPhysics() ==  "ShieldingLEND" )
+      {
+         plist = new ShieldingLEND();
       }
 // #if  USE_G4REF>4100006) || USE_G4PUBLIC>41000
 #if (USE_G4REF==0 && USE_G4PUBLIC==0) || USE_G4REF>4100006 || USE_G4PUBLIC>41000

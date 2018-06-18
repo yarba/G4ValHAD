@@ -1,0 +1,398 @@
+//
+// ********************************************************************
+// * License and Disclaimer                                           *
+// *                                                                  *
+// * The  Geant4 software  is  copyright of the Copyright Holders  of *
+// * the Geant4 Collaboration.  It is provided  under  the terms  and *
+// * conditions of the Geant4 Software License,  included in the file *
+// * LICENSE and available at  http://cern.ch/geant4/license .  These *
+// * include a list of copyright holders.                             *
+// *                                                                  *
+// * Neither the authors of this software system, nor their employing *
+// * institutes,nor the agencies providing financial support for this *
+// * work  make  any representation or  warranty, express or implied, *
+// * regarding  this  software system or assume any liability for its *
+// * use.  Please see the license in the file  LICENSE  and URL above *
+// * for the full disclaimer and the limitation of liability.         *
+// *                                                                  *
+// * This  code  implementation is the result of  the  scientific and *
+// * technical work of the GEANT4 collaboration.                      *
+// * By using,  copying,  modifying or  distributing the software (or *
+// * any work based  on the software)  you  agree  to acknowledge its *
+// * use  in  resulting  scientific  publications,  and indicate your *
+// * acceptance of all terms of the Geant4 Software license.          *
+// ********************************************************************
+//
+
+#include "globals.hh"
+#include "G4PhysicalConstants.hh"
+
+#include "G4ios.hh"
+
+#include "G4Material.hh"
+#include "G4IsotopeVector.hh"
+#include "G4ElementVector.hh"
+#include "G4NistManager.hh"
+
+#include "G4ProcessManager.hh"
+#include "G4VParticleChange.hh"
+#include "G4ParticleChange.hh"
+
+#include "G4ParticleTable.hh"
+#include "G4IonTable.hh"
+
+#include "G4ParticleChange.hh"
+#include "G4DynamicParticle.hh"
+
+#include "G4MesonConstructor.hh"
+#include "G4BaryonConstructor.hh"
+#include "G4IonConstructor.hh"
+#include "G4LeptonConstructor.hh"
+#include "G4BosonConstructor.hh"
+#include "G4GenericIon.hh"
+
+#include "G4Gamma.hh"
+
+#include "G4ForceCondition.hh"
+
+#include "G4Box.hh"
+#include "G4PVPlacement.hh"
+#include "G4Step.hh"
+#include "G4GRSVolume.hh"
+#include "G4GRSSolid.hh"
+#include "G4Region.hh"
+
+#include "G4TrackingManager.hh"
+
+#include "G4StateManager.hh"
+// #include "G4Navigator.hh"
+#include "G4Timer.hh"
+
+// random engine/seed settings
+#include "Randomize.hh"
+
+#include "G4SystemOfUnits.hh"
+
+#include <fstream>
+#include <string>
+#include <iostream>
+#include <sstream>
+#include <iomanip>
+
+// Bertini cascade itself !!!
+#include "G4CascadeInterface.hh"
+#include "G4CascadeParameters.hh"
+#include "G4PhotoNuclearProcess.hh" // gamma-N hadronic process
+#include "G4HadronInelasticProcess.hh" // generic hadron inelastic process
+
+#include "G4UImanager.hh"
+
+using namespace std;
+
+// --> int main(int argc, char** argv) {
+int main() {
+
+  G4cout <<"========================================================" <<G4endl;
+  G4cout <<"======      Gamma-Nuclear Test Start       ========" <<G4endl;
+  G4cout <<"========================================================" <<G4endl;
+
+  G4String  namePart = "proton";
+  G4String  nameMatRaw  = "C";
+  ostringstream osMat(ios_base::out|ios_base::app);// to enable appending in output operations
+  G4String  nameGen  = "Bertini";
+  G4double  m_p      = 3824.*MeV;
+  G4double theStep   = 0.01*micrometer; 
+  G4Material* material = 0;
+
+  G4int     nevt     = 100;
+  
+  // Choose and setup the Random engine, if desired
+  // (this is optional; if not specified, Gent4 will run on its default)
+  //
+  // G4long myseed   = 135799753;
+  G4long myseed   = 12345;
+  CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine);
+  CLHEP::HepRandom::setTheSeed(myseed);
+
+   // If you plan to use Bertini cascade, and you wish to turn ON its internal verbosity, you can do it as follows.
+   // You have to bear in mind a couple of rules:
+   // 1. Geant4 will need to be in a certain "state", i.e. "Idle" - or UI command(s) are NOT guarantee to propagate.
+   // 2. You have to "ping" G4CascadeParameters before any changes via UI make in (can't remember why, something technical in the guts).
+   // 3. Also bear in mind that all UI cards have to go in BEFORE Bertini is instantiated.
+   // 
+/*
+   G4CascadeParameters::Instance();
+   bool ok = G4StateManager::GetStateManager()->SetNewState(G4State_Idle);
+   if ( !ok )
+   {
+      G4cout << " G4StateManager PROBLEM: can NOT change state to G4State_Idle !" << G4endl;
+   } 
+   else
+   {
+      G4UImanager* uim = G4UImanager::GetUIpointer();   
+      uim->ApplyCommand( "/process/had/cascade/verbose 2" ); // NOTE: 1 will NOT work - any output from Bertini start with verb>1...
+                                                             //       I think you can also use 3 or 4...
+							     //       Default=0
+   }
+//   G4cout << "Bertini verbosity: new setting = " << G4CascadeParameters::verbose() << G4endl;
+*/
+  
+  // Now we need to be in the PreInit state to create particles
+  //
+  if(!G4StateManager::GetStateManager()->SetNewState(G4State_PreInit))
+    G4cout << "G4StateManager PROBLEM! " << G4endl;
+
+
+  // physics needs to be initialized before the 1st use of particle table,
+  // because it constructs particles - otherwise the table is just empty
+  //
+  G4MesonConstructor pMesonConstructor;
+  pMesonConstructor.ConstructParticle();
+
+  G4BaryonConstructor pBaryonConstructor;
+  pBaryonConstructor.ConstructParticle();  
+  
+  // This is needed because starting 9.6.ref05 G4IonTable::CtreateIon(...)
+  // explicitly checks if generic ion has a process manager
+  //
+  G4GenericIon* gion = G4GenericIon::GenericIon();
+  gion->SetProcessManager(new G4ProcessManager(gion));    
+  //
+  G4IonConstructor pIonConstructor;
+  pIonConstructor.ConstructParticle();
+  
+  G4LeptonConstructor pLeptonConstructor;
+  pLeptonConstructor.ConstructParticle();
+  
+  G4BosonConstructor pBosonConstructor;
+  pBosonConstructor.ConstructParticle();
+  
+
+  G4ParticleTable* partTable = G4ParticleTable::GetParticleTable();
+  partTable->SetReadiness();
+
+  // PSEUDO-Geometry
+  //
+  // NOTE: it does not even need to have a valid ponter to material in the log.vol.
+  //
+  G4PVPlacement* pFrame = new G4PVPlacement( 0, G4ThreeVector(), "Box",
+                                             new G4LogicalVolume( new G4Box("Box", 100.0*cm, 100.0*cm, 100.0*cm), 
+					                          0, "Box", 0, 0, 0
+					                        ),
+					     0, false, 0);
+  
+  assert(pFrame);
+
+  G4Region* rFrame = new G4Region("Region"); // needed by tracking manager
+  pFrame->GetLogicalVolume()->SetRegion( rFrame );
+  rFrame->AddRootLogicalVolume( pFrame->GetLogicalVolume() );
+  
+
+    // NOTE: original (default) name of material is Cu
+    //       one can create material(s) using traditional G4 machinery
+    //       as an alternative one can use G4Nist DB (see below)
+    //       but in such case material's name should start with G4_
+    //       one can as as show below, although there're other options ^_^
+    //       (osMat is defined at the very beginning of the code)
+    
+    osMat.clear();
+    osMat.str("G4_");
+    osMat << nameMatRaw;
+    G4String nameMat = osMat.str();
+
+    G4cout << "###### Material: " << nameMat << " derived from " << nameMatRaw << G4endl;
+
+    material = G4NistManager::Instance()->FindOrBuildMaterial(nameMat);
+
+    if (!material) {
+      G4cout << "Material <" << nameMat << "> is not found" << G4endl;
+      exit(1);
+    }
+
+    G4ParticleDefinition* part = 
+      (G4ParticleTable::GetParticleTable())->FindParticle(namePart);
+
+    // Define hadronic process and outfit it with an engine (had.model)
+    //
+    G4HadronicProcess* proc = 0;
+    G4HadronicInteraction* model = 0;
+    if ( namePart == "gamma" )
+    {
+       proc = new G4PhotoNuclearProcess();
+    } 
+    else
+    {
+       proc = new G4HadronInelasticProcess( "hadronInelastic", part );
+    }
+    if ( nameGen == "Bertini" )
+    {
+       model = new G4CascadeInterface();
+    }   
+    
+    // make sure the process & model pointers are valid
+    //
+    assert(proc);
+    assert(model);
+    
+    // configure the model to a specific energy range
+    //
+    // Here we use momentum although the validity range is defined in terms of energy
+    //
+    // model->SetMinEnergy(0.9*m_p);
+    // model->SetMaxEnergy(1.1*m_p);
+    model->SetMinEnergy(0.0);
+    model->SetMaxEnergy(10.*GeV);
+   
+    // now assign model to the process
+    //
+    proc->RegisterMe(model);
+       
+    if (!proc) {
+      G4cout << "For particle: " << part->GetParticleName()
+             << " generator " << nameGen << " is unavailable"
+             << G4endl;
+      exit(1);
+    } 
+           
+    // let process managed of the hadronic process that we've just instatiated
+    //
+    G4ProcessManager* man = 0;
+    man = new G4ProcessManager( part );
+    man->AddDiscreteProcess(proc);
+        
+    G4double mass = part->GetPDGMass();
+    G4double energy = sqrt(m_p*m_p + mass*mass);
+
+    // if for any reason you need target properties, below is an example of how to extract some...
+    //
+    // const G4Element* elm = material->GetElement(0);
+    // G4int A = (G4int)(elm->GetN()+0.5);
+    // G4int Z = (G4int)(elm->GetZ()+0.5);
+    //
+    // amass would be needed e.g. to calculate Lorentz boost, etc. (e.g. via G4LorentzVector)
+    // 
+    // G4double amass = G4ParticleTable::GetParticleTable()->GetIonTable()->GetIonMass(Z, A);
+
+    // Create a DynamicParticle
+    //
+    // Define track (projectile/beam)
+    //
+    G4ThreeVector aPosition  = G4ThreeVector(0.,0.,0.);
+    G4double      aTime      = 0. ;
+    G4ThreeVector aDirection = G4ThreeVector(0.0,0.0,1.0);
+    aDirection = aDirection.unit();
+    //
+    G4DynamicParticle dParticle(part,aDirection,energy);
+    //
+    G4Track* gTrack;
+    gTrack = new G4Track(&dParticle,aTime,aPosition);
+    //
+    // one needs to "connect" the track with the (pseudo)geometry
+    //
+    G4TouchableHandle fpTouchable(new G4TouchableHistory());
+    gTrack->SetTouchableHandle(fpTouchable);
+        
+    // -------- Step
+
+    G4Step* gStep = new G4Step();
+    gStep->SetTrack(gTrack);
+    gTrack->SetStep(gStep);
+
+    gStep->SetPreStepPoint( new G4StepPoint() );
+    gStep->GetPreStepPoint()->SetPosition( aPosition );
+    gStep->GetPreStepPoint()->SetMaterial( material );
+    gStep->GetPreStepPoint()->SetSafety( 10000.*CLHEP::cm );
+   
+    G4ThreeVector bPosition = aDirection * theStep;
+    bPosition += aPosition;
+    gStep->SetPostStepPoint( new G4StepPoint() );
+    gStep->GetPostStepPoint()->SetPosition( bPosition );
+    gStep->GetPostStepPoint()->SetMaterial( material );
+    gStep->GetPostStepPoint()->SetSafety( 10000.*CLHEP::cm );
+    //
+    gStep->SetStepLength( theStep );
+    
+    // cross section(s)
+    
+    
+
+
+    if(!G4StateManager::GetStateManager()->SetNewState(G4State_Idle))
+      G4cout << "G4StateManager PROBLEM! " << G4endl;
+
+    G4Timer* timer = new G4Timer();
+    timer->Start();
+
+    G4VParticleChange* aChange = 0;
+
+    for (G4int iter=0; iter<nevt; ++iter) 
+    {
+    
+       G4double e0 = energy-mass;
+
+       dParticle.SetKineticEnergy(e0);
+
+       // gTrack->SetStep(step);
+       gTrack->SetKineticEnergy(e0);
+   
+       CLHEP::HepRandom::showEngineStatus(); 
+       
+       // model a single interaction
+       //
+       aChange = proc->PostStepDoIt(*gTrack,*gStep);
+       
+       aChange->DumpInfo();
+              
+       // get number of secondaries from each interaction
+       //
+       G4int nsec = aChange->GetNumberOfSecondaries();
+       
+/* example looping over secondaries */
+       for (G4int i=0; i<nsec; i++) {
+       
+            const G4Track*           ssTrack = aChange->GetSecondary(i);
+            G4TrackStatus ssts =  	ssTrack->GetTrackStatus();
+            const G4DynamicParticle* ssdp = ssTrack->GetDynamicParticle();
+            const G4ParticleDefinition* ssdpd = ssdp->GetDefinition();
+            G4String ssName = ssdpd->GetParticleName();
+            G4cout << "Secondary: " << i
+                   << " is " << ssName
+                   << ", " << ssdp->GetPDGcode()
+                   << ", status: " << ssts
+                   << " with kinetic energy of " 
+                   << ssdp->GetKineticEnergy()/GeV 
+                   << " and momentum of " 
+                   << ssdp->GetTotalMomentum()/GeV << " GeV"
+                   << G4endl;
+       }
+/* */       
+       
+       // memory cleanup after this interaction (and before the next one)
+       // 
+       for (G4int i=0; i<nsec; i++) 
+       {   
+          delete aChange->GetSecondary(i);
+       } 
+       aChange->Clear();
+       
+    } // end loop over events
+    
+    timer->Stop();
+    G4cout << "  " << *timer << G4endl;
+    delete timer;
+    
+    //delete process
+    //
+    delete proc;
+    
+    // NOTE: it's not excluded that I've even forgotted to delete a couple of objects...
+    //
+    delete gTrack;
+    delete gStep;
+    delete rFrame;
+
+  G4cout << "###### End of test #####" << G4endl;
+  
+  return 0;
+
+}

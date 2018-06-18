@@ -33,6 +33,7 @@ void HARPModelsAllEnergies( std::string beampart="piminus", std::string tg="Be" 
    PlotHARPAnalysis( beampart, tg, "12.0", "piminus", "FW");
    PlotHARPAnalysis( beampart, tg, "12.0", "piminus", "LA");
 
+/*
    if ( beampart == "proton" && tg == "Be" )
    {
       PlotHARPAnalysis(beampart,tg,"8.9","piplus","FW");
@@ -40,7 +41,7 @@ void HARPModelsAllEnergies( std::string beampart="piminus", std::string tg="Be" 
       PlotHARPAnalysis(beampart,tg,"8.9","piminus","FW");
       PlotHARPAnalysis(beampart,tg,"8.9","piminus","LA");
    }
-
+*/
    return;   
 
 }
