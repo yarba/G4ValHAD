@@ -28,18 +28,21 @@ cd ${G4WORKDIR}
 
 export G4INSTALL=/g4/g4p/pbs/g4-had-validation/g4-releases/${G4RELEASE}
 
-if [ -d ${G4INSTALL}/tests/DbReader/lib ]; then
-export LD_LIBRARY_PATH=${G4INSTALL}/tests/DbReader/lib:${LD_LIBRARY_PATH}
-if [ -e ${G4INSTALL}/tests/DbReader/lib/libDbReader.so ]; then
+#
+# REMOVE DbReader altogether
+#
+#if [ -d ${G4INSTALL}/tests/DbReader/lib ]; then
+#export LD_LIBRARY_PATH=${G4INSTALL}/tests/DbReader/lib:${LD_LIBRARY_PATH}
+#if [ -e ${G4INSTALL}/tests/DbReader/lib/libDbReader.so ]; then
 # ***
 $ROOTSYS/bin/root -b -p -q NA49Models.C 
 # ***
-else
-echo "DbReader package exists but is NOT built; missing library "
-fi
-else
-echo " DbReader is NOT installed"
-fi
+#else
+#echo "DbReader package exists but is NOT built; missing library "
+#fi
+#else
+#echo " DbReader is NOT installed"
+#fi
 
 if [ "x" == "x$G4REGRESSION" ]; then
    echo "Regression testing is NOT requested"
