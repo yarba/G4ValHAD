@@ -12,6 +12,12 @@ TargetDetails=( 'C=6' 'N=7' 'O=8' 'Al=13' 'Cu=29' 'Ta=73' 'Pb=82' )
 gdir=/g4/g4p/pbs/g4-had-validation/regression-test-files
 g4version=${1}
 g4tag=${2}
+access=${3}
+
+if [ "x" == "x${access}" ]; then
+   echo "ACCESS is not specified; setting it to \"public\""
+   access=public
+fi
 
 if [ "x" == "x${g4version}" ]; then
    echo "please, provide geant4 version as the 1st input argument - it is mandatory"
@@ -35,7 +41,7 @@ if [ -e piminus-capture-${target}-metadata-${model}.json ]; then
 /bin/rm piminus-capture-${target}-metadata-${model}.json
 fi
 
-sed "s/VTAG/$g4tag/; s/TGT/$target/" piminus-capture-metadata-template.json > piminus-capture-${target}-metadata-${model}.json
+sed "s/VTAG/$g4tag/; s/TGT/$target/; s/ACCESS/$access/" piminus-capture-metadata-template.json > piminus-capture-${target}-metadata-${model}.json
 
 python ../../uploader/DoSSiERconverter.py -c convert -o piminus-capture-${target}-${model}.json \
 	--metadatafile piminus-capture-${target}-metadata-${model}.json \

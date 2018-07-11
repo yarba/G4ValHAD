@@ -166,17 +166,20 @@ double calcChi2NeutMultSinger( std::string target, std::string model, int& NDF, 
    double chi2 = 0.;
    
    std::string location = "";
+   
    if ( version == CurrentVersion || version == "." )
    {
-         location = ".";
+	 location = ".";
    }
    else
    {
-         location = regre_test_dir + "/" + TEST_NAME + "/" + version;
+	 location = regre_test_dir + "/" + TEST_NAME + "/" + version;
    }
    std::string histofile = location + "/" ; 
-   histofile = "muminus" +  target + model;         
+   histofile += ( "muminus" +  target + model );         
    histofile += ".root";
+   
+   std:cout << " chi2 calc from file: " << histofile << std::endl;
       
    TFile* f = new TFile( histofile.c_str() );
    TH1F* hi = (TH1F*)f->Get("NNeutrons");
@@ -282,7 +285,7 @@ double calcChi2NNeutEKinSundelin( std::string target, std::string model, int& ND
          location = regre_test_dir + "/" + TEST_NAME + "/" + version;
    }
    std::string histofile = location + "/" ; 
-   histofile = "muminus" +  target + model;         
+   histofile += ( "muminus" +  target + model );         
    histofile += ".root";
       
    TFile* f = new TFile( histofile.c_str() );
@@ -457,6 +460,7 @@ void PlotMuMinusRegre( std::string target, std::string model )
       {
          NDF=0;
 	 chi2 = calcChi2NeutMultSinger( target, model, NDF, Versions[m] );
+	 std::cout << Versions[m] << " ---> " << chi2 << "/" << NDF << "=" << chi2/NDF << std::endl;
 	 TLatex* ltxt1 = formChi2Printout( chi2, NDF, m, Versions[m] );
 	 myc->cd();
 	 ltxt1->Draw();
@@ -477,6 +481,7 @@ void PlotMuMinusRegre( std::string target, std::string model )
       {
 	 NDF=0;
 	 chi2 = calcChi2NNeutEKinSundelin( target, model, NDF, Versions[m] );
+	 std::cout << Versions[m] << " ---> " << chi2 << "/" << NDF << "=" << chi2/NDF << std::endl;
 	 TLatex* ltxt1 = formChi2Printout( chi2, NDF, m, Versions[m], 0.6 );
 	 myc->cd();
 	 ltxt1->Draw();
@@ -505,6 +510,7 @@ void PlotMuMinusRegre( std::string target, std::string model )
       {
          NDF=0;
 	 chi2 = calcChi2NNeutEKinSundelin( target, model, NDF, Versions[m] );
+	 std::cout << Versions[m] << " ---> " << chi2 << "/" << NDF << "=" << chi2/NDF << std::endl;
 	 myc->cd();
 	 TLatex* ltxt1 = formChi2Printout( chi2, NDF, m, Versions[m] );
 	 ltxt1->Draw();
@@ -528,10 +534,12 @@ void PlotMuMinusRegre( std::string target, std::string model )
    ltxt->SetTextSize(0.03);
    myc->cd();
    ltxt->Draw();
-   for ( int m=0; m<NModelsMuons; ++m )
+   // for ( int m=0; m<NModelsMuons; ++m )
+   for ( int m=0; m<NVersions; ++m )
    {
       NDF=0;
       chi2 = calcChi2NeutMultSinger( target, model, NDF, Versions[m] );
+      std::cout << Versions[m] << " ---> " << chi2 << "/" << NDF << "=" << chi2/NDF << std::endl;
       myc->cd();
       TLatex* ltxt1 = formChi2Printout( chi2, NDF, m, Versions[m] );
       ltxt1->Draw();

@@ -67,7 +67,7 @@ Electron internal conversion ID                     0
 Correlated gamma emission flag                      0
 Max 2J for sampling of angular correlations         10
 =======================================================================
-  User=95.04s Real=95.56s Sys=0.09s
+  User=107.580000s Real=108.482874s Sys=0.050000s
 Writing histogram file: piminusPbBertini.root
 Next line #exit
 ###### End of test #####

@@ -14,7 +14,7 @@
     "parvalues": [], 
     "imageblobslnk": 0,
     "scoreskw": "passed",
-    "accesskw": "public"
+    "accesskw": "ACCESS"
   },
   "NeutronKineticEnergy" : {
     "mctoolkw": "Geant4",
@@ -30,7 +30,7 @@
     "parvalues": [], 
     "imageblobslnk": 0,
     "scoreskw": "passed",
-    "accesskw": "public"
+    "accesskw": "ACCESS"
   }
 
 }

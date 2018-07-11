@@ -94,13 +94,22 @@ void drawPiMinusRegression( std::string, std::string );
 void drawPiMinusMC2Data( std::string target ) ;
 void drawPiMinusMC2DataRegression( std::string target, std::string model ) ;
 
-double calcChi2Madey( std::string target, std::string model, int& NDF )
+double calcChi2Madey( std::string target, std::string model, int& NDF, std::string version = "." )
 {
 
    double chi2 = 0.;
 //   int NDF = 0;
 
-   std::string histofile = "piminus" + target + model;
+   std::string location = "";
+   if ( version == CurrentVersion || version == "." )
+   {
+         location = "";
+   }
+   else
+   {
+         location = regre_test_dir + "/test48/" + version + "/";
+   }
+   std::string histofile = location + "piminus" + target + model;
    histofile += ".root";
 
    std::cout << "About to open file: " << histofile << std::endl;
@@ -235,18 +244,45 @@ void plotPiMinusRegressionSummary2( std::string target, std::string model )
    
    TCanvas* myc = new TCanvas("myc","",800,600);
    
-   myc->Divide(2,1);
-   
-   myc->cd(1);
+   // myc->Divide(2,1);   
+
+   TPad* pad1 = new TPad( "pad1", "", 0.02, 0.15, 0.50, 0.99 );
+   TPad* pad2 = new TPad( "pad2", "", 0.51, 0.15, 0.99, 0.99 );
+
+   myc->cd();
+   pad1->Draw();
+   pad2->Draw();
+
+   // myc->cd(1);
+   pad1->cd();
    gPad->SetLogx();
    gPad->SetLogy();
+   gPad->SetLeftMargin(0.1);
    drawPiMinusRegression( target, model );
    
-   myc->cd(2);
+   // myc->cd(2);
+   pad2->cd();
    gPad->SetLogx();
    gPad->SetLogy();
    drawPiMinusMC2DataRegression( target, model );
    
+   myc->cd();
+
+   for ( int i=0; i<NVersions; ++i )
+   {
+       double chi2 = 0.;
+       int NDF = 0;
+       chi2 = calcChi2Madey( target, model, NDF, Versions[i] );
+       std::ostringstream os;
+       os << (chi2/NDF);
+       std::string txt1 = "#chi^{2}/NDF = ";
+       txt1 += os.str();
+       txt1 += ( " for " + Versions[i] );
+       TLatex* ltxt1 = new TLatex(0.10, 0.12-i*0.03, txt1.c_str() );
+       ltxt1->SetTextSize(0.03);
+       ltxt1->Draw();
+   }
+
    std::string output = "pim-" + target + "-Bert-regre.gif";
    myc->Print( output.c_str() );
 
@@ -269,14 +305,23 @@ void plotPiMinusSummary2( std::string target )
 
    TCanvas *myc = new TCanvas("myc","",800,600);
    
-   myc->Divide(2,1);
+   // myc->Divide(2,1);
+   // myc->cd(1);
    
-   myc->cd(1);
+   TPad* pad1 = new TPad( "pad1", "", 0.01, 0.15, 0.49, 0.99 );
+   TPad* pad2 = new TPad( "pad2", "", 0.51, 0.15, 0.99, 0.99 );
+   
+   myc->cd();
+   pad1->Draw();
+   pad2->Draw();
+   
+   pad1->cd();
    gPad->SetLogx(1);
    gPad->SetLogy(1);
    drawPiMinus( target );
 
-   myc->cd(2);
+   // myc->cd(2);
+   pad2->cd();
    gPad->SetLogx(1);
    gPad->SetLogy();
    drawPiMinusMC2Data( target );
@@ -284,11 +329,19 @@ void plotPiMinusSummary2( std::string target )
    myc->cd();
 
    for ( int i=0; i<NModelsMesons; ++i )
-     {
+   {
        double chi2 = 0.;
        int NDF = 0;
        chi2 = calcChi2Madey( target, ModelsMesons[i], NDF );
-     }
+       std::ostringstream os;
+       os << (chi2/NDF);
+       std::string txt1 = "#chi^{2}/NDF = ";
+       txt1 += os.str();
+       txt1 += ( " for " + ModelsMesons[i] );
+       TLatex* ltxt1 = new TLatex(0.10, 0.12-i*0.03, txt1.c_str() );
+       ltxt1->SetTextSize(0.03);
+       ltxt1->Draw();
+   }
    
    
    std::string output = "pim-" + target + "-models.gif";
@@ -313,7 +366,8 @@ void plotPiMinusSummary4( std::string target )
    
    myc->Divide(2,2);
    
-   myc->cd(1); gPad->SetLogx(); 
+   myc->cd(1); 
+   gPad->SetLogx(); 
    drawPiMinus( target );
    
    myc->cd(2); gPad->SetLogy();
@@ -371,6 +425,12 @@ void drawPiMinus( std::string target )
       hi[m]->SetLineWidth(2);
       hi[m]->GetXaxis()->SetTitle("Kinetic energy of secondary neutron (MeV)");
       hi[m]->GetYaxis()->SetTitle("Number of neutrons per MeV");
+      hi[m]->GetYaxis()->SetTitleOffset(1.5);
+      hi[m]->GetXaxis()->SetTitleOffset(1.3);
+      hi[m]->GetXaxis()->SetTitleFont(62);
+      hi[m]->GetXaxis()->SetLabelFont(62);
+      hi[m]->GetYaxis()->SetTitleFont(62);
+      hi[m]->GetYaxis()->SetLabelFont(62);
       int nx = hi[m]->GetNbinsX();
       for (int k=1; k <= nx; k++) {
 	double yy = hi[m]->GetBinContent(k);
@@ -446,7 +506,12 @@ void drawPiMinusMC2Data( std::string target )
    gr1->GetXaxis()->SetTitle("Kinetic energy of secondary neutron (MeV)");
    gr1->GetYaxis()->SetTitle("MC/Data (Number of neutrons per MeV)");
    gr1->GetYaxis()->SetRangeUser(0.2,5.);
-
+   gr1->GetYaxis()->SetTitleOffset(1.5);
+   gr1->GetXaxis()->SetTitleOffset(1.3);
+   gr1->GetXaxis()->SetTitleFont(62);
+   gr1->GetXaxis()->SetLabelFont(62);
+   gr1->GetYaxis()->SetTitleFont(62);
+   gr1->GetYaxis()->SetLabelFont(62);
 
    TH1F* hi[NModelsMesons];
          
@@ -567,8 +632,13 @@ void drawPiMinusMC2DataRegression( std::string target, std::string model )
    gr1->SetMarkerSize(1.6);
    gr1->GetXaxis()->SetTitle("Kinetic energy of secondary neutron (MeV)");
    gr1->GetYaxis()->SetTitle("MC/Data (Number of neutrons per MeV)");
+   gr1->GetYaxis()->SetTitleOffset(1.5);
+   gr1->GetXaxis()->SetTitleOffset(1.3);
+   gr1->GetXaxis()->SetTitleFont(62);
+   gr1->GetXaxis()->SetLabelFont(62);
+   gr1->GetYaxis()->SetTitleFont(62);
+   gr1->GetYaxis()->SetLabelFont(62);
    gr1->GetYaxis()->SetRangeUser(0.2,5.);
-
 
    TH1F* hi[NVersions];
          
@@ -779,6 +849,12 @@ void drawPiMinusRegression( std::string target="C", std::string model="CHIPS" )
       hi[iver]->SetLineWidth(6-iver);
       hi[iver]->GetXaxis()->SetTitle("Kinetic energy of secondary neutron (MeV)");
       hi[iver]->GetYaxis()->SetTitle("Number of neutrons per MeV");
+      hi[iver]->GetYaxis()->SetTitleOffset(1.5);
+      hi[iver]->GetXaxis()->SetTitleOffset(1.3);
+      hi[iver]->GetXaxis()->SetTitleFont(62);
+      hi[iver]->GetXaxis()->SetLabelFont(62);
+      hi[iver]->GetYaxis()->SetTitleFont(62);
+      hi[iver]->GetYaxis()->SetLabelFont(62);
       int nx = hi[iver]->GetNbinsX();
       for (int k=1; k <= nx; k++) {
 	double yy = hi[iver]->GetBinContent(k);

@@ -13,6 +13,12 @@ TargetSundelinDetails=( 'Si=14' 'S=16' 'Ca=20' )
 gdir=/g4/g4p/pbs/g4-had-validation/regression-test-files
 g4version=${1}
 g4tag=${2}
+access=${3}
+
+if [ "x" == "x${access}" ]; then
+   echo "ACCESS is not specified; setting it to \"public\""
+   access=public
+fi
 
 if [ "x" == "x${g4version}" ]; then
    echo "please, provide geant4 version as the 1st input argument - it is mandatory"
@@ -36,7 +42,7 @@ if [ -e muminus-capture-Singer-${target}-metadata-${model}.json ]; then
 /bin/rm muminus-capture-Singer-${target}-metadata-${model}.json
 fi
 
-sed "s/VTAG/$g4tag/; s/TGT/$target/" muminus-capture-metadata-template.json > muminus-capture-Singer-${target}-metadata-${model}.json
+sed "s/VTAG/$g4tag/; s/TGT/$target/; s/ACCESS/$access/" muminus-capture-metadata-template.json > muminus-capture-Singer-${target}-metadata-${model}.json
 
 python ../../uploader/DoSSiERconverter.py -c convert -o muminus-capture-Singer-${target}-${model}.json \
 	--metadatafile muminus-capture-Singer-${target}-metadata-${model}.json \
@@ -56,7 +62,7 @@ if [ -e muminus-capture-Sundelin-${target}-metadata-${model}.json ]; then
 /bin/rm muminus-capture-Sundelin-${target}-metadata-${model}.json
 fi
 
-sed "s/VTAG/$g4tag/; s/TGT/$target/" muminus-capture-metadata-template.json > muminus-capture-Sundelin-${target}-metadata-${model}.json
+sed "s/VTAG/$g4tag/; s/TGT/$target/; s/ACCESS/$access/" muminus-capture-metadata-template.json > muminus-capture-Sundelin-${target}-metadata-${model}.json
 
 python ../../uploader/DoSSiERconverter.py -c convert -o muminus-capture-Sundelin-${target}-${model}.json \
 	--metadatafile muminus-capture-Sundelin-${target}-metadata-${model}.json \
