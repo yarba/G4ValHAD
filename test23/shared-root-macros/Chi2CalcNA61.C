@@ -144,9 +144,9 @@ double Chi2NA61IntegralData2015( std::string beam, std::string target, std::stri
 					   NDF, version, true );
    
    }
-   else if ( secondary == "k0s" )
+   else if ( secondary == "lambda" )
    {
-      readMomSpectrum( "proton", "C", "Lambda", "0", "40", "../test23/na61-exp-data/Pub-2015/" );
+      readMomSpectrum( "proton", "C", "lambda", "0", "40", "../test23/na61-exp-data/Pub-2015/" );
       chi2 += Chi2MomSpectrumNA61ThetaBin( "proton", "C", secondary, 
                                            "0", "40",
 				           model,
