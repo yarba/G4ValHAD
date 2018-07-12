@@ -261,7 +261,7 @@ void NA49_chi2_table_regre( std::string beam, std::string target, std::string mo
    }   
    out_table << "\n proton           will be added shortly !!!";
 
-
+   out_table.close();
 
    return;
 
