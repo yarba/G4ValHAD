@@ -354,7 +354,15 @@ void Tst23HARPHisto::Write( G4int, G4double xsec )
    G4double norm = 1.;
    G4double scale = 1.;
    
-   norm = fHistoNSec->Integral();
+   // NOTE: bear in mind that fHistoNSec->Integral() is is the number of entries WITHIN histo xmin-xmax
+   //       while fHistoNSec->GetEntries() is the total number of entries, incl. under/overflow (i.e. the actual NEvents)
+   //       however, AFTER the NORMALIZATION of fHistoSec, GetEntries() and Integral() give the same result
+   //
+   norm = (double)(fHistoNSec->GetEntries());
+   
+   std::cout << " xsec = " << xsec << std::endl;
+   std::cout << " norm = " << norm << std::endl;
+   std::cout << " integral = " << fHistoNSec->Integral() << std::endl;
    
    xbin = (G4double)fHistoNSec->GetBinWidth(1);
    scale = 1. / (xbin*norm);

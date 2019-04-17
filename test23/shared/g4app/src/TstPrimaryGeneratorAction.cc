@@ -40,6 +40,11 @@
 
 #include "G4RunManager.hh"
 #include "G4HadronCrossSections.hh"
+// #include "G4CrossSectionDataStore.hh"
+#include "G4VCrossSectionDataSet.hh"
+#include "G4HadronInelasticDataSet.hh"
+#include "G4BGGNucleonInelasticXS.hh"
+#include "G4BGGPionInelasticXS.hh"
 
 TstPrimaryGeneratorAction::~TstPrimaryGeneratorAction()
 {
@@ -65,11 +70,11 @@ void TstPrimaryGeneratorAction::InitBeam( TstReader* pset )
    // G4ParticleDefinition* partDef = (G4ParticleTable::GetParticleTable())->FindParticle(pset->GetBeamParticle());
    G4double partMass = partDef->GetPDGMass();
    G4double partMom = pset->GetBeamMomentum();
-   G4double partEnergy = std::sqrt( partMom*partMom + partMass*partMass );
+   G4double partEnergy = std::sqrt( partMom*partMom + partMass*partMass ); // this is total energy
    
    fPartGun->SetParticleDefinition( partDef );
-   fPartGun->SetParticleEnergy( partEnergy );
-   fPartGun->SetParticlePosition( pset->GetPosition() ); // it's already in mm (from TstReader
+   fPartGun->SetParticleEnergy( partEnergy-partMass ); // this has to be kinetic energy
+   fPartGun->SetParticlePosition( pset->GetPosition() ); // it's already in mm (from TstReader)
 
    // in principle, this should be calculated on the event-by-event basis
    // in case beam direction varies
@@ -81,8 +86,43 @@ void TstPrimaryGeneratorAction::InitBeam( TstReader* pset )
    G4int Z = (G4int)(elm->GetZ()+0.5);
    G4double amass = G4ParticleTable::GetParticleTable()->GetIonTable()->GetIonMass(Z, A);
    
-   G4DynamicParticle dParticle( partDef, pset->GetDirection(), partEnergy);  
+   G4DynamicParticle dParticle( partDef, pset->GetDirection(), partEnergy-partMass); // 3rd arg has to be EKin  
+   
+   /* this basically defaults to the Gheisha XSec while there may be more modern versions
    fXSecOnTarget = (G4HadronCrossSections::Instance())->GetInelasticCrossSection( &dParticle, Z, A );
+   */
+
+   G4VCrossSectionDataSet* cs = 0;
+   if ( ( pset->GetBeamParticle() == "proton" || pset->GetBeamParticle() == "neutron" ) && Z > 1 )
+   {
+      cs = new G4BGGNucleonInelasticXS(partDef);
+   }
+   else if ( (pset->GetBeamParticle() == "pi+" || pset->GetBeamParticle() == "pi-") && Z > 1 )
+   {
+      cs = new G4BGGPionInelasticXS(partDef);
+   }
+   else
+   {
+      cs = new G4HadronInelasticDataSet();
+   }   
+   if ( cs ) 
+   {
+      cs->BuildPhysicsTable(*partDef);
+      fXSecOnTarget = cs->GetCrossSection( &dParticle, elm );
+      delete cs;
+   }
+   else
+   {
+      fXSecOnTarget = (G4HadronCrossSections::Instance())->GetInelasticCrossSection( &dParticle, Z, A );
+   }
+   
+   /* this won't work as 
+      "no data sets registered
+       terminate called after throwing an instance of 'G4HadronicException'"
+   G4CrossSectionDataStore XSecStore;
+   XSecStore.BuildPhysicsTable( *partDef );
+   double tstXSecOnTarget = XSecStore.ComputeCrossSection( &dParticle, target->GetCurrentMaterial() );
+   */
 
        // if under an agnle, then like this:
        //labv = G4LorentzVector(mom.x()/CLHEP::GeV, mom.y()/CLHEP::GeV, 

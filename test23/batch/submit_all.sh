@@ -14,11 +14,12 @@ fi
 #source /products/setup
 source /g4/g4p/pbs/g4-had-validation/build-scripts/g4_set_prod.sh
 
-if [ `echo ${PATH} | grep pbs` ]; then
-echo "PBS is already set"
-else
-export PATH=${PATH}:/usr/local/pbs/bin
-fi
+# ---> OBSOLETE
+#if [ `echo ${PATH} | grep pbs` ]; then
+#echo "PBS is already set"
+#else
+#export PATH=${PATH}:/usr/local/pbs/bin
+#fi
 
 harp_list=`ls -l | grep HARP_perCore | awk '{print $9}'`
 

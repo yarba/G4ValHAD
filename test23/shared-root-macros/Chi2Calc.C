@@ -24,11 +24,11 @@ double Chi2( TH1F* hdata, TH1F* hsim, int& NDF )
    int NXData = hdata->GetNbinsX();
    int NXSim = hsim->GetNbinsX();
 
-   for ( int k=0; k<=NXSim; ++k ) 
+   for ( int k=1; k<=NXSim; ++k ) 
    { 
          double xx1 = hsim->GetBinLowEdge(k);
 	 double xx2 = hsim->GetBinWidth(k);
-	 for (int kk=0; kk<NXData; ++kk )
+	 for (int kk=1; kk<=NXData; ++kk )
 	 {
 	   
 	   double xd1 = hdata->GetBinLowEdge(kk);
@@ -73,7 +73,7 @@ double Chi2( TGraphErrors* gdata, TH1F* hsim, int& NDF )
 
    //   std::cout << " NXSim = " << NXSim << std::endl;
 
-      for ( int k=0; k<=NXSim; ++k ) 
+      for ( int k=1; k<=NXSim; ++k ) 
       { 
          double xx1 = hsim->GetBinLowEdge(k);
 	 double xx2 = hsim->GetBinWidth(k);

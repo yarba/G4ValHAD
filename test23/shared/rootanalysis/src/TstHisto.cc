@@ -63,20 +63,6 @@ TstHisto::~TstHisto()
 void TstHisto::Write( G4int stat, G4double scale )
 {
 
-/*
-   std::string fname = fBeam + fTarget + fModel;
-   if ( fJobID > -1 )
-   {
-      char buf[5];
-      sprintf( buf, "%i", fJobID );
-      fname += "-";
-      fname.append( buf ); 
-   }  
-   fname += ".root";
-
-   // std::cout << "Writing histogram file: " << fname << std::endl;
-*/
-
    if ( fHistoFile ) delete fHistoFile;
 
    fHistoFile = OpenHistoFile();
@@ -115,10 +101,7 @@ TFile* TstHisto::OpenHistoFile()
    
    if ( fJobID > -1 )
    {
-      char buf[5];
-      sprintf( buf, "%i", fJobID );
-      fname += "-";
-      fname.append( buf ); 
+      fname += "-" + std::to_string( fJobID );
    }  
    fname += ".root";
 

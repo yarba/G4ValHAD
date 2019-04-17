@@ -54,15 +54,15 @@ private:
       
    TH1D*              fHistoNSec;
    
-   int*     fNSecProtonThetaBins;
    //
    // FIXME !!!
    // 
    // Causing compilation warning as is not used for the moment;
    // histos are booked with regular binnig, but it's likely to
    // change in the near future
-   //
+   // int*     fNSecProtonThetaBins;
    // double** fSecProtonBins;
+   //
    int*     fNSecPiplusThetaBins;
    double** fSecPiplusBins;
    int*     fNSecPiminusThetaBins;

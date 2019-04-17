@@ -37,6 +37,7 @@
 #include "G4PreCompoundModel.hh"
 
 #include "G4SystemOfUnits.hh"
+#include "G4HadronicParameters.hh"
 
 QGSPWrapper::QGSPWrapper( const G4String& name, G4ProcessType type )
    : ProcessWrapper(name,type)
@@ -77,7 +78,7 @@ void QGSPWrapper::Compose()
    gen->SetHighEnergyGenerator( fStringModel );
    
    gen->SetMinEnergy(GeV);  // common
-   gen->SetMaxEnergy(100.*TeV);   
+   gen->SetMaxEnergy( G4HadronicParameters::Instance()->GetMaxEnergy() );   
    
    RegisterMe( gen );
    

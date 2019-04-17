@@ -42,6 +42,7 @@
 #include "G4ProcessManager.hh"
 #include "G4ProtonInelasticCrossSection.hh"
 #include "G4BGGNucleonInelasticXS.hh"
+#include "G4HadronicParameters.hh"
 
 QGSPStrFragmLundProtonBuilder::
 QGSPStrFragmLundProtonBuilder(G4bool quasiElastic) 
@@ -73,7 +74,7 @@ Build(G4ProtonInelasticProcess * aP)
  {
    aP->AddDataSet(new G4BGGNucleonInelasticXS(G4Proton::Proton()));
    theModel->SetMinEnergy(theMin);
-   theModel->SetMaxEnergy(100*TeV);
+   theModel->SetMaxEnergy( G4HadronicParameters::Instance()->GetMaxEnergy() );
    aP->RegisterMe(theModel);
  }
 

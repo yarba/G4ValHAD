@@ -613,7 +613,11 @@ void Tst23NA49Histo::Write( G4int, G4double )
 
    double norm = 1.;
    
-   norm = fHistoNSec->Integral();
+   // NOTE: bear in mind that fHistoNSec->Integral() is is the number of entries WITHIN histo xmin-xmax
+   //       while fHistoNSec->GetEntries() is the total number of entries, incl. under/overflow (i.e. the actual NEvents)
+   //       however, AFTER the NORMALIZATION of fHistoSec, GetEntries() and Integral() give the same result
+   //
+   norm = (double)(fHistoNSec->GetEntries());
    
    fHistoNSec->Scale( 1./norm, "width" );
    fHistoNSec->Write();

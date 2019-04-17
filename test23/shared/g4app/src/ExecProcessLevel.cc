@@ -194,7 +194,7 @@ void ExecProcessLevel::InitBeam( const TstReader* pset )
    G4ParticleDefinition* partDef = (G4ParticleTable::GetParticleTable())->FindParticle(pset->GetBeamParticle());
    G4double partMass = partDef->GetPDGMass();
    G4double partMom = pset->GetBeamMomentum();
-   G4double partEnergy = std::sqrt( partMom*partMom + partMass*partMass );
+   G4double partEnergy = std::sqrt( partMom*partMom + partMass*partMass ); // total energy
    
    if ( !fBeam ) fBeam = new Beam();
    fBeam->SetBeam( pset->GetBeamParticle(), partMass, partEnergy ); 
@@ -217,31 +217,7 @@ void ExecProcessLevel::InitBeam( const TstReader* pset )
    G4int Z = (G4int)(elm->GetZ()+0.5);
    G4double amass = G4ParticleTable::GetParticleTable()->GetIonTable()->GetIonMass(Z, A);
 
-   G4DynamicParticle dParticle( partDef, pset->GetDirection(), partEnergy);  
-   // actually, it needs to be a bit more extensive
-   //    
-   G4VCrossSectionDataSet* cs = 0;
-   if ( ( pset->GetBeamParticle() == "proton" || pset->GetBeamParticle() == "neutron" ) && Z > 1 )
-   {
-      cs = new G4BGGNucleonInelasticXS(partDef);
-   }
-   else if ( (pset->GetBeamParticle() == "pi+" || pset->GetBeamParticle() == "pi-") && Z > 1 )
-   {
-      cs = new G4BGGPionInelasticXS(partDef);
-   }
-   else
-   {
-      cs = new G4HadronInelasticDataSet();
-   }   
-   if ( cs ) 
-   {
-      cs->BuildPhysicsTable(*partDef);
-      fXSecOnTarget = cs->GetCrossSection( &dParticle, elm );
-   }
-   else
-   {
-      fXSecOnTarget = (G4HadronCrossSections::Instance())->GetInelasticCrossSection( &dParticle, Z, A );
-   }
+   G4DynamicParticle dParticle( partDef, pset->GetDirection(), partEnergy-partMass ); // this has to be EKin, not total  
 
    fBeam->SetLabV( G4LorentzVector( 0., 0., 
                                     std::sqrt(partEnergy*(partEnergy+2.0*partMass))/GeV,
@@ -256,7 +232,7 @@ void ExecProcessLevel::InitBeam( const TstReader* pset )
                                      (partEnergy+partMass+G4Proton::Proton()->GetPDGMass())/GeV) );
          
    // Track
-   fTrack = new G4Track( new G4DynamicParticle( partDef, pset->GetDirection(), partEnergy ), 
+   fTrack = new G4Track( new G4DynamicParticle( partDef, pset->GetDirection(), partEnergy-partMass ), // the 3rd arg of G4DynPart has to be EKin 
                          pset->GetTime(), pset->GetPosition() ); 
    fTrack->SetTouchableHandle( G4TouchableHandle( new G4TouchableHistory() ) );
 
@@ -296,6 +272,41 @@ void ExecProcessLevel::InitBeam( const TstReader* pset )
     fStep->GetPostStepPoint()->SetSafety( 10000.*CLHEP::cm );
     //
     fStep->SetStepLength( pset->GetStep() );
+
+   // actually, it needs to be a bit more extensive...
+   //    
+   
+   G4VCrossSectionDataSet* cs = 0;
+   
+   if ( pset->GetBeamParticle() == "gamma" )
+   {
+      // special case:
+      // will calculate gamma-N xsec later in the process, 
+      // via G4PhotoNuclearCrossSection::GetElementCrossSection(...)
+      return;
+   }
+   
+   if ( ( pset->GetBeamParticle() == "proton" || pset->GetBeamParticle() == "neutron" ) && Z > 1 )
+   {
+      cs = new G4BGGNucleonInelasticXS(partDef);
+   }
+   else if ( (pset->GetBeamParticle() == "pi+" || pset->GetBeamParticle() == "pi-") && Z > 1 )
+   {
+      cs = new G4BGGPionInelasticXS(partDef);
+   }
+   else
+   {
+      cs = new G4HadronInelasticDataSet();
+   }   
+   if ( cs ) 
+   {
+      cs->BuildPhysicsTable(*partDef);
+      fXSecOnTarget = cs->GetCrossSection( &dParticle, elm );
+   }
+   else
+   {
+      fXSecOnTarget = (G4HadronCrossSections::Instance())->GetInelasticCrossSection( &dParticle, Z, A );
+   }
 
    return;
 

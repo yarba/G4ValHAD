@@ -15,7 +15,7 @@ NOTE: more info on denied access/key is here:
 https://help.github.com/articles/error-permission-denied-publickey/
 
 If one wants read-only access (no commit of changes), one can do:
-git clone https://github.com/>USER>/<PACKAGE>
+git clone https://github.com/USER/PACKAGE
 
 
 

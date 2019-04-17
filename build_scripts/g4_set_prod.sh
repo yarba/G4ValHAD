@@ -17,6 +17,8 @@ export JSONCPP_DIR=${LCG_EXT_TOOLS}/jsoncpp/1.7.2/x86_64-slc6-gcc49-opt
 export CURL_DIR=${LCG_EXT_TOOLS}/curl/7.48.0/x86_64-slc6-gcc49-opt
 export LD_LIBRARY_PATH=${JSONCPP_DIR}/lib:${CURL_DIR}/lib:${LD_LIBRARY_PATH}
 
+export G4LENDDATA=/home/g4p/pbs/download/g4data/LEND.1.3/v1.3
+
 # access to g4svn
 #
 export PATH=/home/g4p/bin:${PATH} 

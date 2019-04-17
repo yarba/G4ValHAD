@@ -5,7 +5,10 @@ source /g4/g4p/pbs/g4-had-validation/externals/setup
 setup root v6_10_04d -q e14:prof
 setup xerces_c v3_1_4a -q e14:prof
 setup cmake v3_9_2
-# setup numpy v1_11_0 -q e10:prof
+setup numpy v1_12_1 -q e14:p2713d:prof
+
+# also setup more modern version of Git than the system one
+setup git v2_13_3
 
 # fragment from CERN/lcg/gcc4.9's setup.sh
 # otherwise lcgcmake machinery picks up the default version

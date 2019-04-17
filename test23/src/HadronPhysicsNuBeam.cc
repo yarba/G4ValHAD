@@ -24,7 +24,6 @@
 // ********************************************************************
 //
 //
-// $Id$
 //
 //---------------------------------------------------------------------------
 //
@@ -136,7 +135,7 @@ void HadronPhysicsNuBeam::CreateModels()
   // this is the new "custom" proton builder, tentatively for NuBeam
   //
   // no need to set the min energy because it's set in the ProBuilder (at 100GeV)
-  // ... and theMax will be set 100TeV via Build()
+  // ... and theMax will be set via Build()
   //
   theQGSPPro = new QGSPStrFragmLundProtonBuilder( true ); 
   thePro->RegisterMe(theQGSPPro);

@@ -21,7 +21,6 @@
 // ********************************************************************
 //
 //
-// $Id$
 -------------------------------------------------------------------
 
      =========================================================
@@ -37,6 +36,26 @@ track of all tags.
      ----------------------------------------------------------
      * Reverse chronological order (last date on top), please *
      ----------------------------------------------------------
+
+Feb 7 2019 Julia Yarba (test23-V10-05-03)
+- Add batch scripts for different processin scenarios/quueue in SLURM
+  NOTE: no change to the code itself
+
+Feb 7 2019 Julia Yarba (test23-V10-05-02)
+- Minor clean-ups
+
+Feb 6 2019 Julia Yarba (test23-V10-05-01)
+- Restore updates (exp.datasets, etc.) that were lost in transition
+  from SVN to GitLab (apparently only the latest tagged revision was
+  taken into account but not the trunk revision)
+- Preserve fixes implemented by Alberto R. at the end of Dec.2018
+
+20 Dec 2018 Alberto Ribon (test23-V10-05-00)
+- Tst23Histo , TstHisto : fixed g++ 8.2 warnings.
+
+9 Aug 2018 Alberto Ribon (test23-V10-04-00)
+- QGSPWrapper, QGSPStrFragmLundProtonBuilder : replaced the explicit
+  high-energy limit of hadronic physics with the one from G4HadronicParameters
 
 28 Nov 2017 Ben Morgan (test23-V10-03-03)
 - Replace ROOT_INCLUDE_DIR with ROOT_INCLUDE_DIRS
