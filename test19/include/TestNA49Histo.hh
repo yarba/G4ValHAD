@@ -63,7 +63,13 @@ private:
    std::vector<TH1D*> fHistoSecProton;
    std::vector<TH1D*> fHistoPTProton;
     
+   int      fNPbarBinsXF;
+   double*  fPbarBinsXF;
+   int*     fNPbarBinsPT;
+   double** fPbarBinsPT;
+   
    std::vector<TH1D*> fHistoSecAntiProton;
+   std::vector<TH1D*> fHistoPTAntiProton;
 
    int                fNPiBinsXF;
    double*            fPiBinsXF;

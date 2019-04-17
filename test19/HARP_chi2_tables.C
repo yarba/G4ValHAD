@@ -369,7 +369,7 @@ void HARP_chi2_table_regre( std::string beam, std::string target, /* std::string
    out_table << "     ";
    for ( int iv=0; iv<NVersions; ++iv )
    {
-      out_table << std::setw(12) << LA_12GeV_piplus[iv].first/LA_12GeV_piplus[iv].second;  
+      out_table << std::setw(12) << LA_12GeV_piminus[iv].first/LA_12GeV_piminus[iv].second;  
    }
    out_table << "\n     Total";
    for ( int iv=0; iv<NVersions; ++iv )

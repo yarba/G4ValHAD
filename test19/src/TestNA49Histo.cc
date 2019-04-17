@@ -149,6 +149,107 @@ TestNA49Histo::TestNA49Histo( G4String htitle )
   fHistoSecAntiProton.push_back( new TProfile( "antiproton_pT",   title.c_str(), npbarbins, pbarbins, 0., 10. ) );	
   fHistoSecAntiProton.push_back( new TProfile( "antiproton_pT2",  title.c_str(), npbarbins, pbarbins, 0., 10. ) );	
   
+   fNPbarBinsXF = 13; 
+   fPbarBinsXF = new double[fNPbarBinsXF+1]; 
+   fPbarBinsXF[0] = -0.225;
+   fPbarBinsXF[1] = -0.175;
+   fPbarBinsXF[2] = -0.125;
+   fPbarBinsXF[3] = -0.0875;
+   fPbarBinsXF[4] = -0.0625;
+   fPbarBinsXF[5] = -0.0375;
+   fPbarBinsXF[6] = -0.0125;
+   fPbarBinsXF[7] =  0.0125;
+   fPbarBinsXF[8] =  0.0375;
+   fPbarBinsXF[9] =  0.075;
+   fPbarBinsXF[10]=  0.125;
+   fPbarBinsXF[11]=  0.175;
+   fPbarBinsXF[12]=  0.25;
+   fPbarBinsXF[13]=  0.35;
+
+   std::vector<std::string> PbarXFLabel;
+   PbarXFLabel.push_back("-0.200");
+   PbarXFLabel.push_back("-0.150");
+   PbarXFLabel.push_back("-0.100");
+   PbarXFLabel.push_back("-0.075");
+   PbarXFLabel.push_back("-0.050");
+   PbarXFLabel.push_back("-0.025");
+   PbarXFLabel.push_back("0.000");
+   PbarXFLabel.push_back("0.025");
+   PbarXFLabel.push_back("0.050");
+   PbarXFLabel.push_back("0.100");
+   PbarXFLabel.push_back("0.150");
+   PbarXFLabel.push_back("0.200");
+   PbarXFLabel.push_back("0.300");
+   
+   fNPbarBinsPT = new int[fNPbarBinsXF];
+   fNPbarBinsPT[0] = 9; // -0.2
+   fNPbarBinsPT[1] = 10; // -0.15
+   fNPbarBinsPT[2] = 10; // -0.1
+   fNPbarBinsPT[3] = 8; // -0.075
+   fNPbarBinsPT[4] = 10; // -0.05
+   fNPbarBinsPT[5] = 8; // -0.025
+   fNPbarBinsPT[6] = 11; // 0.
+   fNPbarBinsPT[7] = 8; // 0.025
+   fNPbarBinsPT[8] = 10; // 0.05
+   fNPbarBinsPT[9] = 11; // 0.1
+   fNPbarBinsPT[10] = 9; // 0.15
+   fNPbarBinsPT[11] = 11; // 0.2
+   fNPbarBinsPT[12] = 6; // 0.3
+   
+   fPbarBinsPT = new double*[fNPbarBinsXF];
+   for ( int i=0; i<fNPbarBinsXF; ++i )
+   {
+      fPbarBinsPT[i] = new double[fNPbarBinsPT[i]+1];
+      if ( i == 12 )
+      {
+         fPbarBinsPT[i][0] = 0.0;
+	 fPbarBinsPT[i][1] = 0.2;
+	 fPbarBinsPT[i][2] = 0.4;
+	 fPbarBinsPT[i][3] = 0.6;
+	 fPbarBinsPT[i][4] = 0.8;
+	 fPbarBinsPT[i][5] = 1.0;
+	 fPbarBinsPT[i][6] = 1.2;
+	 continue;
+      }
+      else
+      {
+         fPbarBinsPT[i][0] = 0.05;
+         fPbarBinsPT[i][1] = 0.15;
+         fPbarBinsPT[i][2] = 0.25;
+         fPbarBinsPT[i][3] = 0.35;
+         fPbarBinsPT[i][4] = 0.45;
+	 fPbarBinsPT[i][5] = 0.55;
+	 fPbarBinsPT[i][6] = 0.65;
+	 fPbarBinsPT[i][7] = 0.75;
+	 fPbarBinsPT[i][8] = 1.0;
+      }
+      if ( i == 0 ) // override
+      {
+	 fPbarBinsPT[i][6] = 0.8;
+	 fPbarBinsPT[i][7] = 1.0;
+	 fPbarBinsPT[i][8] = 1.2;
+	 fPbarBinsPT[i][9] = 1.4; 
+      }
+      else
+      {
+         for ( int j=8; j<fNPbarBinsPT[i]; ++j )
+	 {
+	    fPbarBinsPT[i][j+1] = fPbarBinsPT[i][j] + 0.2;
+	 }     
+      }
+   }
+   
+   for ( int nb=0; nb<fNPbarBinsXF; ++nb ) 
+   {
+     std::ostringstream osBin;
+     osBin << nb;
+     std::string subtitle = ", xF = " + PbarXFLabel[nb];
+     hname = "pTpbar" + osBin.str();
+     fHistoPTAntiProton.push_back( new TH1D( hname.c_str(), (title+subtitle).c_str(), fNPbarBinsPT[nb], fPbarBinsPT[nb] ) );     
+   }
+
+   // pions
+
   fNPiBinsXF = 30;
   fPiBinsXF = new double[fNPiBinsXF];  
   fPiBinsXF[0] = -0.550;
@@ -321,6 +422,19 @@ TestNA49Histo::~TestNA49Histo()
    delete [] fPBinsXF;
    delete [] fPBinsPT;
    
+   for ( size_t i=0; i<fHistoPTAntiProton.size(); ++i )
+   {
+      delete fHistoPTAntiProton[i];
+   }
+   
+   for ( int i=0; i<fNPbarBinsXF; ++i )
+   {
+      delete [] fPbarBinsPT[i];
+   }
+   
+   delete [] fPbarBinsPT;
+   delete [] fPbarBinsXF;
+   
    for ( size_t i=0; i<fHistoPTPiMinus.size(); ++i )
    {
       delete fHistoPTPiMinus[i];
@@ -478,6 +592,18 @@ void TestNA49Histo::FillEvt( G4VParticleChange* aChange, const G4LorentzVector&,
 	   fHistoSecAntiProton[1]->Fill( xF );
 	   fHistoSecAntiProton[2]->Fill( xF, pT );
 	   fHistoSecAntiProton[3]->Fill( xF, pT2 );
+	   int nb = -1;
+	   for ( int ib=0; ib<fNPbarBinsXF; ++ib )
+	   {
+	      if ( xF > fPbarBinsXF[ib] && xF <= fPbarBinsXF[ib+1] )
+	      {
+	         nb = ib;
+		 break;
+	      }
+	   }
+	   if ( nb == -1 ) continue;
+	   double wei = CalculateBinWeight( labp, pname, ekin, mass, pT, nb, SQRT_S );
+	   fHistoPTAntiProton[nb]->Fill( pT, wei );
 	}	
    }
       
@@ -507,6 +633,12 @@ void TestNA49Histo::Write( G4int stat, G4double )
    {
       if ( i < 2 ) fHistoSecAntiProton[i]->Scale(1./((double)stat),"width");
       fHistoSecAntiProton[i]->Write();
+   }
+   for ( size_t i=0; i<fHistoPTAntiProton.size(); ++i )
+   {
+      fHistoPTAntiProton[i]->Scale( 1./((double)stat) ); // Note: NO scaling with "width" because it had to be E/dP3
+                                                         //       which is already taken into account as a weight
+      fHistoPTAntiProton[i]->Write();
    }
 
    for ( size_t i=0; i<fHistoSecPiMinus.size(); ++i )
@@ -573,6 +705,17 @@ double TestNA49Histo::CalculateBinWeight( const G4LorentzVector& labp, const G4S
          }
       }      
    }
+   else if ( pname == "anti_proton" )
+   {
+      for ( int ib=0; ib<fNPbarBinsPT[xFbin]; ++ib )
+      {
+         if ( pT >= fPbarBinsPT[xFbin][ib] && pT < fPbarBinsPT[xFbin][ib+1] )
+	 {
+	    pTbin = ib;
+	    break;
+	 }
+      }
+   }
    
    if ( pTbin == -1 ) return wei;
 
@@ -595,6 +738,12 @@ double TestNA49Histo::CalculateBinWeight( const G4LorentzVector& labp, const G4S
       dpT2 = fPBinsPT[pTbin+1]*fPBinsPT[pTbin+1] - fPBinsPT[pTbin]*fPBinsPT[pTbin];
       pLmin = fPBinsXF[xFbin]*sqrt_s/2.;
       pLmax = fPBinsXF[xFbin+1]*sqrt_s/2.;
+   }
+   else if ( pname == "anti_proton" )
+   {
+      dpT2 = fPbarBinsPT[xFbin][pTbin+1]*fPbarBinsPT[xFbin][pTbin+1] - fPbarBinsPT[xFbin][pTbin]*fPbarBinsPT[xFbin][pTbin];
+      pLmin = fPbarBinsXF[xFbin]*sqrt_s/2.;
+      pLmax = fPbarBinsXF[xFbin+1]*sqrt_s/2.;
    }
 
    double EPCM1 = sqrt( (pLmin*pLmin+pT*pT) + mass*mass );

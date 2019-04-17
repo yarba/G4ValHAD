@@ -96,7 +96,13 @@ int main(int argc, char** argv)
       for (G4int iter=0; iter<NEvts; ++iter) 
       {
 
-         // CLHEP::HepRandom::showEngineStatus(); 
+
+/*         if ( iter%10000 == 0 )
+	 {
+	    G4cout << " event # " << iter << G4endl;
+	 }
+*/	 
+	 // CLHEP::HepRandom::showEngineStatus(); 
 
          aChange = exec->DoEvent();
 
