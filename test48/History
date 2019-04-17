@@ -1,4 +1,3 @@
-$Id: $
 -------------------------------------------------------------------
 
      =========================================================
@@ -14,6 +13,13 @@ track of all tags.
      ----------------------------------------------------------
      * Reverse chronological order (last date on top), please *
      ----------------------------------------------------------
+
+28 Feb 2019 Julia Yarba (test48-V10-05-01)
+- Synch with what used to be in SVN/trunk
+- Preserve updates by Alberto R. from Dec.2018
+
+20 December 2018 Alberto Ribon (test48-V10-05-00)
+- TestStoppingHisto : fixed g++ 8.2 warnings.
 
 28 November 2017 Ben Morgan (test48-V10-03-00)
 - Replace ROOT_INCLUDE_DIR with ROOT_INCLUDE_DIRS

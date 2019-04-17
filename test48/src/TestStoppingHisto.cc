@@ -938,10 +938,7 @@ void TestStoppingHisto::Write( int stat )
    std::string fname = ptag + fTarget + fModel;
    if ( fJobID > -1 )
    {
-      char buf[5];
-      sprintf( buf, "%i", fJobID );
-      fname += "-";
-      fname.append( buf ); 
+      fname += "-" + std::to_string( fJobID );
    }  
    fname += ".root";
 

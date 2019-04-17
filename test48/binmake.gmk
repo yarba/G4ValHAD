@@ -1,4 +1,3 @@
-# $Id: binmake.gmk 94022 2015-11-05 11:26:25Z ribon $
 # ----------------------------------------------------------
 # Script defining rules and paths for making binaries.
 #    First implementation: Gabriele Cosmo, 25/06/1998.
