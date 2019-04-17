@@ -14,7 +14,7 @@
     "parvalues": ["45"], 
     "imageblobslnk": 0,
     "scoreskw": "passed",
-    "accesskw": "public"
+    "accesskw": "ACCESS"
   },
   "p90deg" : {
     "mctoolkw": "Geant4",
@@ -30,7 +30,7 @@
     "parvalues": ["90"], 
     "imageblobslnk": 0,
     "scoreskw": "passed",
-    "accesskw": "public"
+    "accesskw": "ACCESS"
   },
   "p135deg" : {
     "mctoolkw": "Geant4",
@@ -46,7 +46,7 @@
     "parvalues": ["135"], 
     "imageblobslnk": 0,
     "scoreskw": "passed",
-    "accesskw": "public"
+    "accesskw": "ACCESS"
   },
   "p150deg" : {
     "mctoolkw": "Geant4",
@@ -62,7 +62,7 @@
     "parvalues": ["150"], 
     "imageblobslnk": 0,
     "scoreskw": "passed",
-    "accesskw": "public"
+    "accesskw": "ACCESS"
   }
 
 }

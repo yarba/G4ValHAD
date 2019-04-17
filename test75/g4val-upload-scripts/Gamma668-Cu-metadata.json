@@ -13,7 +13,7 @@
     "parnames": ["theta [deg] of secondary particle"], 
     "parvalues": ["28.4"], 
     "scoreskw": "passed",
-    "accesskw": "public"
+    "accesskw": "ACCESS"
   },
   "pim44deg" : {
     "mctoolkw": "Geant4",
@@ -28,7 +28,7 @@
     "parnames": ["theta [deg] of secondary particle"], 
     "parvalues": ["44.2"], 
     "scoreskw": "passed",
-    "accesskw": "public"
+    "accesskw": "ACCESS"
   },
   "pip28deg" : {
     "mctoolkw": "Geant4",
@@ -43,7 +43,7 @@
     "parnames": ["theta [deg] of secondary particle"], 
     "parvalues": ["28.4"], 
     "scoreskw": "passed",
-    "accesskw": "public"
+    "accesskw": "ACCESS"
   },
   "pip44deg" : {
     "mctoolkw": "Geant4",
@@ -58,7 +58,7 @@
     "parnames": ["theta [deg] of secondary particle"], 
     "parvalues": ["44.2"], 
     "scoreskw": "passed",
-    "accesskw": "public"
+    "accesskw": "ACCESS"
   }
 
 }

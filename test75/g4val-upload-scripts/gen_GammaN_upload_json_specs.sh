@@ -13,6 +13,11 @@ model=Bertini
 gdir=/g4/g4p/pbs/g4-had-validation/regression-test-files
 g4version=${1}
 g4tag=${2}
+access=${3}
+if [ "x" == "x${access}" ]; then
+   echo "ACCESS is not specified; setting it to \"public\""
+   access=public
+fi
 
 if [ "x" == "x${g4version}" ]; then
    echo "please, provide geant4 version - it is mandatory"
@@ -34,7 +39,7 @@ if [ -e Gamma668-Pb-metadata-${model}.json ]; then
 /bin/rm Gamma668-Pb-metadata-${model}.json
 fi
 
-sed "s/VTAG/$g4tag/" Gamma300-Cu-metadata.json > Gamma300-Cu-metadata-${model}.json
+sed "s/VTAG/$g4tag/; s/ACCESS/$access/" Gamma300-Cu-metadata.json > Gamma300-Cu-metadata-${model}.json
 
 python ../../uploader/DoSSiERconverter.py -c convert -o Gamma300-Cu-${model}.json \
 	--metadatafile Gamma300-Cu-metadata-${model}.json \
@@ -47,7 +52,7 @@ python ../../uploader/DoSSiERconverter.py -c convert -o Gamma300-Cu-${model}.jso
 
 /bin/rm Gamma300-Cu-metadata-${model}.json
 
-sed "s/VTAG/$g4tag/" Gamma668-Cu-metadata.json > Gamma668-Cu-metadata-${model}.json
+sed "s/VTAG/$g4tag/; s/ACCESS/$access/" Gamma668-Cu-metadata.json > Gamma668-Cu-metadata-${model}.json
 
 python ../../uploader/DoSSiERconverter.py -c convert -o Gamma668-Cu-${model}.json \
 	--metadatafile Gamma668-Cu-metadata-${model}.json \
@@ -60,7 +65,7 @@ python ../../uploader/DoSSiERconverter.py -c convert -o Gamma668-Cu-${model}.jso
 
 /bin/rm Gamma668-Cu-metadata-${model}.json
 
-sed "s/VTAG/$g4tag/" Gamma668-Pb-metadata.json > Gamma668-Pb-metadata-${model}.json
+sed "s/VTAG/$g4tag/; s/ACCESS/$access/" Gamma668-Pb-metadata.json > Gamma668-Pb-metadata-${model}.json
 
 python ../../uploader/DoSSiERconverter.py -c convert -o Gamma668-Pb-${model}.json \
 	--metadatafile Gamma668-Pb-metadata-${model}.json \

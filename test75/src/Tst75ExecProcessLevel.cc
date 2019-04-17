@@ -55,8 +55,10 @@ Tst75ExecProcessLevel::Tst75ExecProcessLevel( const TstReader* pset )
    
    G4ParticleDefinition* partDef = ( G4ParticleTable::GetParticleTable())->FindParticle(pset->GetBeamParticle() );
    G4DynamicParticle dParticle( partDef, pset->GetDirection(), GetBeam()->GetBeamEnergy() );
-   fXSecOnTarget = fProcWrapper->GetElementCrossSection( &dParticle, GetTarget()->GetCurrentMaterial()->GetElement(0) );
-
+   fXSecOnTarget = fProcWrapper->GetElementCrossSection( &dParticle, 
+                                                         GetTarget()->GetCurrentMaterial()->GetElement(0),
+							 GetTarget()->GetCurrentMaterial() );
+   
 }
 
 void Tst75ExecProcessLevel::InitProcess( const TstReader* pset )

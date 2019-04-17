@@ -1,13 +1,19 @@
-# $Id$
 # --------------------------------------------------------------
 # GNUmakefile for Bertini test executables
 # --------------------------------------------------------------
 
 name := test75
 G4TARGET := $(name)
+G4EXLIB := true
 
-#include $(G4INSTALL)/config/binmake.gmk
-include ../test48/binmake.gmk
+ifndef G4INSTALL
+  G4INSTALL = ../..
+endif
+
+include $(G4INSTALL)/config/architecture.gmk
+
+include $(G4INSTALL)/config/binmake.gmk
+#include ../test48/binmake.gmk
 
 # Root (exlude libNew and libpthread from library list)
 ROOTINC  := -I$(ROOTSYS)/include

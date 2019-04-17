@@ -434,12 +434,12 @@ void PlotGamma668PbRegre()
    gStyle->SetOptStat(0);
 
    std::string txt = "Bertini vs Data (K. Baba et al., Nucl. Phys. A322, 349 (1979))";
-   TLatex* ltxt = new TLatex( 0.01, 0.8, txt.c_str() );
-   ltxt->SetTextSize(0.25);
+   TLatex* ltxt = new TLatex( 0.01, 0.85, txt.c_str() );
+   ltxt->SetTextSize(0.2);
 
-   TCanvas* myc = new TCanvas( "myc", "", 800, 400 );   
-   TPad* pad1 = new TPad("pad1","", 0.01, 0.14, 0.49, 0.99);
-   TPad* pad2 = new TPad("pad2","", 0.51, 0.14, 0.99, 0.99);
+   TCanvas* myc = new TCanvas( "myc", "", 800, 450 );   
+   TPad* pad1 = new TPad("pad1","", 0.01, 0.17, 0.49, 0.99);
+   TPad* pad2 = new TPad("pad2","", 0.51, 0.17, 0.99, 0.99);
 // calcChi2GammaNuclear( "668", "Cu", "pi-",  "44", NDF, Versions[m] );
    // myc->Divide(2,1);
    
@@ -450,7 +450,7 @@ void PlotGamma668PbRegre()
    gPad->SetLogy();
    PlotGammaNRegression( "668", "Pb", "pi-", "44" );
 
-   TPad* pad3 = new TPad("pad3","", 0.01, 0.01, 0.49, 0.13 );
+   TPad* pad3 = new TPad("pad3","", 0.01, 0.01, 0.49, 0.17 );
    myc->cd();
    pad3->Draw();
    pad3->cd();
@@ -465,8 +465,8 @@ void PlotGamma668PbRegre()
       std::string txt1 = "#chi^{2}/NDF = ";
       txt1 += os.str();
       txt1 += ( " for " + Versions[m] );
-      TLatex* ltxt1 = new TLatex(0.1, 0.55-m*0.25, txt1.c_str() );
-      ltxt1->SetTextSize(0.25);
+      TLatex* ltxt1 = new TLatex(0.1, 0.65-m*0.2, txt1.c_str() );
+      ltxt1->SetTextSize(0.2);
       ltxt1->Draw();
    }
 
@@ -477,7 +477,7 @@ void PlotGamma668PbRegre()
    gPad->SetLogy();
    PlotGammaNRegression( "668", "Pb", "pi+", "44" );   
 
-   TPad* pad4 = new TPad("pad4","", 0.51, 0.01, 0.99, 0.13 );
+   TPad* pad4 = new TPad("pad4","", 0.51, 0.01, 0.99, 0.17 );
    myc->cd();
    pad4->Draw();
    pad4->cd();
@@ -492,8 +492,8 @@ void PlotGamma668PbRegre()
       std::string txt1 = "#chi^{2}/NDF = ";
       txt1 += os.str();
       txt1 += ( " for " + Versions[m] );
-      TLatex* ltxt1 = new TLatex(0.1, 0.55-m*0.25, txt1.c_str() );
-      ltxt1->SetTextSize(0.25);
+      TLatex* ltxt1 = new TLatex(0.1, 0.65-m*0.2, txt1.c_str() );
+      ltxt1->SetTextSize(0.2);
       ltxt1->Draw();
    }
 
@@ -580,13 +580,14 @@ void PlotGammaNRegression( std::string energy, std::string target, std::string s
       }
       else if ( secondary == "pi-" || secondary == "pi+" )
       {
-         histo1->GetYaxis()->SetTitle("d^{2}#sigma / dp d#Omega  [#mub MeV^{-1} sr^{-1}]");   
+         histo1->GetYaxis()->SetTitle("d^{2}#sigma / dp d#Omega  [#mub MeV^{-1} sr^{-1}]"); 
+	 histo1->GetYaxis()->SetRangeUser(0.001, 10. );  
       }
       histo1->GetYaxis()->SetTitleOffset(0.9);
       histo1->GetYaxis()->SetTitleSize(0.05);
       if ( iv == 0 )
       {
-         histo1->Draw();
+	 histo1->Draw();
       }
       else
       {
