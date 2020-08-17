@@ -71,9 +71,6 @@
 
 #include "G4ParticleTable.hh"
 
-// #include "G4Timer.hh"
-#include "TStopwatch.h"
-
 //
 // G4 HAD model(s) parameters variation
 //
@@ -327,7 +324,7 @@ int main(int argc, char** argv)
       
       stepping->SetTargetPtr( geom->GetTarget() );
             
-      TStopwatch timer;
+      G4Timer timer;
       timer.Start();
       
       for (G4int iter=0; iter<theConfigReader->GetNEvents(); ++iter) 
@@ -343,8 +340,8 @@ int main(int argc, char** argv)
       }
       
       timer.Stop();
-      G4cout << " CPU = " << timer.CpuTime() << G4endl;
-      G4cout << " Real Time = " << timer.RealTime() << G4endl;      
+      G4cout << " CPU = " << timer.GetUserElapsed() << G4endl;
+      G4cout << " Real Time = " << timer.GetRealElapsed() << G4endl;      
       
       histo->Write( theConfigReader->GetNEvents(), (beam->GetXSecOnTarget()/millibarn) );
       

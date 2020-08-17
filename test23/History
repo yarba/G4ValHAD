@@ -1,26 +1,3 @@
-//
-// ********************************************************************
-// * DISCLAIMER                                                       *
-// *                                                                  *
-// * The following disclaimer summarizes all the specific disclaimers *
-// * of contributors to this software. The specific disclaimers,which *
-// * govern, are listed with their locations in:                      *
-// *   http://cern.ch/geant4/license                                  *
-// *                                                                  *
-// * Neither the authors of this software system, nor their employing *
-// * institutes,nor the agencies providing financial support for this *
-// * work  make  any representation or  warranty, express or implied, *
-// * regarding  this  software system or assume any liability for its *
-// * use.                                                             *
-// *                                                                  *
-// * This  code  implementation is the  intellectual property  of the *
-// * GEANT4 collaboration.                                            *
-// * By copying,  distributing  or modifying the Program (or any work *
-// * based  on  the Program)  you indicate  your  acceptance of  this *
-// * statement, and all its terms.                                    *
-// ********************************************************************
-//
-//
 -------------------------------------------------------------------
 
      =========================================================
@@ -36,6 +13,20 @@ track of all tags.
      ----------------------------------------------------------
      * Reverse chronological order (last date on top), please *
      ----------------------------------------------------------
+
+May 07 2020 Alberto Ribon (test23-V10-06-01)
+- HadronPhysicsNuBeam : introduced the new class G4HyperonBuilder
+  which is now needed when using G4HyperonFTFPBuilder.
+
+Apr 04 2020 Vladimir Ivanchenko (test23-V10-06-00)
+- fixed initialisation of particles; use default random engine
+
+Aug 20 2019 Gabriele Cosmo (test23-V10-05-05)
+- Get rid of shadowing warnings from ROOT, detected on clang-8.
+
+Aug 2 2019 Gunter Folger (test23-V10-05-04)
+- Remove use of G4DataQuestionaire, following cleanup in
+  physicslists, see phys-lists-V10-05-02 and phys-util-V10-04-02   
 
 Feb 7 2019 Julia Yarba (test23-V10-05-03)
 - Add batch scripts for different processin scenarios/quueue in SLURM

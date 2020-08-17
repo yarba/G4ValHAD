@@ -38,6 +38,10 @@
 #include "G4IonConstructor.hh"
 #include "G4LeptonConstructor.hh"
 #include "G4BosonConstructor.hh"
+//
+// essential since 10.6.r03 due to some "cleanups"
+//
+#include "G4ShortLivedConstructor.hh"
 
 #include "G4ProcessManager.hh"
 
@@ -52,29 +56,32 @@
 
 ExecBase::~ExecBase()
 {
-   
+
+/* original code that would be needed if rndm engine is created explicitly (via new) 
    if ( fRndmEngine ) delete fRndmEngine;
    fRndmEngine=0; 
+*/
 
 }
 
 void ExecBase::Init( const TstReader* config )
 {
    
-   // Choose the Random engine
+   // Choose the Random engine 
    //
+  fRndmEngine = G4Random::getTheEngine();
+
+/* original code that is kept here as an example/option
    fRndmEngine = new CLHEP::RanecuEngine;
    // -> fRndmEngine = new CLHEP::HepJamesRandom; // default engine in CLHEP 2.3.x series  
-//   CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine);
    CLHEP::HepRandom::setTheEngine( fRndmEngine );
-//   G4Random::setTheEngine( fRndmEngine );   
-
+// --> something old ? -->   G4Random::setTheEngine( fRndmEngine );   
+*/
 
    // technically speaking, one should ensure that the seed is in the correct range:
    // long seed = onfig->GetRndmSeed() % 900000000
    //
    CLHEP::HepRandom::setTheSeed( config->GetRndmSeed() ); // just something... to be on the safe side
-//   G4Random::setTheSeed( config->GetRndmSeed() ); // just something... to be on the safe side
       
    if(!G4StateManager::GetStateManager()->SetNewState(G4State_PreInit))
        G4cout << "G4StateManager PROBLEM! " << G4endl;
@@ -99,6 +106,9 @@ void ExecBase::InitParticles()
    // physics needs to be initialized before the 1st use of particle table,
    // because it constructs particles - otherwise the table is just empty
    //
+   // in principle, this code is similar to the G4DecayPhysics
+   // but it's better to do it explicitly in order to see what it takes
+   //
    G4MesonConstructor pMesonConstructor;
    pMesonConstructor.ConstructParticle();
 
@@ -120,13 +130,17 @@ void ExecBase::InitParticles()
    G4BosonConstructor pBosonConstructor;
    pBosonConstructor.ConstructParticle();
 
+   G4ShortLivedConstructor pShortLivedConstructor;
+   pShortLivedConstructor.ConstructParticle();  
+
    G4ParticleTable* partTable = G4ParticleTable::GetParticleTable();
    partTable->SetReadiness();
 
+   // NOT really needed, at least so far
+   //
    // --> G4IonTable* ionTable = partTable->GetIonTable();
    // --> ionTable->CreateAllIon();
    // --> ionTable->CreateAllIsomer();
 
-   return;
-
+  return;
 }

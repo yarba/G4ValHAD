@@ -40,21 +40,25 @@ void PlotHARPAnalysis( std::string beam, std::string target, std::string energy,
    
    if ( region == "FW" )
    {   
-      myc = new TCanvas( "myc", "", 800, 800 );
+//      myc = new TCanvas( "myc", "", 800, 800 );
+      myc = new TCanvas( "myc", "", 700, 700 );
       // myc->Divide( 2, 2 );   
       pad = new TPad( "pad", "", 0.01, 0.13, 0.99, 0.99 );
       myc->cd();
       pad->Draw();
-      pad->Divide(2.,2.,0.,0.);
+//      pad->Divide(2.,2.,0.,0.);
+      pad->Divide(2.,2.,0.005,0.005);
    }
    else if ( region == "LA" )
    {
-      myc = new TCanvas( "myc", "", 1100, 1100 );
+//      myc = new TCanvas( "myc", "", 1100, 1100 );
+      myc = new TCanvas( "myc", "", 960, 960 );
       // myc->Divide( 3, 3 );
       pad = new TPad( "pad", "", 0.01, 0.13, 0.99, 0.99 );
       myc->cd();
       pad->Draw();
-      pad->Divide(3.,3.,0.,0.);
+//      pad->Divide(3.,3.,0.,0.);
+      pad->Divide(3.,3.,0.005,0.005);
    }
 
    for ( int i=0; i<NSetsHARP; i++ )

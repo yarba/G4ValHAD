@@ -96,7 +96,7 @@ void PlotHARPHisto( std::string beam, std::string target, std::string energy,
 	 hi[m]->GetXaxis()->SetLabelFont(62);
 	 hi[m]->GetXaxis()->CenterTitle();
 	 hi[m]->GetYaxis()->SetTitle("d^{2}#sigma / dpd#Theta [mb/(GeV/c/rad)]");
-	 hi[m]->GetYaxis()->SetTitleOffset(1.0);
+	 hi[m]->GetYaxis()->SetTitleOffset(1.1);
 	 hi[m]->GetYaxis()->SetTitleSize(0.05);
 	 hi[m]->GetYaxis()->SetTitleFont(62);
 	 hi[m]->GetYaxis()->SetLabelFont(62);

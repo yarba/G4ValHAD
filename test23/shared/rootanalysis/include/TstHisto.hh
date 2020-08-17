@@ -47,8 +47,8 @@ public:
    TstHisto( const TstReader* pset );
    virtual ~TstHisto();
       
-   void FillEvt( G4VParticleChange* pc, const G4LorentzVector& labv, const G4LorentzVector& labp )
-      { fHistoSet->FillEvt( pc, labv, labp ); return; }
+   void FillEvt( G4VParticleChange* pchg, const G4LorentzVector& labv, const G4LorentzVector& labp )
+      { fHistoSet->FillEvt( pchg, labv, labp ); return; }
 
    void Write( G4int stat=1, G4double scale=1. );
    void SetJobID( G4int id ) { fJobID=id; return; }

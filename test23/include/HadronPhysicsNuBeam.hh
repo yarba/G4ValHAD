@@ -57,6 +57,7 @@
 #include "G4FTFPNeutronBuilder.hh"
 // #include "G4LEPNeutronBuilder.hh"
 
+#include "G4HyperonBuilder.hh"
 #include "G4HyperonFTFPBuilder.hh"
 #include "G4AntiBarionBuilder.hh"
 #include "G4FTFPAntiBarionBuilder.hh"
@@ -90,7 +91,8 @@ class HadronPhysicsNuBeam : public G4VPhysicsConstructor
     // specific to NuBeam  
     QGSPStrFragmLundProtonBuilder * theQGSPPro;
     
-    G4HyperonFTFPBuilder * theHyperon;
+    G4HyperonBuilder * theHyperon;
+    G4HyperonFTFPBuilder * theFTFPHyperon;
     
     G4AntiBarionBuilder * theAntiBaryon;
     G4FTFPAntiBarionBuilder * theFTFPAntiBaryon;

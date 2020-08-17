@@ -55,7 +55,6 @@
 #include "G4HadronElasticPhysics.hh"
 #include "G4NeutronTrackingCut.hh"
 
-#include "G4DataQuestionaire.hh"
 
 #if (USE_G4REF>0 && USE_G4REF<4100007) || (USE_G4PUBLIC>0 && USE_G4PUBLIC<41001)
 //
@@ -72,8 +71,6 @@
 
 template<class T> TNuBeam<T>::TNuBeam(G4int ver):  T()
 {
-
-  G4DataQuestionaire it(photon);
 
   G4cout << "<<< Geant4 Physics List simulation engine: NuBeam v0.0" << G4endl;
   G4cout <<G4endl;

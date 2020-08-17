@@ -80,6 +80,7 @@ HadronPhysicsNuBeam::HadronPhysicsNuBeam(G4int)
     , theFTFPPro(0)
     , theQGSPPro(0)
     , theHyperon(0)
+    , theFTFPHyperon(0)
     , theAntiBaryon(0)
     , theFTFPAntiBaryon(0)
     , QuasiElastic(false)
@@ -103,6 +104,7 @@ HadronPhysicsNuBeam::HadronPhysicsNuBeam(const G4String& name, G4bool quasiElast
     , theFTFPPro(0)
     , theQGSPPro(0)
     , theHyperon(0)
+    , theFTFPHyperon(0)
     , theAntiBaryon(0)
     , theFTFPAntiBaryon(0)
     , QuasiElastic(quasiElastic)
@@ -164,7 +166,8 @@ void HadronPhysicsNuBeam::CreateModels()
   
   // this is "standard" and is the same as in FTFP_BERT
   //  
-  theHyperon=new G4HyperonFTFPBuilder;    
+  theHyperon=new G4HyperonBuilder;    
+  theHyperon->RegisterMe(theFTFPHyperon=new G4HyperonFTFPBuilder(QuasiElastic));    
   theAntiBaryon=new G4AntiBarionBuilder;
   theAntiBaryon->RegisterMe(theFTFPAntiBaryon=new  G4FTFPAntiBarionBuilder(QuasiElastic));
 
@@ -187,6 +190,7 @@ HadronPhysicsNuBeam::~HadronPhysicsNuBeam()
   delete theQGSPPro;   
     
   delete theHyperon;
+  delete theFTFPHyperon;
   delete theAntiBaryon;
   delete theFTFPAntiBaryon;
   delete xsNeutronCaptureXS;
@@ -246,4 +250,3 @@ void HadronPhysicsNuBeam::ConstructProcess()
   capture->RegisterMe(new G4NeutronRadCapture());
 
 }
-

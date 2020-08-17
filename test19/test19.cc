@@ -44,8 +44,6 @@
 
 #include "G4SystemOfUnits.hh"
 
-#include "TStopwatch.h"
-
 using namespace std;
 
 int main(int argc, char** argv) 
@@ -90,7 +88,7 @@ int main(int argc, char** argv)
 //      CLHEP::HepRandom::showEngineStatus(); 
       
       
-      TStopwatch timer;
+      G4Timer timer;
       timer.Start();
       
       for (G4int iter=0; iter<NEvts; ++iter) 
@@ -126,8 +124,8 @@ int main(int argc, char** argv)
       } // end loop over events
       
       timer.Stop();
-      G4cout << " CPU = " << timer.CpuTime() << G4endl;
-      G4cout << " Real Time = " << timer.RealTime() << G4endl;
+      G4cout << " CPU = " << timer.GetUserElapsed() << G4endl;
+      G4cout << " Real Time = " << timer.GetRealElapsed() << G4endl;
       
       histo->Write( theConfigReader->GetNEvents(), exec->GetXSecOnTarget()/millibarn );
       
