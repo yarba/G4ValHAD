@@ -58,6 +58,8 @@
 #include "G4GenericIon.hh"
 #include "G4ForceCondition.hh"
 
+#include "G4HadronicProcessStore.hh"
+
 #include "G4Box.hh"
 #include "G4PVPlacement.hh"
 #include "G4Step.hh"
@@ -274,6 +276,7 @@ int main(int argc, char** argv) {
 
     if(!end) break;
 
+        
     G4cout << "###### Start new run # " << run << "     #####" << G4endl;
 
     osMat.clear();
@@ -283,12 +286,57 @@ int main(int argc, char** argv) {
 
     G4cout << "###### Material: " << nameMat << " derived from " << nameMatRaw << G4endl;
 
-    material = G4NistManager::Instance()->FindOrBuildMaterial(nameMat);
+    material = G4NistManager::Instance()->FindOrBuildMaterial(nameMat,true);
 
     if (!material) {
-      G4cout << "Material <" << nameMat << "> is not found" << G4endl;
-      exit(1);
+      
+      if ( nameMatRaw.find("Deute") != std::string::npos )
+      {
+         G4Isotope* D  = new G4Isotope("Deuteron", 1, 2, 2.0141018* CLHEP::g / CLHEP::mole);
+	 G4Element* elD = new G4Element("Deuterium","elD", 1);
+	 elD->AddIsotope(D, 1);
+	 material = new G4Material("D2", 0.00018* CLHEP::g / CLHEP::cm3, 1);
+	 material->AddElement(elD, 1);
+	 if ( !material )
+	 {
+	    G4cout << " Attempt to create " << nameMatRaw << " has failed; bail out" << G4endl;
+	    exit(1);
+	 }
+      }
+      else
+      {
+         G4cout << "Material <" << nameMat << "> is not found" << G4endl;
+         exit(1);
+      }
     }
+
+/*  
+    G4NistManager::Instance()->ListMaterials("all");
+
+    size_t nEl = material->GetNumberOfElements();
+    
+    std::cout << " For material " << material->GetName() << ", number of elements = " << nEl << std::endl;
+
+    const G4Element* elm = material->GetElement(0); 
+    
+    G4int A = (G4int)(elm->GetN()+0.5);
+    G4int Z = (G4int)(elm->GetZ()+0.5);
+        
+    G4int NIso = G4NistManager::Instance()->GetNumberOfNistIsotopes( Z );
+    G4cout << " For materials " << material->GetName() << " Number of NISTIsotopes = " << NIso << G4endl;
+
+    G4cout << "The material:  " << material->GetName() 
+	   << "  Z= " << Z 
+           << "  A of the first element= " << A 
+           << "  A of the last  element= " << material->GetElement(nEl-1)->GetN() << G4endl;
+
+    G4IsotopeVector*  iv = elm->GetIsotopeVector();
+    G4cout << "Number of isotopes " << iv->size() << G4endl;
+    for ( size_t iso=0; iso<iv->size(); ++iso )
+    {
+       std::cout << " iso # " << iso << " " <<  (*iv)[iso]->GetName() << std::endl; 
+    }
+*/
 
     G4ParticleDefinition* part = 
       (G4ParticleTable::GetParticleTable())->FindParticle(namePart);
@@ -304,26 +352,8 @@ int main(int argc, char** argv) {
 
     //    proc->SetVerboseLevel(2);
 
-    size_t nEl = material->GetNumberOfElements();
-
-    const G4Element* elm = material->GetElement(0); 
-
-
-    G4int A = (G4int)(elm->GetN()+0.5);
-    G4int Z = (G4int)(elm->GetZ()+0.5);
-        
-    G4int NIso = G4NistManager::Instance()->GetNumberOfNistIsotopes( Z );
-    G4cout << " For materials " << material->GetName() << " Number of NISTIsotopes = " << NIso << G4endl;
-    
 
     G4cout << "The particle:  " << part->GetParticleName() << G4endl;
-    G4cout << "The material:  " << material->GetName() 
-	   << "  Z= " << Z 
-           << "  A of the first element= " << A 
-           << "  A of the last  element= " << material->GetElement(nEl-1)->GetN() << G4endl;
-
-    G4IsotopeVector*  iv = elm->GetIsotopeVector();
-    G4cout << "Number of isotopes " << iv->size() << G4endl;
 
     G4cout << "The step:      " << theStep/mm << " mm" << G4endl;
     G4cout << "The position:  " << aPosition/mm << " mm" << G4endl;
@@ -344,7 +374,9 @@ int main(int argc, char** argv) {
     // does not work for muons, commented out for now
     //    cross_sec = (G4HadronCrossSections::Instance())->
     //    GetCaptureCrossSection(&dParticle, Z ); // 2nd arg used to be G4Element*, but now it's G4int Z
-    cross_sec /= millibarn;
+    // G4HadronicProcessStore* store = G4HadronicProcessStore::Instance();
+    // cross_sec = store->GetCaptureCrossSectionPerAtom(part,0.,elm,material);
+    // cross_sec /= millibarn;
 
 
 /* move out of the loop over configs

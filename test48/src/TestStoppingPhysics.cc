@@ -59,6 +59,10 @@
 #include "G4LeptonConstructor.hh"
 #include "G4BosonConstructor.hh"
 
+// essential since 10.6.r03 due to some "cleanups"
+//
+#include "G4ShortLivedConstructor.hh"
+
 #include "G4SystemOfUnits.hh"
 
 //
@@ -130,6 +134,14 @@ TestStoppingPhysics::TestStoppingPhysics(G4int verbose):
   G4BosonConstructor pBosonConstructor;
   pBosonConstructor.ConstructParticle();
   
+   G4ShortLivedConstructor pShortLivedConstructor;
+   pShortLivedConstructor.ConstructParticle();  
+
+//   will be done in the main
+//
+//   G4ParticleTable* partTable = G4ParticleTable::GetParticleTable();
+//   partTable->SetReadiness();
+
 #if defined (USE_MUCAPTURE)
   // for the new mu capture
   theMuonMinusCaptureConstructor->ConstructParticle();

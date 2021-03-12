@@ -949,15 +949,15 @@ void TestStoppingHisto::Write( int stat )
    for ( size_t i=0; i<fHisto.size(); ++i )
    {
       double xbin = fHisto[i]->GetBinWidth(1);
-      double scale = 1. / ((double)stat * xbin) ;
-      fHisto[i]->Scale(scale);
+      double scale = 1. / ((double)stat); // * xbin) ;
+      fHisto[i]->Scale(scale,"width");
       fHisto[i]->Write();
    }
    for ( size_t i=0; i<fMuHisto.size(); ++i )
    {
       double xbin = fMuHisto[i]->GetBinWidth(1);
-      double scale = 1. / ((double)stat * xbin) ;
-      fMuHisto[i]->Scale(scale);
+      double scale = 1. / ((double)stat); // * xbin) ;
+      fMuHisto[i]->Scale(scale,"width");
       fMuHisto[i]->Write();
    }
    f.Close();

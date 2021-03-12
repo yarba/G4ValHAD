@@ -40,6 +40,7 @@ void ReadHARPData( std::string beam, std::string target, std::string energy,
 		   std::string region ) // should be either "FW" or "LA"
 {
 
+/* ---> old Wilson cluster
    std::string dirname = std::string( gSystem->Getenv("G4INSTALL") );
    if ( dirname.empty() )
    {
@@ -48,6 +49,11 @@ void ReadHARPData( std::string beam, std::string target, std::string energy,
       exit(1);
    }
    dirname += "/tests/test23/harp-exp-data/";
+*/
+   
+   std::string dirname = std::string( gSystem->Getenv("G4ValHAD") );
+   dirname += "/test23/harp-exp-data/";
+   
    dirname += ( target + "/" );
    
    std::string filename = beam + "_" + target + "_" + energy + "GeV_" + secondary + "_" + region + ".dat";
