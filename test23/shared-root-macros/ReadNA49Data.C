@@ -74,7 +74,8 @@ void readDDiffSpectra( std::string beam, std::string target, std::string seconda
    
    // std::string dirname = "./na49-exp-data/";
    // std::string dirname = "../test23/na49-exp-data/";
-   std::string dirname = std::string( gSystem->Getenv("G4INSTALL") );
+
+/*   std::string dirname = std::string( gSystem->Getenv("G4INSTALL") );
    if ( dirname.empty() )
    {
       std::cout << " Please set G4INSTALL env.var. to point to the area where your Geant4 source code resides" << std::endl;
@@ -82,6 +83,9 @@ void readDDiffSpectra( std::string beam, std::string target, std::string seconda
       exit(1);
    }
    dirname += "/tests/test23/na49-exp-data/";
+*/
+   std::string dirname = std::string( gSystem->Getenv("G4ValHAD") );
+   dirname += "/test23/na49-exp-data/";
       
    std::string filename = beam + "_" + target + "_" + secondary;
    
@@ -237,7 +241,7 @@ void readIntegratedSpectra( std::string beam, std::string target, std::string se
 
    // std::string dirname = "./na49-exp-data/";
 //   std::string dirname = "../test23/na49-exp-data/";
-   
+/*   
    std::string dirname = std::string( gSystem->Getenv("G4INSTALL") );
    if ( dirname.empty() )
    {
@@ -246,6 +250,9 @@ void readIntegratedSpectra( std::string beam, std::string target, std::string se
       exit(1);
    }
    dirname += "/tests/test23/na49-exp-data/";
+*/   
+   std::string dirname = std::string( gSystem->Getenv("G4ValHAD") );
+   dirname += "/test23/na49-exp-data/";
    
    std::string filename = beam + "_" + target + "_" + secondary;
       

@@ -26,7 +26,7 @@
 #ifndef G4MODELS_IE_H
 #define G4MODELS_IE_H
 
-const int NModels_IE = 2;
+const int NModels_IE = 3;
 // std::string ModelName_IE[3]  = { "inclxx", "bertini", "ftfp" };
 std::string ModelName_IE[3]  = { "bertini", "ftfp", "inclxx" };
 //

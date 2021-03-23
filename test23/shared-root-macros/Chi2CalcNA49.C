@@ -121,8 +121,9 @@ double Chi2IntegratedSpectrumNA49( std::string beam, std::string target,
 //         location = regre_test_dir + "/test19/" + version;
          location = regre_test_dir + "/" + TEST_NAME + "/" + version;
       }
-      std::string histofile = location + "/na49-histo/" + beam + target + "158.0GeV" + model + ".root"; 
-
+      
+      std::string histofile = location + "/na49-histo/" + beam + target + "158.0GeV" + model + ".root";
+      
 //   std::string histofile = "";
 //   histofile += version;
 //   histofile += ("/na49-histo/" + beam + target + "158.0GeV" + model + ".root"); 

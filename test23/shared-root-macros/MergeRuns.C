@@ -28,8 +28,10 @@ void fancyMerge( std::string beam, std::string target, std::string energy, std::
    
    TFile* targetFile = TFile::Open( output.c_str(), "RECREATE" );
    
-   double scale = 1./32.;
+// --> "old" Wilson"   double scale = 1./32.;
 //   double scale = 1./64.;
+   double scale = 1./16.;
+   
    
    // std::string input = beam + target + model + energy + "GeV-1.root";
    // std::string input = "../t23-bld/harp-histo-no-res-decays/" + beam + target + energy + "GeV" + physlist +"-1.root";
@@ -42,8 +44,9 @@ void fancyMerge( std::string beam, std::string target, std::string energy, std::
    // NOTE (JVY): PBS was numbering jobs from 1 to 32 while SLURM does from 0 to 31
    //
    // std::string input = dir + "/" + beam + target + energy + "GeV" + physlist + "-1.root";
-   std::string input = dir + "/" + beam + target + energy + "GeV" + physlist + "-0.root";
-   
+// --> "old" Wilson   std::string input = dir + "/" + beam + target + energy + "GeV" + physlist + "-0.root";
+   std::string input = dir + "/" + beam + target + energy + "GeV" + physlist + "-1.root";
+  
    TFile*    iFile1 = TFile::Open( input.c_str() );
    TIter     next( iFile1->GetListOfKeys() );
    TKey*     key = (TKey*)next();
@@ -62,8 +65,9 @@ void fancyMerge( std::string beam, std::string target, std::string energy, std::
 	 if ( h1->GetSumw2() == 0 ) h1->Sumw2();
 // NOTE: PBS numbering was starting from 1, while SLURM starts from 0
 //	 for ( int id=2; id<=32; id++ )
-         for ( int id=1; id<=31; id++ )
+// --> "old" Wilson          for ( int id=1; id<=31; id++ )
 //	 for ( int id=2; id<=64; id++ )
+	 for ( int id=2; id<=16; id++ )
 	 {
 	    std::string input_t = dir + "/" + beam + target + energy + "GeV" + physlist + "-" ;
             char buf[5];

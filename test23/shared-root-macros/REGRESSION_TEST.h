@@ -26,10 +26,11 @@
 #ifndef G4VAL_REGRESSION_H
 #define G4VAL_REGRESSION_H
 
-const int NVersions = 3;
+const int NVersions = 4;
 
-std::string Versions[3] = { "geant4-10-04-patch-03",
-                            "geant4-10-06",
+std::string Versions[4] = { "geant4-10-04-patch-03",
+                            "geant4-10-05",
+			    "geant4-10-06-patch-03",
 			    "geant4-10-07-patch-01"
                           };
 // std::string Versions[4] = { "geant4-09-06-patch-04", 
@@ -48,6 +49,10 @@ int SymbVersion[5]     = { 20, 21, 34, 29, 23 };
 // std::string regre_test_dir = " /scratch-shared/g4p/pbs/g4-had-validation/regression-test-files";
 // std::string regre_test_dir = " /g4/g4p/pbs/g4-had-validation/regression-test-files";
 //
-std::string regre_test_dir = " /work1/g4v/yarba_j/geant4-regression-test-files";
+// WC-IC
+//
+// --> std::string regre_test_dir = " /work1/g4v/yarba_j/geant4-regression-test-files";
+std::string regre_test_dir=" /wclustre/g4v/yarba_j/g4-had-validation/regression-test-files";
+
 
 #endif
