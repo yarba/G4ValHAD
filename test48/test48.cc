@@ -42,7 +42,7 @@
 #include "G4ProcessManager.hh"
 #include "G4VParticleChange.hh"
 #include "G4ParticleChange.hh"
-#include "G4HadronCrossSections.hh"
+// --> obsolete as of 10.7 --> #include "G4HadronCrossSections.hh"
 #include "G4VCrossSectionDataSet.hh"
 
 #include "G4ParticleTable.hh"

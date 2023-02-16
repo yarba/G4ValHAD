@@ -28,6 +28,7 @@
 
 #include "G4VUserPrimaryGeneratorAction.hh"
 #include "G4LorentzVector.hh"
+#include "globals.hh"       
 
 class G4ParticleGun;
 class G4Event;

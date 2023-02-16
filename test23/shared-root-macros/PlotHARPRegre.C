@@ -179,7 +179,15 @@ void PlotHARPRegreForMu2e( std::string secondary, std::string model )
    std::string txt1 = "8.0GeV/c proton + Ta #rightarrow " + secondary;
    TLatex* ltxt1 = new TLatex( 0.35, 0.97, txt1.c_str() );
    ltxt1->SetTextSize(0.025);
-   std::string txt2 = "Model/PhysList: " + model;
+   std::string txt2 = "";
+   if ( TEST_NAME == "test23" )
+   {
+      txt2 = "PhysList: " + model;
+   }
+   else
+   {
+      txt2 = "Model: " + model;
+   }
    TLatex* ltxt2 = new TLatex( 0.4, 0.93, txt2.c_str() );
    ltxt2->SetTextSize(0.025);
    myc->cd();

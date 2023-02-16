@@ -39,12 +39,16 @@
 #include "TstTarget.hh"
 
 #include "G4RunManager.hh"
-#include "G4HadronCrossSections.hh"
+// --> obsolete --> #include "G4HadronCrossSections.hh"
 // #include "G4CrossSectionDataStore.hh"
 #include "G4VCrossSectionDataSet.hh"
-#include "G4HadronInelasticDataSet.hh"
+// --> obsolete --> #include "G4HadronInelasticDataSet.hh"
 #include "G4BGGNucleonInelasticXS.hh"
 #include "G4BGGPionInelasticXS.hh"
+#include "G4CrossSectionInelastic.hh"
+#include "G4ComponentGGHadronNucleusXsc.hh"
+#include "G4ComponentGGNuclNuclXsc.hh"
+#include "G4ComponentAntiNuclNuclearXS.hh"
 
 TstPrimaryGeneratorAction::~TstPrimaryGeneratorAction()
 {
@@ -93,6 +97,8 @@ void TstPrimaryGeneratorAction::InitBeam( TstReader* pset )
    */
 
    G4VCrossSectionDataSet* cs = 0;
+
+/* --> "old" code that worked prior to 10.7.refXX <--
    if ( ( pset->GetBeamParticle() == "proton" || pset->GetBeamParticle() == "neutron" ) && Z > 1 )
    {
       cs = new G4BGGNucleonInelasticXS(partDef);
@@ -115,6 +121,43 @@ void TstPrimaryGeneratorAction::InitBeam( TstReader* pset )
    {
       fXSecOnTarget = (G4HadronCrossSections::Instance())->GetInelasticCrossSection( &dParticle, Z, A );
    }
+*/
+
+   if ( partDef == G4Proton::Definition() || partDef == G4Neutron::Definition() ) 
+   {
+      cs = new G4BGGNucleonInelasticXS( partDef );
+   } 
+   else if ( partDef == G4PionPlus::Definition() || partDef == G4PionMinus::Definition() ) 
+   {
+      cs = new G4BGGPionInelasticXS( partDef );
+   } 
+   else if ( partDef->GetBaryonNumber() > 1 ) 
+   {  // Ions
+      cs = new G4CrossSectionInelastic( new G4ComponentGGNuclNuclXsc );
+   } 
+   else if ( partDef == G4AntiProton::Definition() ||
+	       partDef == G4AntiNeutron::Definition() ||
+	       partDef == G4AntiDeuteron::Definition() ||
+	       partDef == G4AntiTriton::Definition() ||
+	       partDef == G4AntiHe3::Definition() ||
+	       partDef == G4AntiAlpha::Definition() ) 
+   {
+      cs = new G4CrossSectionInelastic( new G4ComponentAntiNuclNuclearXS ); 
+   } 
+   else 
+   {
+      cs = new G4CrossSectionInelastic( new G4ComponentGGHadronNucleusXsc );
+   }
+      
+   if ( cs ) 
+   {
+      cs->BuildPhysicsTable(*partDef);
+      fXSecOnTarget = cs->GetCrossSection( &dParticle, elm );
+   }
+   
+   // FIXME !!!
+   // Need "default" solution that's be similar to 
+   // (G4HadronCrossSections::Instance())->GetInelasticCrossSection( &dParticle, Z, A ) !!!
    
    /* this won't work as 
       "no data sets registered

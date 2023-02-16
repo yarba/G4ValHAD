@@ -36,7 +36,10 @@
 // #include "G4GeneratorPrecompoundInterface.hh"
 #include "G4VIntraNuclearTransportModel.hh"
 #include "G4ExcitedStringDecay.hh"
-#include "G4HadronInelasticDataSet.hh"
+
+// obsolete as of 10.7.rXX cycle --> #include "G4HadronInelasticDataSet.hh"
+#include "G4CrossSectionInelastic.hh"
+#include "G4ComponentGGHadronNucleusXsc.hh"
 
 // NOTE: In principle, there's a class G4WrapperProcess ( : public G4VProcess)
 // under /processes/management, but that one seems to be aiming something different'
@@ -52,7 +55,12 @@ class ProcessWrapper : public G4HadronicProcess
                            G4ProcessType processType = fHadronic ) : G4HadronicProcess(name,processType), 
                                                                      // fInteractionModel(0), 
 								     fStringModel(0),
-                                                                     fCascade(0), fStringDecay(0), fUseLundStrFragm(false) { AddDataSet(new G4HadronInelasticDataSet()); }
+                                                                     fCascade(0), 
+								     fStringDecay(0), 
+								     fUseLundStrFragm(false) { 
+			// AddDataSet(new G4HadronInelasticDataSet()); 
+			AddDataSet( new G4CrossSectionInelastic( new G4ComponentGGHadronNucleusXsc ) );
+     }
      virtual ~ProcessWrapper();
      
      void UseG4LundStringFragm( bool g4lund=true ) { fUseLundStrFragm=g4lund; return ; } 

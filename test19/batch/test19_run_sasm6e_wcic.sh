@@ -8,9 +8,8 @@
 ## bail out if NO MOMENTUM !!!
 #fi
 
-source  /cvmfs/larsoft.opensciencegrid.org/products/setup
-# --> will be set by root --> setup gcc v8_2_0
-setup root v6_18_04d -q e19:prof
+source /cvmfs/geant4-ib.opensciencegrid.org/products/setup
+setup root v6_24_06b -q e20:p399:prof
 
 # setup G4 datasets
 #

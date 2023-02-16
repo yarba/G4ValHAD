@@ -155,7 +155,7 @@ void NA61_chi2_table_models( std::string beam, std::string target, std::string c
    } 
    
    std::ofstream out_table;
-   std::string table_name = "models_" + beam + "_" + target + "_NA461.txt"; 
+   std::string table_name = "models_" + beam + "_" + target + "_NA61.txt"; 
 
    std::cout << " Opening ascii file: " << table_name << std::endl;
 

@@ -32,7 +32,6 @@
 
 #include "G4VParticleChange.hh"
 #include "G4ParticleTable.hh"
-#include "G4HadronCrossSections.hh"
 
 #include "Tst75Histo.hh"
 

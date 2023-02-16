@@ -62,9 +62,55 @@ void Test19ExecProcessLevel::InitProcess( const TstReader* pset )
    if ( name.find("ftf") != std::string::npos )
    {
 
-/*
       G4HadronicDeveloperParameters& HDP = G4HadronicDeveloperParameters::GetInstance();
-      
+/*
+      // "proc1"
+      //
+      double br_pr1_a1 = 0.;
+      HDP.Get( "FTF_PION_PROC1_A1", br_pr1_a1 ); // D=5.77
+      std::cout << " br_pr1_a1 = " << br_pr1_a1 << std::endl;
+      br_pr1_a1 = 5.836; // 7.05; // 7.43; // 6.55; // 7.87; 
+      HDP.Set( "FTF_PION_PROC1_A1", br_pr1_a1 ); 
+      //
+      double br_pr1_b1 = 0.;
+      HDP.Get( "FTF_PION_PROC1_B1", br_pr1_b1 ); // D=0.6
+      std::cout << " br_pr1_b1 = " << br_pr1_b1 << std::endl;
+      br_pr1_b1 = 0.337; // 0.37; // 0.36; // 0.5; // 0.54; 
+      HDP.Set( "FTF_PION_PROC1_B1", br_pr1_b1 );
+      //
+      double br_pr1_a2 = 0.;
+      HDP.Get( "FTF_PION_PROC1_A2", br_pr1_a2 ); // D=-5.77
+      std::cout << " br_pr1_a2 = " << br_pr1_a2 << std::endl;
+      br_pr1_a2 = -7.568; // -8.31; // -7.575; // -0.65; // -4.18; 
+      HDP.Set( "FTF_PION_PROC1_A2", br_pr1_a2 );
+      //
+      double br_pr1_b2 = 0.;
+      HDP.Get( "FTF_PION_PROC1_B2", br_pr1_b2 ); // D=0.8
+      std::cout << " br_pr1_b2 = " << br_pr1_b2 << std::endl;
+      br_pr1_b2 = 0.44; // 0.458; // 0.374; // 1.24; // 1.14; 
+      HDP.Set( "FTF_PION_PROC1_B2", br_pr1_b2 );
+      //
+*/
+/*
+      double br_pr1_a3 = 0.;
+      HDP.Get( "FTF_BARYON_PROC1_A3", br_pr1_a3 ); // D=0
+      std::cout << " br_pr1_a3 = " << br_pr1_a3 << std::endl;
+//      br_pr1_a3 = 0.5;
+//      br_pr1_a3 = 0.25;
+//      HDP.Set( "FTF_BARYON_PROC1_A3", br_pr1_a3 );
+      //
+      double br_pr1_atop = 0.;
+      HDP.Get( "FTF_BARYON_PROC1_ATOP", br_pr1_atop ); // D=0.
+      std::cout << " br_pr1_atop = " << br_pr1_atop << std::endl;
+      //
+      double br_pr1_ymin = 0.;
+      HDP.Get( "FTF_BARYON_PROC1_YMIN", br_pr1_ymin ); // D=1.4
+      std::cout << " br_pr1_ymin = " << br_pr1_ymin << std::endl;
+//      br_pr1_ymin = 0.7;
+//      br_pr1_ymin = 2.1;
+//      HDP.Set( "FTF_BARYON_PROC1_YMIN", br_pr1_ymin );
+*/
+/*      
       // projectile & target diffraction
       //
       // the following probabilities:

@@ -19,9 +19,9 @@ mom1=(3000 5000 8000 12000)
 bm1=(proton piplus piminus)
 pl1=(NuBeam ftfp_bert)
 
-for (( i=0; i<${#target[@]}; ++i )) do
-for (( j=0; j<${#momentum[@]}; ++j )) do
-for (( k=0; k<${#beam[@]}; ++k )) do
+for (( i=0; i<${#tgt1[@]}; ++i )) do
+for (( j=0; j<${#mom1[@]}; ++j )) do
+for (( k=0; k<${#bm1[@]}; ++k )) do
 for (( p=0; p<${#pl1[@]}; ++p )) do
 
 sbatch -N 1 -n 16 -c 1 -p cpu_gce -A g4v --exclusive --qos=regular --time=23:00:00 \

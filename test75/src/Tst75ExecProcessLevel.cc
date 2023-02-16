@@ -41,8 +41,9 @@
 //#include "G4ForceCondition.hh"
 
 #include "G4CascadeInterface.hh"
-#include "G4PhotoNuclearProcess.hh" // hadronic process
+#include "G4HadronInelasticProcess.hh" // hadronic process
 // #include "G4GammaNuclearReaction.hh" // hadronic interaction (aka "model")
+#include "G4PhotoNuclearCrossSection.hh"
 
 
 Tst75ExecProcessLevel::Tst75ExecProcessLevel( const TstReader* pset )
@@ -75,24 +76,21 @@ void Tst75ExecProcessLevel::InitProcess( const TstReader* pset )
     
    if ( NamePart =="gamma" )
    {
-       proc = new G4PhotoNuclearProcess();
+       proc = new G4HadronInelasticProcess( "photonNuclear", G4Gamma::Definition() );
+       proc->AddDataSet( new G4PhotoNuclearCrossSection );       
    }
     
    if ( NameModel == "Bertini" )
    {
        model = new G4CascadeInterface();
    }
-//    else if ( NameModel == "CHIPS" )
-//    {
-//       model = new G4GammaNuclearReaction();
-//    }
     
    // make sure the pointers are valid
    //
    assert(proc);
    assert(model);
     
-   // configure tthe model 
+   // configure the model 
    // (to a specific energy range)
    //
    G4double Mom = pset->GetBeamMomentum();

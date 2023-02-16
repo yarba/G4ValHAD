@@ -65,7 +65,7 @@ HistoTest47::HistoTest47( const TstReader* pset )
    // fisrt of all, pad fBeamMomentum (with extra zero's), to match old naming style
    //
    std::string::size_type cnt1 = fBeamMomentum.find("GeV");
-   G4String tmp = fBeamMomentum( 0, cnt1 );
+   G4String tmp = fBeamMomentum.substr( 0, cnt1 );
    G4int counter = 4 - tmp.length();
    for ( G4int i=0; i<counter; ++i )
    {

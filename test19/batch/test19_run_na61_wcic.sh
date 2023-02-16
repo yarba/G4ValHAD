@@ -1,9 +1,8 @@
 #!/usr/bin/env bash
 #
 
-source  /cvmfs/larsoft.opensciencegrid.org/products/setup
-setup gcc v8_2_0
-setup root v6_18_04d -q e19:prof
+source /cvmfs/geant4-ib.opensciencegrid.org/products/setup
+setup root v6_24_06b -q e20:p399:prof
 
 # --> export G4INSTALL=/work1/g4v/yarba_j/geant4-local-builds/gcc-8.2.0/geant4-${G4RELEASE}
 

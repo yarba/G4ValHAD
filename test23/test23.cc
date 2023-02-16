@@ -113,12 +113,14 @@ int main(int argc, char** argv)
    //       will prevent their re-creation in the same job;
    //       however, run manager can be somewhat re-configured
    //   
-#ifdef G4MULTITHREADED
-  G4MTRunManager* runManager = new G4MTRunManager;
-  runManager->SetNumberOfThreads(2);
-#else
+//#ifdef G4MULTITHREADED
+//   std::cout << " Instantiating G4MTRunManager " << std::endl;
+//   G4MTRunManager* runManager = new G4MTRunManager;
+//   runManager->SetNumberOfThreads(2);
+//#else
+   std::cout << " Instantiating G4RunManager " << std::endl;
    G4RunManager* runManager = new G4RunManager();
-#endif
+//#endif
 
    // Note-2: This is related to an attempt to run a loop
    //       over physics lists, changing them as we go.
