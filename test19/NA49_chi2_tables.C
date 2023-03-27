@@ -122,7 +122,9 @@ void NA49_chi2_table_regre( std::string beam, std::string target, std::string mo
       pT_dxF_antiproton.push_back( std::pair<double,int>(chi2,NDF) );
    }
 
-/* FIXME !!! NEEDS TO BE ADDED LATER !!!
+   std::cout << "Now processing DDiff for Pbar" << std::endl;
+
+/* FIXME !!! NEEDS TO BE ADDED LATER !!! */
    readDDiffSpectra( beam, target, "antiproton" );
    for ( int iv=0; iv<NVersions; ++iv )
    {
@@ -130,7 +132,8 @@ void NA49_chi2_table_regre( std::string beam, std::string target, std::string mo
       double chi2 = Chi2DDiffXSecNA49( beam, target, "antiproton", model, NDF, Versions[iv] );
       d2sigma_dxFdpT_antiproton.push_back( std::pair<double,int>(chi2,NDF) );
    } 
-*/   
+   std::cout << "Read-in DDiff for Pbar, calculated chi2" << std::endl;
+/* */   
    // neutron
    //
    
@@ -267,7 +270,11 @@ void NA49_chi2_table_regre( std::string beam, std::string target, std::string mo
    {
       out_table << std::right << setw(12) << d2sigma_dxFdpT_proton[iv].first/d2sigma_dxFdpT_proton[iv].second ;
    }   
-   out_table << "\n antiproton           will be added shortly !!!";
+   out_table << "\n antiproton"; //          will be added shortly !!!";
+   for ( int iv=0; iv<NVersions; iv++ )
+   {
+      out_table << std::right << setw(12) << d2sigma_dxFdpT_antiproton[iv].first/d2sigma_dxFdpT_antiproton[iv].second ;
+   }   
 
    out_table.close();
 
@@ -428,9 +435,14 @@ void NA49_chi2_table_models( std::string beam, std::string target, std::string c
    chi2_ftfp_dNdxF = Chi2IntegratedSpectrumNA49( beam, target, "antiproton", "dNdxF", "ftfp", NDF_ftfp_dNdxF, cur_ver );
    chi2_ftfp_pt = Chi2IntegratedSpectrumNA49( beam, target, "antiproton", "pT", "ftfp", NDF_ftfp_pt, cur_ver );
 
+   readDDiffSpectra( beam, target, "antiproton" );
+   chi2_qgsp_ddiff = Chi2DDiffXSecNA49( beam, target, "antiproton", "qgsp", NDF_qgsp_ddiff, cur_ver );
+   chi2_ftfp_ddiff = Chi2DDiffXSecNA49( beam, target, "antiproton", "ftfp", NDF_ftfp_ddiff, cur_ver );
+
    out_table << "\n antiproton"; 
    out_table << std::right << std::setw(10) << chi2_qgsp_dNdxF/NDF_qgsp_dNdxF << std::right << std::setw(10) << chi2_ftfp_dNdxF/NDF_ftfp_dNdxF
-             << std::right << std::setw(10) << chi2_qgsp_pt/NDF_qgsp_pt << std::setw(10) << chi2_ftfp_pt/NDF_ftfp_pt;
+             << std::right << std::setw(10) << chi2_qgsp_pt/NDF_qgsp_pt << std::setw(10) << chi2_ftfp_pt/NDF_ftfp_pt
+             << std::right << std::setw(10) << chi2_qgsp_ddiff/NDF_qgsp_ddiff << std::setw(10) << chi2_ftfp_ddiff/NDF_ftfp_ddiff; 
 
    chi2_qgsp_dNdxF = 0.;
    NDF_qgsp_dNdxF = 0;

@@ -44,9 +44,8 @@ TstHisto::TstHisto( const TstReader* pset )
    
    char ene[4];
    sprintf( ene, "%3.1f", pset->GetBeamMomentum()/GeV );
-   // fBeamMomentum = "";
-   // fBeamMomentum.append( ene );
-   fBeamMomentum = ene;
+   fBeamMomentum = "";
+   fBeamMomentum.append( ene );
    fBeamMomentum += "GeV";
    
    fHistoTitle = fBeam + " + " + fTarget;

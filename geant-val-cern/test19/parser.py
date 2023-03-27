@@ -29,95 +29,95 @@ class Test (BaseParser):
     def parse(self, jobs):
         # should be just one job for each job
         job = jobs[0]
-	print "path = ", job["path"]
-	
+        print("path = ", job["path"])
+
         self.material = job["MATERIAL"]
-	if 'G4_' in job["MATERIAL"]:
-	   self.material = (job["MATERIAL"]).split("_")[-1] # [-1] means counting from right
-	
-	self.energy = job["ENERGY"]
-	if 'MeV' in job["ENERGY_UNIT"]:
-	   en = round(float(self.energy)/1000.,1)
-	   self.energy = str(en)
+        if 'G4_' in job["MATERIAL"]:
+           self.material = (job["MATERIAL"]).split("_")[-1] # [-1] means counting from right
+
+        self.energy = job["ENERGY"]
+        if 'MeV' in job["ENERGY_UNIT"]:
+           en = round(float(self.energy)/1000.,1)
+           self.energy = str(en)
         if not '.' in self.energy:
-	   self.energy = self.energy + ".0"
+           self.energy = self.energy + ".0"
+
+        self.beam = job["PARTICLE"]
+        if 'pi+' in job["PARTICLE"]:
+           self.beam = 'piplus'
+        if 'pi-' in job["PARTICLE"]:
+           self.beam = 'piminus'
 	
-	self.beam = job["PARTICLE"]
-	if 'pi+' in job["PARTICLE"]:
-	   self.beam = 'piplus'
-	if 'pi-' in job["PARTICLE"]:
-	   self.beam = 'piminus'
-		
-	self.detector = job["DETECTOR"].lower()
-	
-	fname = self.detector + "-histo/" + self.beam + self.material + self.energy + "GeV" + job["GENERATOR"] + ".root"	
+        self.detector = job["DETECTOR"].lower()
+
+        fname = self.detector + "-histo/" + self.beam + self.material + self.energy + "GeV" + job["GENERATOR"] + ".root"	
         filename = os.path.join(job["path"], fname)
 # -->	print "filename = ", filename
 
         hfile = _open_file(filename)
-	
-	skip_na49_ddiff = { 'pTpim0', 'pTpim1', 'pTpim2', 'pTpim3', 'pTpim4', 'pTpim5', 'pTpim6',
+
+        skip_na49_ddiff = { 'pTpim0', 'pTpim1', 'pTpim2', 'pTpim3', 'pTpim4', 'pTpim5', 'pTpim6',
 	                    'pTpip0', 'pTpip1', 'pTpip2', 'pTpip3', 'pTpip4', 'pTpip5', 'pTpip6'
 	                  }
 
-	for h in hfile.GetListOfKeys():  # keep in mind that h is not a TH1 but is a TKey
-	   skip = False
-	   if 'NSec' in h.GetName():
-	      print "skip histo ", h.GetName()   # skip this histo whereever found as it's for normalization only
-	      skip = True
-	   if 'Mult_' in h.GetName() or 'kplus2piplus' in h.GetName(): # skip NA61 K+/pi+ for now
-	      print "skip histo ", h.GetName()
-	      skip = True
-	   if '_mom_' in h.GetName():
-	      print "skip histo ", h.GetName()   # skip HARP Mu2e-like plots for now
-	      skip = True
-	   if '_dXSecdxF' in h.GetName() or '_pT2' in h.GetName():  # skip average NA49 pt**2 and dXsec/dxF for now
-	      print "skip histo ", h.GetName()
-	      skip = True
+        for h in hfile.GetListOfKeys():  # keep in mind that h is not a TH1 but is a TKey
+           skip = False
+           if 'NSec' in h.GetName():
+              print("skip histo ", h.GetName())   # skip this histo whereever found as it's for normalization only
+              skip = True
+           if 'Mult_' in h.GetName() or 'kplus2piplus' in h.GetName(): # skip NA61 K+/pi+ for now
+              print("skip histo ", h.GetName())
+              skip = True
+           if '_mom_' in h.GetName():
+              print("skip histo ", h.GetName())   # skip HARP Mu2e-like plots for now
+              skip = True
+           if '_dXSecdxF' in h.GetName() or '_pT2' in h.GetName():  # skip average NA49 pt**2 and dXsec/dxF for now
+              print("skip histo ", h.GetName())
+              skip = True
            for hnm in skip_na49_ddiff:
-	      if hnm == h.GetName():
-	         print "skip histo ", h.GetName()
-		 skip = True
-		 break
-	   if skip:
-	      continue       
-	   
-	   if 'piplus' in h.GetName() or 'pTpip' in h.GetName():
-	      self.secondary = 'pi+'
-	   if 'piminus' in h.GetName() or 'pTpim' in h.GetName():
-	      self.secondary = 'pi-'
-	   if 'proton' in h.GetName() or 'pTpro' in h.GetName():
-	      self.secondary = 'proton'
-	   if 'antiproton' in h.GetName() or 'pTpbar' in h.GetName():
-	      self.secondary = 'anti_proton'
-	   if 'k0s' in h.GetName():
-	      self.secondary = 'kaon0s'
-	   if 'kplus' in h.GetName():
-	      self.secondary = 'kaon+'
-	   if 'kminus' in h.GetName():
-	      self.secondary = 'kaon-'
-	   if 'lambda' in h.GetName():
-	      self.secondary = 'lambda'
-	   if 'neutron' in h.GetName():
-	      self.secondary = 'neutron'
+              if hnm == h.GetName():
+                 print("skip histo ", h.GetName())
+                 skip = True
+                 break
+           if skip:
+              continue       
+   
+           if 'piplus' in h.GetName() or 'pTpip' in h.GetName():
+              self.secondary = 'pi+'
+           if 'piminus' in h.GetName() or 'pTpim' in h.GetName():
+              self.secondary = 'pi-'
+           if 'proton' in h.GetName() or 'pTpro' in h.GetName():
+              self.secondary = 'proton'
+           if 'antiproton' in h.GetName() or 'pTpbar' in h.GetName():
+              self.secondary = 'anti_proton'
+           if 'k0s' in h.GetName():
+              self.secondary = 'kaon0s'
+           if 'kplus' in h.GetName():
+              self.secondary = 'kaon+'
+           if 'kminus' in h.GetName():
+              self.secondary = 'kaon-'
+           if 'lambda' in h.GetName():
+              self.secondary = 'lambda'
+           if 'neutron' in h.GetName():
+              self.secondary = 'neutron'
 
-	   hh = hfile.Get( h.GetName() );
-	   
-	   rjson = ""
-	   if 'na61' in self.detector:
-	      rjson = self.parse_NA61(job,hh)
-	   if 'harp' in self.detector:
-	      rjson = self.parse_HARP(job,hh)
-	   if 'na49' in self.detector:
-	      rjson = self.parse_NA49(job,hh)
-	   if 'sasm6e' in self.detector:
-	      rjson = self.parse_SASM6E(job,hh)
-	   
-	   yield rjson
+           hh = hfile.Get( h.GetName() );
+   
+           rjson = ""
+           if 'na61' in self.detector:
+              rjson = self.parse_NA61(job,hh)
+           if 'harp' in self.detector:
+              rjson = self.parse_HARP(job,hh)
+           if 'na49' in self.detector:
+              rjson = self.parse_NA49(job,hh)
+           if 'sasm6e' in self.detector:
+              rjson = self.parse_SASM6E(job,hh)
+   
+           yield rjson
 
 
     def parse_NA61(self, job, hh):
-    	   	   
+   	   
        self.getBins(hh)
        
        nBins = []
@@ -204,7 +204,7 @@ class Test (BaseParser):
 			       '38' : '0.9',
 			       '39' : '0.95'
                              },
-	          'pi+'    : {  '0' : '-0.5',   # skip - no exp.data
+                  'pi+'    : {  '0' : '-0.5',   # skip - no exp.data
 		                '1' : '-0.4',   # skip
 			        '2' : '-0.3',   # skip
 			        '3' : '-0.25',  # skip
@@ -264,7 +264,7 @@ class Test (BaseParser):
 			       '27' : '0.4',
 			       '28' : '0.5' 
 		             },
-		  'anti_proton' : {  '0' : '-0.2',
+                  'anti_proton' : {  '0' : '-0.2',
 		                     '1' : '-0.15',
 				     '2' : '-0.1',
 				     '3' : '-0.075',
@@ -278,8 +278,8 @@ class Test (BaseParser):
 				    '11' : '0.2',
 				    '12' : '0.3'
 		                  }
-		}
-       
+                }
+
        self.getBins(hh)
        
        nBins = []
@@ -296,20 +296,20 @@ class Test (BaseParser):
        
        if 'xF' in hh.GetName():
           observable = "density distribution dn/dx_{F}"
-	  xaxis = "x_{F}"
-	  yaxis = "dN/d_x{F}"
+          xaxis = "x_{F}"
+          yaxis = "dN/d_x{F}"
        if '_pT' in hh.GetName():
           observable = "average p_{T} vs x_{F}"
-	  xaxis = "x_{F}"
-	  yaxis = "<p_{T}> (GeV/c)"
+          xaxis = "x_{F}"
+          yaxis = "<p_{T}> (GeV/c)"
        if 'pTp' in hh.GetName():
           observable = "E(D3SIG/DP3)" 
-	  xaxis = "p_{T} (GeV/c)"
-	  yaxis = "E(D3SIG/DP3) (mb/GeV^{2}/c^{3})"
-	  index = ""
-	  for i in hh.GetName():
-	     if i.isdigit():
-	        index += i
+          xaxis = "p_{T} (GeV/c)"
+          yaxis = "E(D3SIG/DP3) (mb/GeV^{2}/c^{3})"
+          index = ""
+          for i in hh.GetName():
+             if i.isdigit():
+                index += i
           parameters_test = { "names": "x_{F}", "values": mydict[self.secondary][index] }
           parameters.append(parameters_test)
 
@@ -465,13 +465,13 @@ class Test (BaseParser):
        
        for x in range(firstNonZeroBin, lastNonZeroBin+1):
           self.binContent.append(round(hh.GetBinContent(x),3))
-	  self.binEdgeLow.append(round(hh.GetBinLowEdge(x),2)) # it's better/safer to round it to the 2nd digit after decimal point
-	  self.binEdgeHigh.append(round((hh.GetBinLowEdge(x)+hh.GetBinWidth(x)),2))
+          self.binEdgeLow.append(round(hh.GetBinLowEdge(x),2)) # it's better/safer to round it to the 2nd digit after decimal point
+          self.binEdgeHigh.append(round((hh.GetBinLowEdge(x)+hh.GetBinWidth(x)),2))
 	  #
 	  # NOTE: don't use BinErrorLow/Up as they return BinError !!!
 	  #
-	  self.yStatErrorPlus.append(round(hh.GetBinError(x)/2.,3))
-	  self.yStatErrorMinus.append(round(hh.GetBinError(x)/2.,3))
+          self.yStatErrorPlus.append(round(hh.GetBinError(x)/2.,3))
+          self.yStatErrorMinus.append(round(hh.GetBinError(x)/2.,3))
 
 
 # =========================================
@@ -491,7 +491,7 @@ def _open_file(file_path):
         else:
             return None
     except Exception as e:
-        print "Exception: ", str(e)
+        print("Exception: ", str(e))
         # ROOT related exception
         return None
 

@@ -81,6 +81,10 @@ double Chi2DDiffXSecNA49( std::string beam, std::string target,
       {
             hname += "pro";
       }
+      else if ( secondary == "antiproton" )
+      {
+         hname += "pbar";
+      }
 
       hname += cnt.str();
       
@@ -88,7 +92,8 @@ double Chi2DDiffXSecNA49( std::string beam, std::string target,
       h->Scale(226.); // or should it be xsec=251. as in Geant4 ???   
 
       TGraphErrors* gdata = get1DDiffXSecAsGraph( icount );
-      chi2 += Chi2( gdata, h, NDF );     
+      chi2 += Chi2( gdata, h, NDF );  
+         
    } 
    
    //  subtract 1 degree of freedom ?

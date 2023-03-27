@@ -32,16 +32,15 @@
 #include "Randomize.hh"
 #include "G4SystemOfUnits.hh"
 
-#ifdef G4MULTITHREADED
-#include "G4MTRunManager.hh"
-#else
-#include "G4RunManager.hh"
-#endif
+//#ifdef G4MULTITHREADED
+//#include "G4MTRunManager.hh"
+//#else
+//#include "G4RunManager.hh"
+//#endif
+#include "G4RunManagerFactory.hh"
 
 #include "G4GeometryManager.hh"
 #include "G4StateManager.hh"
-
-// #include "G4HadronCrossSections.hh"
 
 #include "TstPhysListReader.hh"
 #include "TstTarget.hh"
@@ -114,13 +113,14 @@ int main(int argc, char** argv)
    //       however, run manager can be somewhat re-configured
    //   
 //#ifdef G4MULTITHREADED
-//   std::cout << " Instantiating G4MTRunManager " << std::endl;
-//   G4MTRunManager* runManager = new G4MTRunManager;
-//   runManager->SetNumberOfThreads(2);
+//  G4MTRunManager* runManager = new G4MTRunManager;
+//  runManager->SetNumberOfThreads(2);
 //#else
-   std::cout << " Instantiating G4RunManager " << std::endl;
-   G4RunManager* runManager = new G4RunManager();
+//   G4RunManager* runManager = new G4RunManager();
 //#endif
+//
+  auto runManager =
+     G4RunManagerFactory::CreateRunManager( G4RunManagerType::SerialOnly );
 
    // Note-2: This is related to an attempt to run a loop
    //       over physics lists, changing them as we go.
@@ -147,9 +147,6 @@ int main(int argc, char** argv)
    TstPrimaryGeneratorAction* beam = 0;
    TstHisto* histo = 0;
    Tst23SteppingAction* stepping = 0;
-   // G4VCrossSectionDataSet* cs = new G4HadronInelasticDataSet(); 
-   //
-   // from 4.10.b01 onwards as it require specific (new) infrastructure
    //
    Tst23ActionInit* action = 0;
         

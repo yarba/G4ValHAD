@@ -28,27 +28,13 @@
 
 const int NVersions = 2;
 
-std::string Versions[5] = { // "geant4-10-04-patch-03",
-                            // "geant4-10-05",
-			    // "geant4-10-06-patch-03",
-			    // "geant4-10-07-patch-01",
-			    "geant4-11-00",
-			    // "geant4-11-00-ref-06",
-			    // "11.0.r06+tune2022-v0"
-			    // "geant4-11-00-ref-08",
-			    "geant4-11-01" //,
-			    // "11.0.r08+pion-tune2022-v0"
-			    // "11.1+baryon-tune2022-v0"
-                          };
-// std::string Versions[4] = { "geant4-09-06-patch-04", 
-//                             "geant4-10-01-patch-03", 
-//                             "geant4-10-02-patch-03", 
-//                             "geant4-10-03-patch01" };
+// std::string Versions[4] = { "geant4-09-06-patch-04", "geant4-10-01-patch-03", "geant4-10-02-patch-03", "geant4-10-03-patch01" };
+std::string Versions[2] = { "geant4-10-04-patch-02", "geant4-10-05" };
+// --> std::string Versions[3] = { "geant4-10-01-patch-03", "geant4-10-02-patch-02", "geant4-10-03-beta-01" };
+// ---> std::string Versions[4] = { "geant4-09-06-patch-04", "geant4-10-01-patch-03", "geant4-10-02-patch-02", "geant4-10-03-beta-01" };
+// --> std::string Versions[2] = { "geant4-10-02-patch-02", "geant4-10-03-beta-01" };
 
-// std::string CurrentVersion = "11.0.r06+tune2022-v0"; // "geant4-11-00-ref-06";
-std::string CurrentVersion = "geant4-11-01"; 
-// std::string CurrentVersion = "11.0.r08+pion-tune2022-v0"; 
-// std::string CurrentVersion = "11.1+baryon-tune2022-v0"; 
+std::string CurrentVersion = "geant4-10-05";
 
 // --> int ColorVersion[5] = { kRed, kGreen, 7, kBlack, 14 };
 // this is to match SASM6E
@@ -57,12 +43,6 @@ int ColorVersion[5] = { kRed, kGreen, kBlack, kMagenta, 7 };
 int SymbVersion[5]     = { 20, 21, 34, 29, 23 };
 
 // std::string regre_test_dir = " /scratch-shared/g4p/pbs/g4-had-validation/regression-test-files";
-// std::string regre_test_dir = " /g4/g4p/pbs/g4-had-validation/regression-test-files";
-//
-// WC-IC
-//
-// --> std::string regre_test_dir = " /work1/g4v/yarba_j/geant4-regression-test-files";
-std::string regre_test_dir=" /wclustre/g4v/yarba_j/g4-had-validation/regression-test-files";
-
+std::string regre_test_dir = " /g4/g4p/pbs/g4-had-validation/regression-test-files";
 
 #endif

@@ -19,16 +19,16 @@
 
 # Specify mandatory
 #
-cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.16...3.21)
 
 #----Standalone--------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
 # - Enforce an out-of-source builds before anything else
 #
-if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_BINARY_DIR})
     message(STATUS "Geant4 requires an out-of-source build.")
-    message(STATUS "Please remove these files from ${CMAKE_BINARY_DIR} first:")
+    message(STATUS "Please remove these files from ${CMAKE_CURRENT_BINARY_DIR} first:")
     message(STATUS "CMakeCache.txt")
     message(STATUS "CMakeFiles")
     message(STATUS "Once these files are removed, create a separate directory")
@@ -37,7 +37,6 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif()
 
 project(test23)
-# message("Project Name: ${CMAKE_PROJECT_NAME}")
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, no UI and Vis drivers activated
@@ -155,11 +154,3 @@ foreach(_file ${test23_FILES})
        ${PROJECT_SOURCE_DIR}/${_file} ${PROJECT_BINARY_DIR}/${_file} COPYONLY
        )
 endforeach()
-
-
-
-#----------------------------------------------------------------------------
-# Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
-#
-install(TARGETS test23 DESTINATION bin)
-

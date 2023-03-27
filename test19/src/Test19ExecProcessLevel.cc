@@ -49,7 +49,10 @@
 #include "G4NuclearLevelData.hh"
 #include "G4DeexPrecoParameters.hh"
 
-#include "G4HadronicDeveloperParameters.hh"
+// #include "G4HadronicDeveloperParameters.hh"
+// #include "G4FTFTunings.hh"
+
+// #include "G4HadronicParameters.hh"
 
 void Test19ExecProcessLevel::InitProcess( const TstReader* pset )
 {
@@ -61,10 +64,63 @@ void Test19ExecProcessLevel::InitProcess( const TstReader* pset )
    
    if ( name.find("ftf") != std::string::npos )
    {
-
-      G4HadronicDeveloperParameters& HDP = G4HadronicDeveloperParameters::GetInstance();
+   
 /*
-      // "proc1"
+      // example(s) of setting FTF parameters as tunes 
+      // (i.e. as groups where selected parameters have been obtained
+      //  via collective fits vs thin target data)
+      //
+      // G4cout << " Is it locked: ? " << G4FTFTunings::Instance()->IsLocked() << std::endl;
+
+      bool isMaster = G4Threading::IsMasterThread();
+      G4cout << " Is Master ? " << isMaster << G4endl;
+      
+      bool isState_PreInit = ( G4StateManager::GetStateManager()->GetCurrentState() == G4State_PreInit );
+      G4cout << " Is state PreInit ? " << isState_PreInit << G4endl;
+
+      G4ApplicationState currentstate = G4StateManager::GetStateManager()->GetCurrentState();   
+      bool ok = G4StateManager::GetStateManager()->SetNewState(G4State_PreInit);
+      G4cout << " Is PreInit set ? " << ok << G4endl;
+
+      isState_PreInit = ( G4StateManager::GetStateManager()->GetCurrentState() == G4State_PreInit );
+      
+      bool isLocked = ( !isMaster || !isState_PreInit );
+      G4cout << " Is locked ?  " << isLocked << G4endl; 
+      
+// -->      G4FTFTunings::Instance()->SetTuneApplicabilityState( 1,      1 );
+// --> below is attempt to set "combined tune" (both baryon-2022 and pion-2022)
+      G4FTFTunings::Instance()->SetTuneApplicabilityState( 3,      1 );
+
+// NOTE (JVY): For some reason when trying to set tune via UI
+//             the parameter values do not seem to propagate;
+//             maybe it should be at a different stage/state ?
+//
+// -->   G4UImanager* uim = G4UImanager::GetUIpointer();   
+// -->   uim->ApplyCommand( "/process/had/models/ftf/selectTuneByIndex 1" );
+
+      ok = G4StateManager::GetStateManager()->SetNewState( currentstate );
+*/
+
+
+/*
+
+      // example(s) of setting FTF parameters one by one
+      
+      G4HadronicDeveloperParameters& HDP = G4HadronicDeveloperParameters::GetInstance();
+
+      // projectile and target diffraction
+      //
+      // the following probabilities:
+      // Probability of quark exchange process without excitation of participants (Fig. 44(b)); (Proc# 0)
+      // Probability of quark exchange process with excitation of participants (Fig. 44(c)); (Proc# 1)
+      // Probability of projectile diffraction dissociation; (Proc# 2)
+      // Probability of target diffraction dissociation. (Proc# 3) 
+      // are described with the formila: 
+      // P = A1 * exp(-B1*y) + A2 * exp(-B2*y) + A3
+      // where y is the rapidity of the projectile in the target rest frame
+      //
+      // example of setting "proc1" for pion projectile
+      // (similar can be done for baryon proj)
       //
       double br_pr1_a1 = 0.;
       HDP.Get( "FTF_PION_PROC1_A1", br_pr1_a1 ); // D=5.77
@@ -90,263 +146,25 @@ void Test19ExecProcessLevel::InitProcess( const TstReader* pset )
       br_pr1_b2 = 0.44; // 0.458; // 0.374; // 1.24; // 1.14; 
       HDP.Set( "FTF_PION_PROC1_B2", br_pr1_b2 );
       //
-*/
-/*
-      double br_pr1_a3 = 0.;
-      HDP.Get( "FTF_BARYON_PROC1_A3", br_pr1_a3 ); // D=0
-      std::cout << " br_pr1_a3 = " << br_pr1_a3 << std::endl;
-//      br_pr1_a3 = 0.5;
-//      br_pr1_a3 = 0.25;
-//      HDP.Set( "FTF_BARYON_PROC1_A3", br_pr1_a3 );
-      //
-      double br_pr1_atop = 0.;
-      HDP.Get( "FTF_BARYON_PROC1_ATOP", br_pr1_atop ); // D=0.
-      std::cout << " br_pr1_atop = " << br_pr1_atop << std::endl;
-      //
-      double br_pr1_ymin = 0.;
-      HDP.Get( "FTF_BARYON_PROC1_YMIN", br_pr1_ymin ); // D=1.4
-      std::cout << " br_pr1_ymin = " << br_pr1_ymin << std::endl;
-//      br_pr1_ymin = 0.7;
-//      br_pr1_ymin = 2.1;
-//      HDP.Set( "FTF_BARYON_PROC1_YMIN", br_pr1_ymin );
-*/
-/*      
-      // projectile & target diffraction
-      //
-      // the following probabilities:
-      // Probability of quark exchange process without excitation of participants (Fig. 44(b)); (Proc# 0)
-      // Probability of quark exchange process with excitation of participants (Fig. 44(c)); (Proc# 1)
-      // Probability of projectile diffraction dissociation; (Proc# 2)
-      // Probability of target diffraction dissociation. (Proc# 3) 
-      // are described with the formila: 
-      // P = A1 * exp(-B1*y) + A2 * exp(-B2*y) + A3
-      // where y is the rapidity of the projectile in the target rest frame
-      //
-      // Q1: what are Atop and Ymin then ???
-      // Q2: why is A3 is zero (0.) in all the groups of settings ?  
       
-      // baryon/proton projectile
-      
-      // "proc0"
-      //
-      double br_pr0_a1 = 0.;
-      HDP.Get( "FTF_BARYON_PROC0_A1", br_pr0_a1 ); // D=13.71
-      std::cout << " br_pr0_a1 = " << br_pr0_a1 << std::endl;
-//      br_pr0_a1 = 6.5;
-//      br_pr0_a1 = 19.5;
-//      br_pr0_a1 = 0.;
-//      HDP.Set( "FTF_BARYON_PROC0_A1", br_pr0_a1 );
-      //
-      double br_pr0_b1 = 0.;
-      HDP.Get( "FTF_BARYON_PROC0_B1", br_pr0_b1 ); // D=1.75
-      std::cout << " br_pr0_b1 = " << br_pr0_b1 << std::endl;
-//      br_pr0_b1 = 0.85;
-//      br_pr0_b1 = 2.65;
-//      HDP.Set( "FTF_BARYON_PROC0_B1", br_pr0_b1 );
-      //
-      double br_pr0_a2 = 0.;
-      HDP.Get( "FTF_BARYON_PROC0_A2", br_pr0_a2 ); // D=-30.69
-      std::cout << " br_pr0_a2 = " << br_pr0_a2 << std::endl;
-//      br_pr0_a2 = -45.;
-//      br_pr0_a2 = -15.;
-//      br_pr0_a2 = 30.;
-//      br_pr0_a2 = 0.;
-//      HDP.Set( "FTF_BARYON_PROC0_A2", br_pr0_a2 );
-      //
-      double br_pr0_b2 = 0.;
-      HDP.Get( "FTF_BARYON_PROC0_B2", br_pr0_b2 ); // D=3
-      std::cout << " br_pr0_b2 = " << br_pr0_b2 << std::endl;
-//      br_pr0_b2 = 1.5;
-//      br_pr0_b2 = 4.5;
-//      HDP.Set( "FTF_BARYON_PROC0_B2", br_pr0_b2 );
-      //
-      double br_pr0_a3 = 0.;
-      HDP.Get( "FTF_BARYON_PROC0_A3", br_pr0_a3 ); // D=0
-      std::cout << " br_pr0_a3 = " << br_pr0_a3 << std::endl;
-//      br_pr0_a3 = 0.4;
-//      HDP.Set( "FTF_BARYON_PROC0_A3", br_pr0_a3 );
-      //
-      double br_pr0_atop = 0.;
-      HDP.Get( "FTF_BARYON_PROC0_ATOP", br_pr0_atop ); // D=1
-      std::cout << " br_pr0_atop = " << br_pr0_atop << std::endl;
-//      br_pr0_atop = 0.5;
-//      br_pr0_atop = 1.5;
-//      HDP.Set( "FTF_BARYON_PROC0_ATOP", br_pr0_atop );
-      //
-      double br_pr0_ymin = 0.;
-      HDP.Get( "FTF_BARYON_PROC0_YMIN", br_pr0_ymin ); // D=0.93
-      std::cout << " br_pr0_ymin = " << br_pr0_ymin << std::endl;
-//      br_pr0_ymin = 0.45;
-//      br_pr0_ymin = 1.35;
-//      HDP.Set( "FTF_BARYON_PROC0_YMIN", br_pr0_ymin );
-
-      // "proc1"
-      //
-      double br_pr1_a1 = 0.;
-      HDP.Get( "FTF_BARYON_PROC1_A1", br_pr1_a1 ); // D=25.
-      std::cout << " br_pr1_a1 = " << br_pr1_a1 << std::endl;
-//      br_pr1_a1 = 12.5;
-//      br_pr1_a1 = 37.5;
-//      br_pr1_a1 = 0.;
-//      HDP.Set( "FTF_BARYON_PROC1_A1", br_pr1_a1 ); 
-      //
-      double br_pr1_b1 = 0.;
-      HDP.Get( "FTF_BARYON_PROC1_B1", br_pr1_b1 ); // D=1.
-      std::cout << " br_pr1_b1 = " << br_pr1_b1 << std::endl;
-//      br_pr1_b1 = 0.5;
-//      br_pr1_b1 = 1.5;
-//      HDP.Set( "FTF_BARYON_PROC1_B1", br_pr1_b1 );
-      //
-      double br_pr1_a2 = 0.;
-      HDP.Get( "FTF_BARYON_PROC1_A2", br_pr1_a2 ); // D=-50.34
-      std::cout << " br_pr1_a2 = " << br_pr1_a2 << std::endl;
-//      br_pr1_a2 = -75.;
-//      br_pr1_a2 = -25.;
-//      br_pr1_a2 = 50.;
-//      br_pr1_a2 = 0.;
-//      HDP.Set( "FTF_BARYON_PROC1_A2", br_pr1_a2 );
-      //
-      double br_pr1_b2 = 0.;
-      HDP.Get( "FTF_BARYON_PROC1_B2", br_pr1_b2 ); // D=1.5
-      std::cout << " br_pr1_b2 = " << br_pr1_b2 << std::endl;
-//      br_pr1_b2 = 0.75;
-//      br_pr1_b2 = 2.25;
-//      HDP.Set( "FTF_BARYON_PROC1_B2", br_pr1_b2 );
-      //
-      double br_pr1_a3 = 0.;
-      HDP.Get( "FTF_BARYON_PROC1_A3", br_pr1_a3 ); // D=0
-      std::cout << " br_pr1_a3 = " << br_pr1_a3 << std::endl;
-//      br_pr1_a3 = 0.5;
-//      br_pr1_a3 = 0.25;
-//      HDP.Set( "FTF_BARYON_PROC1_A3", br_pr1_a3 );
-      //
-      double br_pr1_atop = 0.;
-      HDP.Get( "FTF_BARYON_PROC1_ATOP", br_pr1_atop ); // D=0.
-      std::cout << " br_pr1_atop = " << br_pr1_atop << std::endl;
-      //
-      double br_pr1_ymin = 0.;
-      HDP.Get( "FTF_BARYON_PROC1_YMIN", br_pr1_ymin ); // D=1.4
-      std::cout << " br_pr1_ymin = " << br_pr1_ymin << std::endl;
-//      br_pr1_ymin = 0.7;
-//      br_pr1_ymin = 2.1;
-//      HDP.Set( "FTF_BARYON_PROC1_YMIN", br_pr1_ymin );
-
-      
-      // switches to turn ON/OFF proc2 & proc3
+      // examples of switching ON/OFF proc2 & proc3 for baryon projectile
       //
       bool br_disso_proj = false;
       HDP.Get( "FTF_BARYON_DIFF_DISSO_PROJ", br_disso_proj ); // D=false
       bool br_disso_tgt  = false;
       HDP.Get( "FTF_BARYON_DIFF_DISSO_TGT",  br_disso_tgt  ); // D=false
 
-      // "proc4"
+      // example of setting selected nuclear target destruction parameters 
+      // for baryon projectile 
+      // (similar can be done for pion)
       //
-      double br_pr4_a1 = 0.;
-      HDP.Get( "FTF_BARYON_PROC4_A1", br_pr4_a1 ); // D=0.6
-      std::cout << " br_pr4_a1 = " << br_pr4_a1 << std::endl;
-      br_pr4_a1 = 0.;
-      HDP.Set( "FTF_BARYON_PROC4_A1", br_pr4_a1 );
-      //
-      double br_pr4_b1 = 0.;
-      HDP.Get( "FTF_BARYON_PROC4_B1", br_pr4_b1 ); // D=0.
-      std::cout << " br_pr4_b1 = " << br_pr4_b1 << std::endl;
-      //
-      double br_pr4_a2 = 0.;
-      HDP.Get( "FTF_BARYON_PROC4_A2", br_pr4_a2 ); // D=-1.2
-      std::cout << " br_pr4_a2 = " << br_pr4_a2 << std::endl;
-      br_pr4_a2 = 0.;
-      HDP.Set( "FTF_BARYON_PROC4_A2", br_pr4_a2 );
-      //
-      double br_pr4_b2 = 0.;
-      HDP.Get( "FTF_BARYON_PROC4_B2", br_pr4_b2 ); // D=0.5
-      std::cout << " br_pr4_b2 = " << br_pr4_b2 << std::endl;
-      //
-      double br_pr4_a3 = 0.;
-      HDP.Get( "FTF_BARYON_PROC4_A3", br_pr4_a3 ); // D=0
-      std::cout << " br_pr4_a3 = " << br_pr4_a3 << std::endl;
-      br_pr4_a3 = 1.;
-      HDP.Set( "FTF_BARYON_PROC4_A3", br_pr4_a3 );
-      //
-      double br_pr4_atop = 0.;
-      HDP.Get( "FTF_BARYON_PROC4_ATOP", br_pr4_atop ); // D=0.
-      std::cout << " br_pr4_atop = " << br_pr4_atop << std::endl;
-      double br_pr4_ymin = 0.;
-      HDP.Get( "FTF_BARYON_PROC4_YMIN", br_pr4_ymin ); // D=1.4
-      std::cout << " br_pr4_ymin = " << br_pr4_ymin << std::endl;
-
-      // pion projectile
       
-      // "proc0"
-      //
-      double pi_pr0_a1 = 0.;
-      HDP.Get( "FTF_PION_PROC0_A1", pi_pr0_a1 ); // D=13.71
-      std::cout << " pi_pr0_a1 = " << pi_pr0_a1 << std::endl;
-      double pi_pr0_b1 = 0.;
-      HDP.Get( "FTF_PION_PROC0_B1", pi_pr0_b1 ); // D=1.75
-      std::cout << " pi_pr0_b1 = " << pi_pr0_b1 << std::endl;
-      double pi_pr0_a2 = 0.;
-      HDP.Get( "FTF_PION_PROC0_A2", pi_pr0_a2 ); // D=-30.69
-      std::cout << " pi_pr0_a2 = " << pi_pr0_a2 << std::endl;
-      double pi_pr0_b2 = 0.;
-      HDP.Get( "FTF_PION_PROC0_B2", pi_pr0_b2 ); // D=3
-      std::cout << " pi_pr0_b2 = " << pi_pr0_b2 << std::endl;
-      double pi_pr0_a3 = 0.;
-      HDP.Get( "FTF_PION_PROC0_A3", pi_pr0_a3 ); // D=0
-      std::cout << " pi_pr0_a3 = " << pi_pr0_a3 << std::endl;
-      double pi_pr0_atop = 0.;
-      HDP.Get( "FTF_PION_PROC0_ATOP", pi_pr0_atop ); // D=1
-      std::cout << " pi_pr0_atop = " << pi_pr0_atop << std::endl;
-      double pi_pr0_ymin = 0.;
-      HDP.Get( "FTF_PION_PROC0_YMIN", pi_pr0_ymin ); // D=0.93
-      std::cout << " pi_pr0_ymin = " << pi_pr0_ymin << std::endl;
-
-      // "proc1"
-      //
-      double pi_pr1_a1 = 0.;
-      HDP.Get( "FTF_PION_PROC1_A1", pi_pr1_a1 ); // D=13.71
-      std::cout << " pi_pr1_a1 = " << pi_pr1_a1 << std::endl;
-      double pi_pr1_b1 = 0.;
-      HDP.Get( "FTF_PION_PROC1_B1", pi_pr1_b1 ); // D=1.75
-      std::cout << " pi_pr1_b1 = " << pi_pr1_b1 << std::endl;
-      double pi_pr1_a2 = 0.;
-      HDP.Get( "FTF_PION_PROC1_A2", pi_pr1_a2 ); // D=-30.69
-      std::cout << " pi_pr1_a2 = " << pi_pr1_a2 << std::endl;
-      double pi_pr1_b2 = 0.;
-      HDP.Get( "FTF_PION_PROC1_B2", pi_pr1_b2 ); // D=3
-      std::cout << " pi_pr1_b2 = " << pi_pr1_b2 << std::endl;
-      double pi_pr1_a3 = 0.;
-      HDP.Get( "FTF_PION_PROC1_A3", pi_pr1_a3 ); // D=0
-      std::cout << " pi_pr1_a3 = " << pi_pr1_a3 << std::endl;
-      double pi_pr1_atop = 0.;
-      HDP.Get( "FTF_PION_PROC1_ATOP", pi_pr1_atop ); // D=1
-      std::cout << " pi_pr1_atop = " << pi_pr1_atop << std::endl;
-      double pi_pr1_ymin = 0.;
-      HDP.Get( "FTF_PION_PROC1_YMIN", pi_pr1_ymin ); // D=0.93
-      std::cout << " pi_pr1_ymin = " << pi_pr1_ymin << std::endl;
-
-      // "proc4"
-      //
-      double pi_pr4_a1 = 0.;
-      HDP.Get( "FTF_PION_PROC4_A1", pi_pr4_a1 ); // D=13.71
-      std::cout << " pi_pr4_a1 = " << pi_pr4_a1 << std::endl;
-      double pi_pr4_b1 = 0.;
-      HDP.Get( "FTF_PION_PROC4_B1", pi_pr4_b1 ); // D=1.75
-      std::cout << " pi_pr4_b1 = " << pi_pr4_b1 << std::endl;
-      double pi_pr4_a2 = 0.;
-      HDP.Get( "FTF_PION_PROC4_A2", pi_pr4_a2 ); // D=-30.69
-      std::cout << " pi_pr4_a2 = " << pi_pr4_a2 << std::endl;
-      double pi_pr4_b2 = 0.;
-      HDP.Get( "FTF_PION_PROC4_B2", pi_pr4_b2 ); // D=3
-      std::cout << " pi_pr4_b2 = " << pi_pr4_b2 << std::endl;
-      double pi_pr4_a3 = 0.;
-      HDP.Get( "FTF_PION_PROC4_A3", pi_pr4_a3 ); // D=0
-      std::cout << " pi_pr4_a3 = " << pi_pr4_a3 << std::endl;
-      double pi_pr4_atop = 0.;
-      HDP.Get( "FTF_PION_PROC4_ATOP", pi_pr4_atop ); // D=1
-      std::cout << " pi_pr4_atop = " << pi_pr4_atop << std::endl;
-      double pi_pr4_ymin = 0.;
-      HDP.Get( "FTF_PION_PROC4_YMIN", pi_pr4_ymin ); // D=0.93
-      std::cout << " pi_pr4_ymin = " << pi_pr4_ymin << std::endl;
+      double br_nd_p1_tgt = 0.00173;
+      HDP.Set( "FTF_BARYON_NUCDESTR_P1_TGT", br_nd_p1_tgt );
+      bool br_nd_p1_adep_tgt = true;
+      HDP.Set( "FTF_BARYON_NUCDESTR_P1_ADEP_TGT", br_nd_p1_adep_tgt );
+      double br_exci = 26.1;
+      HDP.Set( "FTF_BARYON_EXCI_E_PER_WNDNUCLN", br_exci );
 */
       // fProcWrapper = new FTFPWrapper();
       pw = new FTFPWrapper();
@@ -395,8 +213,13 @@ void Test19ExecProcessLevel::InitProcess( const TstReader* pset )
    }
    else if ( name.find("incl++") != std::string::npos || name.find("inclxx") != std::string::npos )
    {
+//      std::cout << " HyperNuclei enabled : " 
+//                << G4HadronicParameters::Instance()->EnableHyperNuclei() << std::endl;
+//      G4HadronicParameters::Instance()->SetEnableHyperNuclei(false);
       pw = new ProcessWrapper( "INCLXXProcessWrapper" );
       G4INCLXXInterface* inclxx = new G4INCLXXInterface();
+//      std::cout << " HyperNuclei enabled : " 
+//                << G4HadronicParameters::Instance()->EnableHyperNuclei() << std::endl;
       inclxx->SetMinEnergy(1.*MeV); // this is what stands in the INCL-based PL for protons 
                                     // it's 0. for pions, but let's make it uniform
       inclxx->SetMaxEnergy(20.*GeV); // this is what stands in the INCL-based PL for p,n,pi

@@ -1,18 +1,51 @@
--------------------------------------------------------------------
+# Category test23 History
 
-     =========================================================
-     Geant4 - an Object-Oriented Toolkit for Simulation in HEP
-     =========================================================
+See `CONTRIBUTING.rst` for details of **required** info/format for each entry,
+which **must** added in reverse chronological order (newest at the top). It must **not**
+be used as a substitute for writing good git commit messages!
 
-                    Test 23 History file
-                    --------------------
-This file should be used by the test developer to briefly
-summarize all major modifications introduced in the code and keep
-track of all tags.
+## 2023-03-17 Julia Yarba (test23-V11-01-00)
+- Update shared-root-macros/Chi2CalcNA49.C to handle 
+  double diff. spectra of secondary antiprotons by NA49
+- Various small scale cleanups and updates, including 
+  some related to FTF "tunes"
 
-     ----------------------------------------------------------
-     * Reverse chronological order (last date on top), please *
-     ----------------------------------------------------------
+## 2022-07-03 Ben Morgan (test23-V11-00-01)
+- Add headers for directly used classes from global/HEPGeometry
+
+## 2021-12-10 Ben Morgan (test23-V11-00-00)
+- Change to new Markdown History format
+
+---
+
+# History entries prior to 11.0
+
+July 1 2021 Vladimir Ivanchenko (test23-V10-07-05)
+- Tst23NA61Histo - fixed write out of the bound
+
+May 5 2021 Ben Morgan (test23-V10-07-04)
+- Do not install tests
+
+March 18 2021 Alberto Ribon (test23-V10-07-03)
+- QGSPStrFragmLundProtonBuilder : removed unused header files.
+- HadronPhysicsNuBeam : replaced G4HadronCaptureProcess with
+  G4NeutronCaptureProcess.
+
+March 08 2021 Alberto Ribon (test23-V10-07-02)
+- QGSPStrFragmLundProtonBuilder : removed header files for old and
+  unused nucleon inelastic cross sections.
+- test23.cc : removed commented reference to Gheisha cross sections
+  (that have been deleted).
+- ProcessWrapper, ExecProcessLevel, TstPrimaryGeneratorAction : replaced
+  old Gheisha inelastic cross section (that has been deleted) with better
+  cross sections.
+
+March 04 2021 Alberto Ribon (test23-V10-07-01)
+- QGSPStrFragmLundProtonBuilder : replaced G4ProtonInelasticProcess
+  (that has been deleted) with G4HadronInelasticProcess.
+
+February 18 2021 Ben Morgan (test23-V10-07-00)
+- Support same CMake version range as core Geant4
 
 May 07 2020 Alberto Ribon (test23-V10-06-01)
 - HadronPhysicsNuBeam : introduced the new class G4HyperonBuilder
@@ -26,7 +59,7 @@ Aug 20 2019 Gabriele Cosmo (test23-V10-05-05)
 
 Aug 2 2019 Gunter Folger (test23-V10-05-04)
 - Remove use of G4DataQuestionaire, following cleanup in
-  physicslists, see phys-lists-V10-05-02 and phys-util-V10-04-02   
+  physicslists, see phys-lists-V10-05-02 and phys-util-V10-04-02
 
 Feb 7 2019 Julia Yarba (test23-V10-05-03)
 - Add batch scripts for different processin scenarios/quueue in SLURM
@@ -65,7 +98,7 @@ Feb 6 2019 Julia Yarba (test23-V10-05-01)
 
 28 July 2016 Julia Yarba (test23-V10-02-07)
 - Fix error in HARP 12GeV/c p+C -> pi+ dataset
-- Minor cleanup in analysis scripts and scripts to generate json specs 
+- Minor cleanup in analysis scripts and scripts to generate json specs
 
 15 July 2016 Julia Yarba (test23-V10-02-06)
 - Refine details related to migration to Root6
@@ -80,7 +113,7 @@ Feb 6 2019 Julia Yarba (test23-V10-05-01)
 
 26 Apr 2016 Julia Yarba (test23-V10-02-03)
 - Add HARP/FW production data for pi- on Al
-- Add drawing features for Mu2e-like validation 
+- Add drawing features for Mu2e-like validation
 - Add qgsp_bert and ftfp_bert phys.lists for p+Ta runs
 
 17 Feb 2016 Julia Yarba (test23-V10-02-02)
@@ -88,7 +121,7 @@ Feb 6 2019 Julia Yarba (test23-V10-05-01)
 - Minor tweaks in REGRESSION.h
 
 15 Feb 2016 Julia Yarba (test23-V10-02-01)
-- Convert production scripts to using per-Core submission via 
+- Convert production scripts to using per-Core submission via
   "parallel" GNU utility
 
 12 Feb 2016 Julia Yarba (test23-V10-02-00)
@@ -102,7 +135,7 @@ Feb 6 2019 Julia Yarba (test23-V10-05-01)
 
 8 Sept 2015 Julia Yarba (test23-V10-01-11)
 - Export more HARP data (from test35): C, Cu, Al, Pb
-- Add testing of Shielding&ShieldingM, and corresponding Mu2e-like 
+- Add testing of Shielding&ShieldingM, and corresponding Mu2e-like
   comparison vs HARP data (theta-spectra in specific momentum bins)
 - Also, this is the last tag that includes production scripts for
   running validation on cluck.fnal.gov (the following scripts will
@@ -127,7 +160,7 @@ Feb 6 2019 Julia Yarba (test23-V10-05-01)
 
 9 March 2015 Julia Yarba (test23-V10-01-05)
 - Add p+H data (integrated spectra)
-- Update common-use Root scripts ("central" SplitString, etc.) 
+- Update common-use Root scripts ("central" SplitString, etc.)
 - Update CMakeList
 
 5 February 2015 Julia Yarba (test23-V10-01-04)
@@ -141,7 +174,7 @@ Feb 6 2019 Julia Yarba (test23-V10-05-01)
   for proper memory management)
 
 2 Febuary 2015 Julia Yarba (test23-V10-01-02)
-- Several cleanus and updates (inlcl. rndm handling), partially 
+- Several cleanus and updates (inlcl. rndm handling), partially
   related to test47 restructuring, but mainly of general nature
 
 13 January 2015 Julia Yarba (test23-V10-01-01)
@@ -157,7 +190,7 @@ Feb 6 2019 Julia Yarba (test23-V10-05-01)
 
 16 November 2014 Julia Yarba (test23-V10-00-15)
 - Reshuffle G4PHYSICS_* includes
-- Add gen_upload* executable scripts (to replace generate_upload* 
+- Add gen_upload* executable scripts (to replace generate_upload*
   as one can't change mode in SVN)
 
 14 November 2014 Julia Yarba (test23-V10-00-14)
@@ -183,15 +216,15 @@ Feb 6 2019 Julia Yarba (test23-V10-05-01)
 
 28 October 2014 Julia Yarba  (test23-V10-00-09)
 - Restructured analysis scripts
-- Added various scripts for the procedure's automation 
-- Updated CMakeList.txt to allow copy ovre necessary scripts 
+- Added various scripts for the procedure's automation
+- Updated CMakeList.txt to allow copy ovre necessary scripts
   to the work/build area
 
 
 05 August 2014 Krzysztof Genser           (test23-V10-00-08)
 - Uses new implementation of ShieldingM
-- co-working with 
-                   phys-ctor-hinelastic-V10-00-04 
+- co-working with
+                   phys-ctor-hinelastic-V10-00-04
                    phys-lists-V10-00-06
 
 01 August 2014 Alberto Ribon (test23-V10-00-07)
@@ -216,10 +249,10 @@ Feb 6 2019 Julia Yarba (test23-V10-05-01)
 8 January 2014 Julia Yarba (test23-V10-00-03)
 - Intermediate tag to include several changes towards
   restructuring of test47
-- Fully compatible with current tags of test19 and test75 
+- Fully compatible with current tags of test19 and test75
 
 2 January 2014 Julia Yarba (test23-V10-00-02)
-- Re-tag in order to re-submit with the tag of test19 
+- Re-tag in order to re-submit with the tag of test19
 
 11 December 2013 Julia Yarba (test23-V10-00-01)
 - Refine shared code infrastructure
@@ -239,11 +272,11 @@ Feb 6 2019 Julia Yarba (test23-V10-05-01)
 - Note: G4VUserActionInitialization still NOT activated
 
 20 November 2013  Julia Yarba (test23-V09-06-07)
-- Include functionality to account for decays of short-lived resonances 
+- Include functionality to account for decays of short-lived resonances
   (of lifetime<0.01*ns, such as eta, eta_prime, etc.)
 - Add pp->pions data from NA49
-- Various cleanups  
-- Note: G4VUserActionInitialization is NOT activated; 
+- Various cleanups
+- Note: G4VUserActionInitialization is NOT activated;
   will be un-commnted in the next tag
 
 5 November 2013  Julia Yarba (test23-V09-06-06)
@@ -261,7 +294,7 @@ Feb 6 2019 Julia Yarba (test23-V10-05-01)
 - Minor cleanups (unused variables, etc.)
 
 24 October 2013  Julia Yarba (test23-V09-06-02)
-- Copy over source code and headers from CommonSW into shared 
+- Copy over source code and headers from CommonSW into shared
 - Improve CmakeList (now compile/build each test directly with shared, rather than building shared into a library)
 - Several cleanups
 
@@ -288,7 +321,7 @@ Feb 6 2019 Julia Yarba (test23-V10-05-01)
 
 21 August 2012  Pere Mato (test23-V09-05-04)
 ----------------------------------------------------
-- CMakeLists.txt - Changed to avoid two builds of different targets running concurrenly 
+- CMakeLists.txt - Changed to avoid two builds of different targets running concurrenly
                    when CTest is used with -jN
 
 27 July 2012  Vladimir Ivanchenko (test23-V09-05-03)
@@ -321,7 +354,7 @@ Feb 6 2019 Julia Yarba (test23-V10-05-01)
 
 26 May 2009, Gunter Folger             (test23-V09-02-00)
 ---------------------------------------------------------
-- rename hadronic exerciser files; use "_" instead of "." in filename; 
+- rename hadronic exerciser files; use "_" instead of "." in filename;
    ("." in fileanme confuses Windows, resulting in warnings)
 
 
@@ -342,10 +375,10 @@ Oct 18, 2001  Steve O'Neale (tests-V03-02-03)
 
 March 07 2001 H.Kurashige (test23-V03-00-03)
 --------------------------------------------
--  Add G4MuonMinusCaptureAtRest in G4MuonPhysics 
+-  Add G4MuonMinusCaptureAtRest in G4MuonPhysics
 
 
-Feb 20 2001 Steve O'Neale Update reference outputs following 
+Feb 20 2001 Steve O'Neale Update reference outputs following
             materials-V03-00-04 from tagset268 (test23-V03-00-02)
 
 Feb 15 2001 Steve O'Neale Update large_N output from geant4-03-00-ref-02
@@ -353,19 +386,19 @@ Feb 15 2001 Steve O'Neale Update large_N output from geant4-03-00-ref-02
 Frb 08 2001 Hisaya Kurashige
 - Modify Tst23SteppingAction.cc to fit with new tracking code (tracking-V03-00-05)
 
-Jan 06 2001  Hisaya Kurashige 
+Jan 06 2001  Hisaya Kurashige
 - intorduce Modular Physics List
 
 25th November 2000 Steve O'Neale (tagset210)
 - Update test outputs for min.delta energy cut
 
-18th August 2000  Michel Maire  
+18th August 2000  Michel Maire
 - standard G4ionIonisation removed from the PhysicsList
 
 June 17, 2000  John Allison  (test23-V01-01-00)
 - Updated test23*.out for geant4-01-01-ref-06.
 
-16 Apr., 1999 H.Kurashige 
+16 Apr., 1999 H.Kurashige
 - Modify SetCuts() and ConstructParticle() in Tst23PhysicsList
 - Modify BeginOfRunAction() and EndOfRunAction() in Tst23RunAction
 - Modify UserSteppingAction() in Tst23SteppingAction
