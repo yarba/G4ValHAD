@@ -155,7 +155,10 @@ export G4LIB=/cvmfs/geant4.cern.ch/geant4/11.1/x86_64-centos7-gcc9-optdeb/lib64
 # G4HAD Val apps
 # NOTE: similar apps do exist inder geant4-dev/tests
 #
-git clone git@github.com:yarba/G4ValHAD.git
+# ---> read-write access --> git clone git@github.com:yarba/G4ValHAD.git
+# --> read-only access
+git clone https://github.com/yarba/G4ValHAD.git
+
 cd G4ValHAD
 mkdir test19-build-vs-cern
 cd test19-build-vs-cern

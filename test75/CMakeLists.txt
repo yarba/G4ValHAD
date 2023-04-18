@@ -19,7 +19,7 @@
 
 # Specify mandatory
 #
-cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.16...3.21)
 
 #----Included in Geant4------------------------------------------------------------------
 #----Standalone--------------------------------------------------------------------------
@@ -27,9 +27,9 @@ cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 #------------------------------------------------------------------------------
 # - Enforce an out-of-source builds before anything else
 #
-if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_BINARY_DIR})
     message(STATUS "Geant4 requires an out-of-source build.")
-    message(STATUS "Please remove these files from ${CMAKE_BINARY_DIR} first:")
+    message(STATUS "Please remove these files from ${CMAKE_CURRENT_BINARY_DIR} first:")
     message(STATUS "CMakeCache.txt")
     message(STATUS "CMakeFiles")
     message(STATUS "Once these files are removed, create a separate directory")
@@ -139,25 +139,3 @@ foreach(_file ${test75_FILES})
        ${PROJECT_SOURCE_DIR}/${_file} ${PROJECT_BINARY_DIR}/${_file} COPYONLY
        )
 endforeach()
-
-#----------------------------------------------------------------------------
-# Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
-#
-install(TARGETS test75 DESTINATION bin)
-
-# -------------------------------
-# This is a leftover from earlier days, and it's kep here just as an example
-#
-### if(CMAKE_PROJECT_NAME STREQUAL Geant4)
-###  find_package(Geant4 REQUIRED)
-###  include(${Geant4_USE_FILE})
-###  find_package(ROOT QUIET)
-###  if(NOT ROOT_FOUND)
-###    message(STATUS "G4 TESTS: ROOT package not found. --> test75 disabled")
-###    return()
-###  endif()
-###  GEANT4_ADD_TEST(test75-build BUILD test75)
-####  GEANT4_ADD_TEST(test75 COMMAND test75 ${PROJECT_SOURCE_DIR}/ctest75-gam300-Cu.config
-####                         DEPENDS test75-build
-####                         ENVIRONMENT ${GEANT4_TEST_ENVIRONMENT})
-### endif()
