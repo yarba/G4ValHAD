@@ -40,8 +40,17 @@ class Test (BaseParser):
               if 'pip' in h.GetName() or 'pim' in h.GetName():
                  print("Skip histo ", h.GetName())
                  continue
+              if '60' in h.GetName() or '72' in h.GetName() or '84' in h.GetName():
+                 print("Skip histo ", h.GetName()) 
+                 continue
+              if 'proKE' in h.GetName() or 'Cos' in h.GetName():
+                 print("Skip histo ", h.GetName())
+                 continue
               secondary = 'proton'
            elif '668' in energy:
+              if 'Pb' in material and '28' in h.GetName(): 
+                 print("Skip histo ", h.GetName())
+                 continue
               if 'pip' in h.GetName():
                  secondary = "pi+"
               elif 'pim' in h.GetName():
