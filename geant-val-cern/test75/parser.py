@@ -88,8 +88,12 @@ class Test (BaseParser):
            yStatErrorPlus = []
            yStatErrorMinus = []
            beamenergies = []
+	   en_to_json = float(energy)
+           if 'MeV' in job["ENERGY_UNIT"]:
+              en_to_json = en_to_json / 1000.
            # beamenergies.append(float(job['ENERGY']))
-           beamenergies.append(float(energy))
+           # beamenergies.append(float(energy))
+           beamenergies.append(en_to_json)
 
            for x in range(firstNonZeroBin, lastNonZeroBin+1):
                binContent.append(round(hh.GetBinContent(x),3))
