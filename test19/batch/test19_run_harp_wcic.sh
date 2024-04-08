@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 #
 
-source /cvmfs/geant4-ib.opensciencegrid.org/products/setup
-setup root v6_24_06b -q e20:p399:prof
+# SL7
+# source /cvmfs/geant4-ib.opensciencegrid.org/products/setup
+# setup root v6_24_06b -q e20:p399:prof
 
 # --> export G4INSTALL=/work1/g4v/yarba_j/geant4-local-builds/gcc-9.3.0/geant4-${G4RELEASE}
 
 # setup G4 datasets
 #
-source /wclustre/g4p/g4p/download/g4data/g4-datasets-${G4RELEASE}.sh
+# --> no need --> source /wclustre/g4p/g4p/download/g4data/g4-datasets-${G4RELEASE}.sh
 
 echo "Variable SLURM_SUBMIT_DIR says: $SLURM_SUBMIT_DIR"
 
@@ -39,6 +40,7 @@ if [ ${JobID} -gt ${njobsmax} ]; then
 exit
 fi
 
+beam=${1}
 itgt=$((${SLURM_PROCID}/${nmoms}))
 imom=$((${SLURM_PROCID} % ${nmoms}))
 target=${target_list[$itgt]}
@@ -88,11 +90,22 @@ mom=$((${momentum}/1000))
 /usr/bin/printf "ftfp \n" >> ${config}
 /usr/bin/printf "#run \n" >> ${config}
 /usr/bin/printf "// --- \n#generator \n" >> ${config}
+/usr/bin/printf "ftfp_tune3 \n" >> ${config}
+/usr/bin/printf "#run \n" >> ${config}
+/usr/bin/printf "// --- \n#generator \n" >> ${config}
 /usr/bin/printf "inclxx \n" >> ${config}
 /usr/bin/printf "#run \n" >> ${config}
 
 /usr/bin/printf "#exit\n" >> ${config}
 
+# EL8
+
+module load gcc/11.4.0
+
+export HOME=/work1/g4p/g4p/products-el8
+export SPACK_ROOT=/work1/g4p/g4p/products-el8/spack
+. $SPACK_ROOT/share/spack/setup-env.sh
+spack load root@6.26.06
 
 ./test19 ${config}
 

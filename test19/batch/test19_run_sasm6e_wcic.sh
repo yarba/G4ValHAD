@@ -8,12 +8,13 @@
 ## bail out if NO MOMENTUM !!!
 #fi
 
-source /cvmfs/geant4-ib.opensciencegrid.org/products/setup
-setup root v6_24_06b -q e20:p399:prof
+# SL7
+# source /cvmfs/geant4-ib.opensciencegrid.org/products/setup
+# setup root v6_24_06b -q e20:p399:prof
 
 # setup G4 datasets
 #
-source /wclustre/g4p/g4p/download/g4data/g4-datasets-${G4RELEASE}.sh
+# --> no need --> source /wclustre/g4p/g4p/download/g4data/g4-datasets-${G4RELEASE}.sh
 
 # setup workdir
 #
@@ -33,7 +34,8 @@ cd ${G4WORKDIR}
 JobID=$((1+${SLURM_PROCID}))
 seed=$((1234+${JobID}))
 
-bm=${beam}
+#bm=${beam}
+bm=${1}
 if [ "x${beam}" == "xpiplus" ]; then
    bm="pi+"
 fi
@@ -41,7 +43,10 @@ if [ "x${beam}" == "xpiminus" ]; then
    bm="pi-"
 fi
 
-config=${beam}.${target}.100000.SASM6E
+# config=${beam}.${target}.100000.SASM6E
+config=${beam}.${2}.100000.SASM6E
+
+nevents=${3}
 
 if [ "x" == "x$JobID" ]; then
    echo "Process entire statistics in one job"
@@ -81,6 +86,9 @@ fi
 /usr/bin/printf "ftfp \n" >> ${config}
 /usr/bin/printf "#run \n" >> ${config}
 /usr/bin/printf "// --- \n#generator \n" >> ${config}
+/usr/bin/printf "ftfp_tune3 \n" >> ${config}
+/usr/bin/printf "#run \n" >> ${config}
+/usr/bin/printf "// --- \n#generator \n" >> ${config}
 /usr/bin/printf "qgsp \n" >> ${config}
 /usr/bin/printf "#run \n" >> ${config}
 /usr/bin/printf "// --- \n#generator \n" >> ${config}
@@ -88,6 +96,16 @@ fi
 /usr/bin/printf "#run \n" >> ${config}
 
 /usr/bin/printf "#exit\n" >> ${config}
+
+# EL8
+
+module load gcc/11.4.0
+
+export HOME=/work1/g4p/g4p/products-el8
+export SPACK_ROOT=/work1/g4p/g4p/products-el8/spack
+. $SPACK_ROOT/share/spack/setup-env.sh
+spack load root@6.26.06
+
 
 ./test19 ${config}
 

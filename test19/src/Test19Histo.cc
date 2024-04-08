@@ -30,7 +30,8 @@
 #include "TstReader.hh"
 
 #include "TestNA49Histo.hh"
-#include "TestNA61Histo.hh"
+#include "TestNA61ProtonBeamHisto.hh"
+#include "TestNA61PiplusBeamHisto.hh"
 #include "TestHARPHisto.hh"
 #include "TestSASM6EHisto.hh"
 #include "TestIAEAHisto.hh"
@@ -50,7 +51,22 @@ Test19Histo::Test19Histo( const TstReader* pset )
 
    if ( pset->GetExpDataSet() == "NA61" )
    {
-      fHistoSet = new TestNA61Histo( fHistoTitle );
+      if (pset->GetBeamParticle() == "proton")
+      { 
+         std::cout << "Initialize NA61 histo for proton beam" << std::endl;
+	 fHistoSet = new TestNA61ProtonBeamHisto( fHistoTitle );
+      }
+      else if ( pset->GetBeamParticle() == "pi+" )
+      {
+         std::cout << "Initialize NA61 histo for proton beam" << std::endl;
+         fHistoSet = new TestNA61PiplusBeamHisto( fHistoTitle );         
+      }
+      else
+      {
+         std::cout << "NA61 BENCHMARK : UNKNOWN BEAM TYPE "  
+	           << pset->GetBeamParticle() << std::endl;
+         exit;
+      }
       fHistoDirName  = "na61-histo";
    }
    else if ( pset->GetExpDataSet() == "NA49" )

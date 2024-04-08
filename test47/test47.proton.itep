@@ -20,9 +20,6 @@ C
 bertini
 #run
 #generator
-binary
-#run
-#generator
 inclxx
 #run
 //--------
@@ -35,6 +32,9 @@ bertini
 #run
 #generator
 ftfp
+#run
+#generator
+ftfp_tune3
 #run
 #generator
 inclxx
@@ -50,9 +50,6 @@ U
 bertini
 #run
 #generator
-binary
-#run
-#generator
 inclxx
 #run
 //--------
@@ -65,6 +62,9 @@ bertini
 #run
 #generator
 ftfp
+#run
+#generator
+ftfp_tune3
 #run
 #generator
 inclxx

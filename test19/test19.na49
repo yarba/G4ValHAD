@@ -25,4 +25,7 @@ qgsp-g4lund-str-fragm
 #generator
 ftfp
 #run
+#generator
+ftfp_tune3
+#run
 #exit

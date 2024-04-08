@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 #
 
-source /cvmfs/geant4-ib.opensciencegrid.org/products/setup
-setup root v6_24_06b -q e20:p399:prof
+# SL7
+# source /cvmfs/geant4-ib.opensciencegrid.org/products/setup
+# setup root v6_24_06b -q e20:p399:prof
 
 # --> export G4INSTALL=/work1/g4v/yarba_j/geant4-local-builds/gcc-8.2.0/geant4-${G4RELEASE}
 
 # setup G4 datasets
 #
-source /wclustre/g4p/g4p/download/g4data/g4-datasets-${G4RELEASE}.sh
+# --> no need --> source /wclustre/g4p/g4p/download/g4data/g4-datasets-${G4RELEASE}.sh
 
 # setup workdir
 #
@@ -21,11 +22,18 @@ fi
 
 cd ${G4WORKDIR}
 
+module load gcc/11.4.0
+
+export HOME=/work1/g4p/g4p/products-el8
+export SPACK_ROOT=/work1/g4p/g4p/products-el8/spack
+. $SPACK_ROOT/share/spack/setup-env.sh
+spack load root@6.26.06
+
 beam_list=(proton piplus piminus)
 
 i=${SLURM_PROCID}
 beam=${beam_list[$i]}
 
-# ./test47 test47.${beam}.itep.Mu2e
-./test47 test47.${beam}.itep
+./test47 test47.${beam}.itep.Mu2e
+# ./test47 test47.${beam}.itep
 

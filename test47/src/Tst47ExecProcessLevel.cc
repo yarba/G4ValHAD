@@ -46,6 +46,10 @@
 #include "G4BinaryLightIonReaction.hh"
 #include "G4INCLXXInterface.hh"
 
+#include "G4StateManager.hh"
+// #include "G4HadronicDeveloperParameters.hh"
+#include "G4FTFTunings.hh"
+
 void Tst47ExecProcessLevel::InitProcess( const TstReader* pset )
 {
 
@@ -119,6 +123,47 @@ void Tst47ExecProcessLevel::InitStringModel( const G4String name )
    
    if ( name.find("ftf") != std::string::npos )
    {
+
+      if ( name.find("_tune") != std::string::npos )
+      {
+      // example(s) of setting FTF parameters as tunes 
+      // (i.e. as groups where selected parameters have been obtained
+      //  via collective fits vs thin target data)
+      //
+      // G4cout << " Is it locked: ? " << G4FTFTunings::Instance()->IsLocked() << std::endl;
+
+      bool isMaster = G4Threading::IsMasterThread();
+      G4cout << " Is Master ? " << isMaster << G4endl;
+      
+      bool isState_PreInit = ( G4StateManager::GetStateManager()->GetCurrentState() == G4State_PreInit );
+      G4cout << " Is state PreInit ? " << isState_PreInit << G4endl;
+
+      G4ApplicationState currentstate = G4StateManager::GetStateManager()->GetCurrentState();   
+      bool ok = G4StateManager::GetStateManager()->SetNewState(G4State_PreInit);
+      G4cout << " Is PreInit set ? " << ok << G4endl;
+
+      isState_PreInit = ( G4StateManager::GetStateManager()->GetCurrentState() == G4State_PreInit );
+      
+      bool isLocked = ( !isMaster || !isState_PreInit );
+      G4cout << " Is locked ?  " << isLocked << G4endl; 
+      
+// -->      G4FTFTunings::Instance()->SetTuneApplicabilityState( 1,      1 );
+// --> below is attempt to set "combined tune" (both baryon-2022 and pion-2022)
+      // --> int tuneID = 3;      
+      int tuneID = atoi(&(name.back()));  
+      G4cout << " tuneID = " << tuneID << G4endl;   
+      G4FTFTunings::Instance()->SetTuneApplicabilityState( tuneID,      1 );
+
+// NOTE (JVY): For some reason when trying to set tune via UI
+//             the parameter values do not seem to propagate;
+//             maybe it should be at a different stage/state ?
+//
+// -->   G4UImanager* uim = G4UImanager::GetUIpointer();   
+// -->   uim->ApplyCommand( "/process/had/models/ftf/selectTuneByIndex 1" );
+
+      ok = G4StateManager::GetStateManager()->SetNewState( currentstate );
+      }
+
       pw = new FTFPWrapper();
    }
    else if ( name.find("qgsp") != std::string::npos )

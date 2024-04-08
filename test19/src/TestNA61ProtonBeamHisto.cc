@@ -24,14 +24,14 @@
 // ********************************************************************
 //
 
-#include "TestNA61Histo.hh"
+#include "TestNA61ProtonBeamHisto.hh"
 
 #include "G4VParticleChange.hh"
 #include "G4TrackVector.hh"
 
 #include "G4SystemOfUnits.hh"
 
-TestNA61Histo::TestNA61Histo( G4String htitle )
+TestNA61ProtonBeamHisto::TestNA61ProtonBeamHisto( G4String htitle )
    : TstHistoSet(htitle)
 {
 
@@ -1068,7 +1068,7 @@ TestNA61Histo::TestNA61Histo( G4String htitle )
 
 }
 
-TestNA61Histo::~TestNA61Histo()
+TestNA61ProtonBeamHisto::~TestNA61ProtonBeamHisto()
 {
 
    for (size_t i=0; i<fHistoSecProton.size(); i++ )
@@ -1124,13 +1124,27 @@ TestNA61Histo::~TestNA61Histo()
 
 }
 
-void TestNA61Histo::FillEvt( G4VParticleChange* aChange, const G4LorentzVector&, const G4LorentzVector& ) 
+void TestNA61ProtonBeamHisto::FillEvt( G4VParticleChange* aChange, 
+                                       const G4LorentzVector&, 
+				       const G4LorentzVector& ) 
 {
 
    G4int NSec = aChange->GetNumberOfSecondaries();
      
    const G4DynamicParticle* sec = 0;
       
+   int NHProSize = fHistoSecProton.size();
+   int NHPimSize = fHistoSecPiMinus.size();
+   int NHPipSize = fHistoSecPiPlus.size();
+      
+   int NHProP2015Size = fHistoProtonP2015.size();
+   int NHPipP2015Size = fHistoPiPlusP2015.size();
+   int NHPimP2015Size = fHistoPiMinusP2015.size();
+   int NHKpP2015Size = fHistoKPlusP2015.size();
+   int NHKmP2015Size = fHistoKMinusP2015.size();
+   int NHK0sP2015Size = fHistoK0sP2015.size();
+   int NHLamP2015Size = fHistoLambdaP2015.size();
+
    for (G4int i=0; i<NSec; i++) 
    {
 
@@ -1147,34 +1161,25 @@ void TestNA61Histo::FillEvt( G4VParticleChange* aChange, const G4LorentzVector&,
 	
       int id = -1;
       int id1 = -1;
+      // --> do we need for Mult or nor ? --> double dth  = 1.;
       double dth1 = 1.;
-	
-      int NHProSize = fHistoSecProton.size();
-      int NHPimSize = fHistoSecPiMinus.size();
-      int NHPipSize = fHistoSecPiPlus.size();
-      
-      int NHProP2015Size = fHistoProtonP2015.size();
-      int NHPipP2015Size = fHistoPiPlusP2015.size();
-      int NHPimP2015Size = fHistoPiMinusP2015.size();
-      int NHKpP2015Size = fHistoKPlusP2015.size();
-      int NHKmP2015Size = fHistoKMinusP2015.size();
-      int NHK0sP2015Size = fHistoK0sP2015.size();
-      int NHLamP2015Size = fHistoLambdaP2015.size();
-     
+	     
       if ( pname == "proton" || 
-           pname == "pi+" || pname == "pi-" || 
-	   pname == "kaon+" || pname == "kaon-" )
+           pname == "pi+" || pname == "pi-"  )// || 
+//	   pname == "kaon+" || pname == "kaon-" )
       {
 	if ( theta >= 0. && theta < 10. )
 	{
 	   id = 0;
 	   id1 = 0;
+	   // ?? dth  = 20. * mrad;
 	   dth1 = 10. * mrad;
 	}
-	else if ( theta >=0. && theta < 20. )
+	else if ( theta >=10. && theta < 20. )
 	{
 	   id = 0;
 	   id1 = 1;
+	   // ?? dth  = 20. * mrad;
 	   dth1 = 10. * mrad;
 	}
 	else if ( theta >= 20. && theta < 40. )
@@ -1247,6 +1252,56 @@ void TestNA61Histo::FillEvt( G4VParticleChange* aChange, const G4LorentzVector&,
 	   if ( id >= 0 && id < NHPipSize ) fHistoSecPiPlus[id]->Fill( pmom );
 	   if ( id1 >= 0 && id1 < NHPipP2015Size ) fHistoPiPlusP2015[id1]->Fill( pmom, 1./dth1 );
 	}
+
+      }      
+
+      id = -1;
+      dth1 = 1.;
+      
+      if (pname == "kaon+" || pname == "kaon-")
+      {
+	if ( theta >= 0. && theta < 20. )
+	{
+	   id = 0;
+	   dth1 = 20. * mrad;
+	}
+	else if  (theta >= 20. && theta < 40. )
+	{
+	   id = 1;
+	   dth1 = 20. * mrad;
+	}
+	else if ( theta >= 40. && theta < 60. )
+	{
+	   id = 2;
+	   dth1 = 20. * mrad;
+	}
+	else if ( theta >= 60. && theta < 100. )
+	{
+	   id = 3;
+	   dth1 = 40. * mrad;
+	}
+	else if ( theta >= 100. && theta < 140. )
+	{
+	   id = 4;
+	   dth1 = 40. * mrad;
+	}
+	else if ( theta >= 140. && theta < 180. )
+	{
+	   id = 5;
+	   dth1 = 40. * mrad;
+	}
+	else if ( theta >= 180. && theta < 240. )
+	{
+	   id = 6;
+	   dth1 = 60. * mrad;
+	}
+	else if ( theta >= 240. && theta < 300. )
+	{
+	   id = 7;
+	   dth1 = 60. * mrad;
+	}
+
+
 	if ( pname == "kaon+" )
 	{
 	   if ( id >=0 && id < NHKpP2015Size ) fHistoKPlusP2015[id]->Fill( pmom, 1./dth1 );
@@ -1256,7 +1311,7 @@ void TestNA61Histo::FillEvt( G4VParticleChange* aChange, const G4LorentzVector&,
 	   if ( id >=0 && id < NHKmP2015Size ) fHistoKMinusP2015[id]->Fill( pmom, 1./dth1 );
 	}
       }
-      
+
       if ( pname == "proton" || pname == "pi-" || pname == "kaon-" ) continue;
 
       id = -1;
@@ -1345,7 +1400,7 @@ void TestNA61Histo::FillEvt( G4VParticleChange* aChange, const G4LorentzVector&,
    
 }
 
-void TestNA61Histo::Write( G4int stat, G4double xsec )
+void TestNA61ProtonBeamHisto::Write( G4int stat, G4double xsec )
 {
 
    double scale = 1. / ((double)stat) ;

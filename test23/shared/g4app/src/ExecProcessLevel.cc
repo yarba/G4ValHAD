@@ -73,8 +73,6 @@
 #include "G4Box.hh"
 #include "G4PVPlacement.hh"
 #include "G4Step.hh"
-#include "G4GRSVolume.hh"
-#include "G4GRSSolid.hh"
 
 #include "G4TrackingManager.hh"
 #include "G4Region.hh"
