@@ -27,7 +27,7 @@ beam_sasm6e=(proton piplus)
 for (( i=0; i<${#target_sasm6e[@]}; ++i )) do
 for (( j=0; j<${#beam_sasm6e[@]}; ++j )) do
 
-sbatch -N 1 -n 16 -c 1 -p _wc_cpu --exclusive --qos=regular --time=23:00:00 -A g4v \
+sbatch -N 1 -n 16 -c 1 -p wc_cpu --exclusive --qos=regular --time=23:00:00 -A g4v \
 	slurm_master.sh test19_run_sasm6e_wcic.sh ${beam_sasm6e[$j]} ${target_sasm6e[$i]} 62500
 
 done
