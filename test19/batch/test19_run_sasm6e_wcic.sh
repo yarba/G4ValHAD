@@ -34,8 +34,12 @@ cd ${G4WORKDIR}
 JobID=$((1+${SLURM_PROCID}))
 seed=$((1234+${JobID}))
 
-#bm=${beam}
-bm=${1}
+beam=${1}
+target=${2}
+nevents=${3}
+
+
+bm=${beam}
 if [ "x${beam}" == "xpiplus" ]; then
    bm="pi+"
 fi
@@ -43,10 +47,8 @@ if [ "x${beam}" == "xpiminus" ]; then
    bm="pi-"
 fi
 
-# config=${beam}.${target}.100000.SASM6E
-config=${beam}.${2}.100000.SASM6E
+config=${beam}.${target}.100000.SASM6E
 
-nevents=${3}
 
 if [ "x" == "x$JobID" ]; then
    echo "Process entire statistics in one job"
