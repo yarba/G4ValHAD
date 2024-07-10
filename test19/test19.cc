@@ -91,6 +91,8 @@ int main(int argc, char** argv)
       G4Timer timer;
       timer.Start();
       
+      auto start = std::chrono::high_resolution_clock::now();
+      
       for (G4int iter=0; iter<NEvts; ++iter) 
       {
 
@@ -131,6 +133,17 @@ int main(int argc, char** argv)
       
       if ( histo ) delete histo; // delete histograms after writing them out
       
+  const auto stop = std::chrono::high_resolution_clock::now();
+  const auto diff = stop - start;
+  const auto time = static_cast<G4double>(
+      std::chrono::duration_cast<std::chrono::microseconds>(diff).count()) / 1e6;
+  G4cout << G4endl;
+  G4cout << "Processed " << NEvts << " events (collisions) in " 
+         << std::scientific << time << " seconds."
+         << " Average: " << std::defaultfloat << (time * 1E3 / NEvts) << " ms / event." 
+         << G4endl;
+  G4cout << G4endl;
+
       delete exec;
 
    } while(!theConfigReader->IsDone()); // end loop over "runs"

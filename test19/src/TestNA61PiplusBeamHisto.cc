@@ -547,65 +547,55 @@ TestNA61PiplusBeamHisto::TestNA61PiplusBeamHisto( G4String htitle )
   // secondary K+/-
   //
   
-  double tmp_k[] = {0.8, 1.6, 2.4, 3.2, 4, 4.8, 5.6, 6.4, 7.6, 8.8, 
-                     10, 11.6, 13.2, 14.8, 16.4, 18, 19.6};
+//  double tmp_k[] = {0.8, 1.6, 2.4, 3.2, 4, 4.8, 5.6, 6.4, 7.6, 8.8, 
+//                     10, 11.6, 13.2, 14.8, 16.4, 18, 19.6};
  
+  double tmp_k_1[] = { 4.0,  6.0,  9.0, 12.0, 15.0, 18.0, 
+                      21.0, 25.0, 29.0, 33.0, 37.0, 41.0 };
+ 
+  double tmp_k_2[] ={ 4.0, 6.0, 8.0, 10.0, 12.0, 14.0, 18.0, 23.0, 35.0 };
+  
+  double tmp_k_3[] = { 4.0, 6.0, 8.0, 11.0, 15.0, 25.0 };
+  
+  double tmp_k_4[] = { 4.0, 5.0, 6.5, 8.0, 11.0, 16.0 };
+  
+  double tmp_kplus_5[] = { 4.0, 6.5, 12.0 };
+
   // K+, 0-20
-  fNKplusBinsP2019[0] = 14;
+  fNKplusBinsP2019[0] = 9;
   fKplusBinsP2019[0] = new double[fNKplusBinsP2019[0]+1];
   for ( int i=0; i<=fNKplusBinsP2019[0]; ++i )
   {
-     fKplusBinsP2019[0][i] = tmp_k[i];
+     fKplusBinsP2019[0][i] = tmp_k_1[i];
   } 
   // K+, 20-40
-  fNKplusBinsP2019[1] = 14;
+  fNKplusBinsP2019[1] = 8;
   fKplusBinsP2019[1] = new double[fNKplusBinsP2019[1]+1];
   for ( int i=0; i<=fNKplusBinsP2019[1]; ++i )
   {
-     fKplusBinsP2019[1][i] = tmp_k[i];
+     fKplusBinsP2019[1][i] = tmp_k_2[i];
   } 
   // K+, 40-60
-  fNKplusBinsP2019[2] = 16;
+  fNKplusBinsP2019[2] = 5;
   fKplusBinsP2019[2] = new double[fNKplusBinsP2019[2]+1];
   for ( int i=0; i<=fNKplusBinsP2019[2]; ++i )
   {
-     fKplusBinsP2019[2][i] = tmp_k[i];
+     fKplusBinsP2019[2][i] = tmp_k_3[i];
   } 
   // K+, 60-100
-  fNKplusBinsP2019[3] = 14;
+  fNKplusBinsP2019[3] = 5;
   fKplusBinsP2019[3] = new double[fNKplusBinsP2019[3]+1];
   for ( int i=0; i<=fNKplusBinsP2019[3]; ++i )
   {
-     fKplusBinsP2019[3][i] = tmp_k[i];
+     fKplusBinsP2019[3][i] = tmp_k_4[i];
   } 
   // K+, 100-140
-  fNKplusBinsP2019[4] = 12;
+  fNKplusBinsP2019[4] = 2;
   fKplusBinsP2019[4] = new double[fNKplusBinsP2019[4]+1];
   for ( int i=0; i<=fNKplusBinsP2019[4]; ++i )
   {
-     fKplusBinsP2019[4][i] = tmp_k[i];
+     fKplusBinsP2019[4][i] = tmp_kplus_5[i];
   } 
-  // K+, 140-180
-  fNKplusBinsP2019[5] = 10;
-  fKplusBinsP2019[5] = new double[fNKplusBinsP2019[5]+1];
-  for ( int i=0; i<=fNKplusBinsP2019[5]; ++i )
-  {
-     fKplusBinsP2019[5][i] = tmp_k[i];
-  } 
-  // K+, 180-240
-  fNKplusBinsP2019[6] = 8;
-  fKplusBinsP2019[6] = new double[fNKplusBinsP2019[6]+1];
-  for ( int i=0; i<=fNKplusBinsP2019[6]; ++i )
-  {
-     fKplusBinsP2019[6][i] = tmp_k[i];
-  } 
-  // K+, 240-300
-  fNKplusBinsP2019[7] = 6;
-  fKplusBinsP2019[7] = new double[fNKplusBinsP2019[7]+1];
-  for ( int i=0; i<=fNKplusBinsP2019[7]; ++i )
-  {
-     fKplusBinsP2019[7][i] = tmp_k[i];
-  }
   
   outcome = " -> X + K+ ";
 
@@ -619,68 +609,44 @@ TestNA61PiplusBeamHisto::TestNA61PiplusBeamHisto( G4String htitle )
   fHistoKPlusP2019.push_back( new TH1F( "kplus_60_100", title.c_str(), fNKplusBinsP2019[3], fKplusBinsP2019[3] ) );
   title = htitle + outcome + " (100<theta<140 [mrad]) ";
   fHistoKPlusP2019.push_back( new TH1F( "kplus_100_140", title.c_str(), fNKplusBinsP2019[4], fKplusBinsP2019[4] ) );
-  title = htitle + outcome + " (140<theta<180 [mrad]) ";
-  fHistoKPlusP2019.push_back( new TH1F( "kplus_140_180", title.c_str(), fNKplusBinsP2019[5], fKplusBinsP2019[5] ) );
-  title = htitle + outcome + " (180<theta<240 [mrad]) ";
-  fHistoKPlusP2019.push_back( new TH1F( "kplus_180_240", title.c_str(), fNKplusBinsP2019[6], fKplusBinsP2019[6] ) );
-  title = htitle + outcome + " (240<theta<300 [mrad]) ";
-  fHistoKPlusP2019.push_back( new TH1F( "kplus_240_300", title.c_str(), fNKplusBinsP2019[7], fKplusBinsP2019[7] ) );
+
+
+  double tmp_kminus_5[] = { 4.0, 6.0, 12.0 };
 
   // K-, 0-20 
-  fNKminusBinsP2019[0] = 14;
+  fNKminusBinsP2019[0] = 11;
   fKminusBinsP2019[0] = new double[fNKminusBinsP2019[0]+1];
   for ( int i=0; i<=fNKminusBinsP2019[0]; ++i )
   {
-     fKminusBinsP2019[0][i] = tmp_k[i];
+     fKminusBinsP2019[0][i] = tmp_k_1[i];
   }
   // K-, 20-40
-  fNKminusBinsP2019[1] = 16;
+  fNKminusBinsP2019[1] = 8;
   fKminusBinsP2019[1] = new double[fNKminusBinsP2019[1]+1];
   for ( int i=0; i<=fNKminusBinsP2019[1]; ++i )
   {
-     fKminusBinsP2019[1][i] = tmp_k[i];
+     fKminusBinsP2019[1][i] = tmp_k_2[i];
   }
   // K-, 40-60
-  fNKminusBinsP2019[2] = 15;
+  fNKminusBinsP2019[2] = 5;
   fKminusBinsP2019[2] = new double[fNKminusBinsP2019[2]+1];
   for ( int i=0; i<=fNKminusBinsP2019[2]; ++i )
   {
-     fKminusBinsP2019[2][i] = tmp_k[i];
+     fKminusBinsP2019[2][i] = tmp_k_3[i];
   }
   // K-, 60-100
-  fNKminusBinsP2019[3] = 15;
+  fNKminusBinsP2019[3] = 5;
   fKminusBinsP2019[3] = new double[fNKminusBinsP2019[3]+1];
   for ( int i=0; i<=fNKminusBinsP2019[3]; ++i )
   {
-     fKminusBinsP2019[3][i] = tmp_k[i];
+     fKminusBinsP2019[3][i] = tmp_k_4[i];
   }
   // K-, 100-140
-  fNKminusBinsP2019[4] = 12;
+  fNKminusBinsP2019[4] = 2;
   fKminusBinsP2019[4] = new double[fNKminusBinsP2019[4]+1];
   for ( int i=0; i<=fNKminusBinsP2019[4]; ++i )
   {
-     fKminusBinsP2019[4][i] = tmp_k[i];
-  }
-  // K-, 140-180
-  fNKminusBinsP2019[5] = 9;
-  fKminusBinsP2019[5] = new double[fNKminusBinsP2019[5]+1];
-  for ( int i=0; i<=fNKminusBinsP2019[5]; ++i )
-  {
-     fKminusBinsP2019[5][i] = tmp_k[i];
-  }
-  // K-, 180-240
-  fNKminusBinsP2019[6] = 7;
-  fKminusBinsP2019[6] = new double[fNKminusBinsP2019[6]+1];
-  for ( int i=0; i<=fNKminusBinsP2019[6]; ++i )
-  {
-     fKminusBinsP2019[6][i] = tmp_k[i];
-  }
-  // K-, 240-300
-  fNKminusBinsP2019[7] = 6;
-  fKminusBinsP2019[7] = new double[fNKminusBinsP2019[7]+1];
-  for ( int i=0; i<=fNKminusBinsP2019[7]; ++i )
-  {
-     fKminusBinsP2019[7][i] = tmp_k[i];
+     fKminusBinsP2019[4][i] = tmp_kminus_5[i];
   }
   
   outcome = " -> X + K- ";
@@ -695,13 +661,8 @@ TestNA61PiplusBeamHisto::TestNA61PiplusBeamHisto( G4String htitle )
   fHistoKMinusP2019.push_back( new TH1F( "kminus_60_100", title.c_str(), fNKminusBinsP2019[3], fKminusBinsP2019[3] ) );
   title = htitle + outcome + " (100<theta<140 [mrad]) ";
   fHistoKMinusP2019.push_back( new TH1F( "kminus_100_140", title.c_str(), fNKminusBinsP2019[4], fKminusBinsP2019[4] ) );
-  title = htitle + outcome + " (140<theta<180 [mrad]) ";
-  fHistoKMinusP2019.push_back( new TH1F( "kminus_140_180", title.c_str(), fNKminusBinsP2019[5], fKminusBinsP2019[5] ) );
-  title = htitle + outcome + " (180<theta<240 [mrad]) ";
-  fHistoKMinusP2019.push_back( new TH1F( "kminus_180_240", title.c_str(), fNKminusBinsP2019[6], fKminusBinsP2019[6] ) );
-  title = htitle + outcome + " (240<theta<300 [mrad]) ";
-  fHistoKMinusP2019.push_back( new TH1F( "kminus_240_300", title.c_str(), fNKminusBinsP2019[7], fKminusBinsP2019[7] ) );
 
+/*
   // secondary K0s
   //
   
@@ -776,6 +737,9 @@ TestNA61PiplusBeamHisto::TestNA61PiplusBeamHisto( G4String htitle )
   title = htitle + outcome + " (240<theta<300 [mrad]) ";
   fHistoK0sP2019.push_back( new TH1F( "k0s_240_300", title.c_str(), fNK0sBinsP2019[6], fK0sBinsP2019[6] ) );
 
+*/
+
+/*
   // secondary Lambda
   //
   
@@ -851,6 +815,7 @@ TestNA61PiplusBeamHisto::TestNA61PiplusBeamHisto( G4String htitle )
   fHistoLambdaP2019.push_back( new TH1F( "lambda_180_240", title.c_str(), fNLambdaBinsP2019[5], fLambdaBinsP2019[5] ) );
   title = htitle + outcome + " (240<theta<300 [mrad]) ";
   fHistoLambdaP2019.push_back( new TH1F( "lambda_240_300", title.c_str(), fNLambdaBinsP2019[6], fLambdaBinsP2019[6] ) );
+*/
 
 }
 

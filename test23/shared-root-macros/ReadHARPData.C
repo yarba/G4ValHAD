@@ -180,7 +180,7 @@ TGraphErrors* getHARPAsGraph( int ibin )
    }
    
    TGraphErrors* gr = new TGraphErrors( NPointsHARP[ibin], X, YHARP[ibin], 0, EYHARP[ibin] );
-   gr->SetMarkerColor(kBlue);
+   gr->SetMarkerColor(kBlack /* kBlue */ );
    gr->SetMarkerStyle(22);
    gr->SetMarkerSize(1.5); 
 
@@ -222,7 +222,7 @@ TGraphErrors* getHARPAsThetaGraph( float pmin, float pmax, std::string region="L
 
    TGraphErrors* gr = new TGraphErrors( NN, X, Y, 0, EY );
    gr->GetYaxis()->SetRangeUser( 0., ymax );
-   gr->SetMarkerColor(kBlue);
+   gr->SetMarkerColor(kBlack /* kBlue */ );
    gr->SetMarkerStyle(22);
    gr->SetMarkerSize(1.5); 
 

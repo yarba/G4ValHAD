@@ -160,7 +160,7 @@ void drawMomSpectrum( std::string beam, std::string target,
    TGraph* gr = new TGraphErrors( NPointsNA61, SecMom, SecSigma, 0, SumErr );
    // gr->GetYaxis()->SetRangeUser( 0., 0.02 );
    // gr->SetRangeUser( ymin, ymax*1.5 );
-   gr->SetMarkerColor(kBlue);
+   gr->SetMarkerColor(kBlack /* kBlue */ );
    gr->SetMarkerStyle(22);
    gr->SetMarkerSize(1.5);
    gr->GetYaxis()->SetTitle(YTitle);
@@ -306,7 +306,7 @@ void drawMomSpectMC2Data( std::string beam, std::string target,
 
    //gr1->GetYaxis()->SetRangeUser( ymin, ymax );
    gr1->GetYaxis()->SetRangeUser( 0.1, 10. );
-   gr1->SetMarkerColor(kBlue);
+   gr1->SetMarkerColor(kBlack /* kBlue */ );
    gr1->SetMarkerStyle(22);
    gr1->SetMarkerSize(1.0);
    // gr1->SetMarkerSize(1.5);
@@ -419,7 +419,7 @@ void drawKPlus2PiPlusRatio( std::string beam, std::string target,
    TGraph* gr = new TGraphErrors( NPointsNA61, SecMom, K2PiRatio, 0, K2PiERatio );
    // gr->GetYaxis()->SetRangeUser( 0., 0.02 );
    // gr->SetRangeUser( ymin, ymax*1.5 );
-   gr->SetMarkerColor(kBlue);
+   gr->SetMarkerColor(kBlack /* kBlue */ );
    gr->SetMarkerStyle(22);
    gr->SetMarkerSize(1.5);
    
@@ -537,7 +537,7 @@ void drawKPlus2PiPlusRatioRegre( std::string beam, std::string target,
    TGraph* gr = new TGraphErrors( NPointsNA61, SecMom, K2PiRatio, 0, K2PiERatio );
    // gr->GetYaxis()->SetRangeUser( 0., 0.02 );
    // gr->SetRangeUser( ymin, ymax*1.5 );
-   gr->SetMarkerColor(kBlue);
+   gr->SetMarkerColor(kBlack /* kBlue */ );
    gr->SetMarkerStyle(22);
    gr->SetMarkerSize(1.5);
    
@@ -703,7 +703,7 @@ void drawMomSpectrumRegre( std::string beam, std::string target,
    TGraph* gr = new TGraphErrors( NPointsNA61, SecMom, SecSigma, 0, SumErr );
    // gr->GetYaxis()->SetRangeUser( 0., 0.02 );
    // gr->SetRangeUser( ymin, ymax*1.5 );
-   gr->SetMarkerColor(kBlue);
+   gr->SetMarkerColor(kBlack /* kBlue */ );
    gr->SetMarkerStyle(22);
    gr->SetMarkerSize(1.5);
    
@@ -859,7 +859,7 @@ void drawMomSpectMC2DataRegre( std::string beam, std::string target,
 
    //gr1->GetYaxis()->SetRangeUser( ymin, ymax );
    gr1->GetYaxis()->SetRangeUser( 0.1, 10. );
-   gr1->SetMarkerColor(kBlue);
+   gr1->SetMarkerColor(kBlack /* kBlue */ );
    gr1->SetMarkerStyle(22);
    gr1->SetMarkerSize(1.0);
    // gr1->SetMarkerSize(1.5);

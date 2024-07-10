@@ -177,7 +177,7 @@ void plotSecondarySumCombinedRegre( std::string secondary, std::string model )
    }
    entry = leg->AddEntry("","exp.data","p");
    entry->SetMarkerStyle(22);
-   entry->SetMarkerColor(kBlue);
+   entry->SetMarkerColor(kBlack /* kBlue */ );
    entry->SetMarkerSize(1.5);
    entry->SetTextFont(62);
    leg->SetFillColor(kWhite);
@@ -432,7 +432,7 @@ void plotRegreData2015( std::string secondary, std::string model )
    }
    entry = leg->AddEntry("","exp.data","p");
    entry->SetMarkerStyle(22);
-   entry->SetMarkerColor(kBlue);
+   entry->SetMarkerColor(kBlack /* kBlue */ );
    entry->SetMarkerSize(1.5);
    entry->SetTextFont(62);
    leg->SetFillColor(kWhite);

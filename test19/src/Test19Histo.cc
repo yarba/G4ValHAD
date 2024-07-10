@@ -58,14 +58,14 @@ Test19Histo::Test19Histo( const TstReader* pset )
       }
       else if ( pset->GetBeamParticle() == "pi+" )
       {
-         std::cout << "Initialize NA61 histo for proton beam" << std::endl;
+         std::cout << "Initialize NA61 histo for pi+ beam" << std::endl;
          fHistoSet = new TestNA61PiplusBeamHisto( fHistoTitle );         
       }
       else
       {
          std::cout << "NA61 BENCHMARK : UNKNOWN BEAM TYPE "  
 	           << pset->GetBeamParticle() << std::endl;
-         exit;
+         exit(1);
       }
       fHistoDirName  = "na61-histo";
    }

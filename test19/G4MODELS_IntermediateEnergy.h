@@ -26,10 +26,10 @@
 #ifndef G4MODELS_IE_H
 #define G4MODELS_IE_H
 
-const int NModels_IE = 3;
+const int NModels_IE = 4;
 // std::string ModelName_IE[3]  = { "inclxx", "bertini", "ftfp" };
 // std::string ModelName_IE[3]  = { "bertini", "ftfp", "inclxx" };
-std::string ModelName_IE[3]  = { "bertini", "ftfp", "ftfp+baryon-tune2022-v0" };
+std::string ModelName_IE[4]  = { "bertini", "ftfp", "ftfp_tune3", "fluka4.4.0" };
 // std::string ModelName_IE[1] = {"ftfp"};
 //
 /* ---> for VMP business
@@ -41,9 +41,9 @@ std::string ModelName_IE[9]  = { "ftfp-default",
                                  "ftfp-pr0-a1-6.5", "ftfp-pr0-a1-19.5", 
 				 "ftfp-pr0-b1-0.85", "ftfp-pr0-b1-2.65"  };
 */
-// int         ColorModel_IE[5] = { kMagenta, 7, kRed, kBlack, 14 }; // 14 = grey, 7 = light "sky"-blue
-int         ColorModel_IE[5] = { kMagenta, kRed, kGreen, 14, 7 }; // 14 = grey, 7 = light "sky"-blue
-// ---> for VMP --> int         ColorModel_IE[5] = { kRed, kGreen, kBlack, 7, kMagenta }; 
+// int         ColorModel_IE[5] = { kMagenta, 7, kRed, kBlue /* kBlack */ , 14 }; // 14 = grey, 7 = light "sky"-blue
+int         ColorModel_IE[6] = { kMagenta, kRed, kGreen, kBlue, 14, 7 }; // 14 = grey, 7 = light "sky"-blue
+// ---> for VMP --> int         ColorModel_IE[5] = { kRed, kGreen, kBlue /* kBlack */ , 7, kMagenta }; 
 int         SymbModel_IE[4]     = { 8, 21, 23, 25 };
 
 #endif

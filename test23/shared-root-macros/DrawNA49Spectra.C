@@ -161,12 +161,14 @@ void drawIntegratedSpectrum( std::string beam, std::string target,
 	 hi[m]->GetXaxis()->SetTitle("xF");
 	 hi[m]->GetXaxis()->SetTitleSize(0.05);
 	 hi[m]->GetXaxis()->SetTitleFont(62);
+	 hi[m]->GetXaxis()->SetLabelFont(62);
 	 hi[m]->GetXaxis()->SetTitleOffset(0.9);
 	 hi[m]->GetXaxis()->CenterTitle();
 	 hi[m]->GetYaxis()->SetTitle( YTitle.c_str() );
 //	 hi[m]->GetYaxis()->SetTitleOffset(1.5);
 	 hi[m]->GetYaxis()->SetTitleSize(0.05);
 	 hi[m]->GetYaxis()->SetTitleFont(62);
+	 hi[m]->GetYaxis()->SetLabelFont(62);
 	 hi[m]->GetYaxis()->CenterTitle();
       }
       else
@@ -190,7 +192,7 @@ void drawIntegratedSpectrum( std::string beam, std::string target,
             osCount << ir;
             std::string hname_tmp = histoname + "_" + osCount.str();
 	    TH1F* htmp = (TH1F*)f->Get( hname_tmp.c_str() );
-	    htmp->SetLineColor(kBlack);
+	    htmp->SetLineColor(kBlue /* kBlack */ );
 	    htmp->SetLineWidth(2);
 	    htmp->SetLineStyle(ir);
 	    htmp->Draw("same");
@@ -229,7 +231,7 @@ void drawIntegratedSpectrum( std::string beam, std::string target,
    gr1->GetYaxis()->SetRangeUser( ymin, ymax );
    int nbh = hi[0]->GetNbinsX();
    gr1->GetXaxis()->SetRangeUser( hi[0]->GetBinLowEdge(1), hi[0]->GetBinLowEdge(nbh)+hi[0]->GetBinWidth(nbh) );
-   gr1->SetMarkerColor(kBlue);
+   gr1->SetMarkerColor(kBlack /* kBlue */ );
    gr1->SetMarkerStyle(22);
    gr1->SetMarkerSize(1.0);
     
@@ -362,10 +364,17 @@ void drawIntSpectrumMC2Data( std::string beam, std::string target, std::string s
       if ( ymin < 0. ) ymin = 0.; 
    }
    TGraph* gr1 = new TGraphErrors( NPointsNA49, xF, Value, 0, Error );
-   gr1->GetYaxis()->SetRangeUser( 0.2, 5.0 );
+   if ( secondary == "proton" )
+   {
+      gr1->GetYaxis()->SetRangeUser( 0.2, 5.0 );
+   }
+   else
+   {
+      gr1->GetYaxis()->SetRangeUser( 0.5, 2.0 );
+   }
    // gr1->GetYaxis()->SetRangeUser( ymin, ymax );
    // gr1->GetXaxis()->SetRangeUser( -0.3, 0.4 );
-   gr1->SetMarkerColor(kBlue);
+   gr1->SetMarkerColor(kBlack /* kBlue */ );
    gr1->SetMarkerStyle(22);
    gr1->SetMarkerSize(1.0);
    // gr1->SetMarkerSize(1.5);
@@ -376,6 +385,7 @@ void drawIntSpectrumMC2Data( std::string beam, std::string target, std::string s
    xaxis->SetTitle("xF");
    xaxis->SetTitleSize(0.05);
    xaxis->SetTitleFont(62);
+   xaxis->SetLabelFont(62);
    xaxis->SetTitleOffset(0.9);
    xaxis->CenterTitle();
    
@@ -394,6 +404,7 @@ void drawIntSpectrumMC2Data( std::string beam, std::string target, std::string s
    }
    gr1->GetYaxis()->SetTitleSize(0.05);
    gr1->GetYaxis()->SetTitleFont(62);
+   gr1->GetYaxis()->SetLabelFont(62);
 //   gr1->GetYaxis()->SetTitleOffset(1.5);
    gr1->GetYaxis()->CenterTitle();
 
@@ -547,11 +558,13 @@ void drawIntegratedSpectrumRegre( std::string beam, std::string target, std::str
 	 hi[iv]->GetXaxis()->SetTitleFont(62);
 	 hi[iv]->GetXaxis()->SetTitleOffset(0.9);
 	 hi[iv]->GetXaxis()->CenterTitle();
+	 hi[iv]->GetXaxis()->SetLabelFont(62);
 	 hi[iv]->GetYaxis()->SetTitle( YTitle.c_str() );
 	 // hi[iv]->GetYaxis()->SetTitleOffset(1.5);
          hi[iv]->GetYaxis()->SetTitleSize(0.05);
 	 hi[iv]->GetYaxis()->SetTitleFont(62);
          hi[iv]->GetYaxis()->CenterTitle();
+	 hi[iv]->GetYaxis()->SetLabelFont(62);
       }
       else hi[iv]->Draw("same");     
 
@@ -585,7 +598,7 @@ void drawIntegratedSpectrumRegre( std::string beam, std::string target, std::str
    // gr->GetYaxis()->SetRangeUser( 0., 2.5 );
    // gr->GetXaxis()->SetRangeUser( -0.3, 0.4 );
    // gr->SetRangeUser( 0., 2.5 );
-   gr->SetMarkerColor(kBlue);
+   gr->SetMarkerColor(kBlack /* kBlue */ );
    gr->SetMarkerStyle(22);
    gr->SetMarkerSize(1.5);
     
@@ -749,10 +762,17 @@ void drawIntSpectrumMC2DataRegre( std::string beam, std::string target, std::str
       if ( ymin < 0. ) ymin = 0.; 
    }
    TGraph* gr1 = new TGraphErrors( NPointsNA49, xF, Value, 0, Error );
-   gr1->GetYaxis()->SetRangeUser( 0.2, 5. );
+   if ( secondary == "proton" )
+   {
+      gr1->GetYaxis()->SetRangeUser( 0.2, 5. );
+   }
+   else
+   {
+      gr1->GetYaxis()->SetRangeUser( 0.5, 2. );
+   }
    // gr1->GetYaxis()->SetRangeUser( ymin, ymax );
    // gr1->GetXaxis()->SetRangeUser( -0.3, 0.4 );
-   gr1->SetMarkerColor(kBlue);
+   gr1->SetMarkerColor(kBlack /* kBlue */ );
    gr1->SetMarkerStyle(22);
    gr1->SetMarkerSize(1.0);
    // gr1->SetMarkerSize(1.5);
@@ -764,6 +784,7 @@ void drawIntSpectrumMC2DataRegre( std::string beam, std::string target, std::str
    xaxis->SetTitleSize(0.05);
    xaxis->SetTitleOffset(0.9);
    xaxis->SetTitleFont(62);
+   xaxis->SetLabelFont(62);
    xaxis->CenterTitle();
    
    if ( secondary == "piplus" || secondary == "piminus" || secondary == "antiproton" )
@@ -784,6 +805,7 @@ void drawIntSpectrumMC2DataRegre( std::string beam, std::string target, std::str
    }
    gr1->GetYaxis()->SetTitleSize(0.05);
    gr1->GetYaxis()->SetTitleFont(62);
+   gr1->GetYaxis()->SetLabelFont(62);
 //   gr1->GetYaxis()->SetTitleOffset(1.5);
    gr1->GetYaxis()->CenterTitle();
 
@@ -1183,7 +1205,7 @@ void draw1DDiffXSec( std::string beam, std::string target, std::string secondary
    }
    
    TGraph* gr = new TGraphErrors( NPt, tmpPT, tmpXSec, 0, tmpEXSec );
-   gr->SetMarkerColor(kBlue);
+   gr->SetMarkerColor(kBlack /* kBlue */ );
    gr->SetMarkerStyle(22);
    gr->Draw("psame");
    gr->SetMarkerSize(1.0);

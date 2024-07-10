@@ -76,14 +76,22 @@ void PlotHARPAnalysis( std::string beam, std::string target, std::string energy,
    TLegendEntry* entry = 0;
    for ( int m=0; m<NModels_IE; ++m )
    {
-      entry = leg->AddEntry( "", ModelName_IE[m].c_str(),"L" );
+      // TMP stuff !
+      if ( ModelName_IE[m].find("flu") != std::string::npos )
+      {
+         entry = leg->AddEntry( "", "fluka.cern v4.4.0", "L" );
+      }
+      else
+      {
+         entry = leg->AddEntry( "", ModelName_IE[m].c_str(), "L" );
+      }
       entry->SetLineColor( ColorModel_IE[m] );
       entry->SetLineWidth(3);
       entry->SetTextFont(62);
    }
    entry = leg->AddEntry("","exp.data","p");
    entry->SetMarkerStyle(22);
-   entry->SetMarkerColor(kBlue);
+   entry->SetMarkerColor(kBlack /* kBlue */ );
    entry->SetMarkerSize(1.5);
    entry->SetTextFont(62);
    leg->SetFillColor(kWhite);
@@ -111,7 +119,15 @@ void PlotHARPAnalysis( std::string beam, std::string target, std::string energy,
 
       os << (chi2/NDF);
       std::string txt1 = "#chi^{2}/NDF = " + os.str();
-      txt1 += ( " for " + ModelName_IE[m] );
+      // TMP stuff !
+      if ( ModelName_IE[m].find("flu") != std::string::npos )
+      {
+         txt1 += ( " for fluka.cern v4.4.0" );
+      }
+      else
+      {
+         txt1 += ( " for " + ModelName_IE[m] );
+      }
       TLatex* ltxt1 = new TLatex( 0.1, 0.08-0.02*m, txt1.c_str() );
       ltxt1->SetTextSize(0.02);
       myc->cd();
@@ -451,7 +467,7 @@ void PlotHARPForMu2e( std::string secondary )
    }
    entry = leg->AddEntry("","exp.data","p");
    entry->SetMarkerStyle(22);
-   entry->SetMarkerColor(kBlue);
+   entry->SetMarkerColor(kBlack /* kBlue */ );
    entry->SetMarkerSize(1.5);
    entry->SetTextFont(62);
    leg->SetFillColor(kWhite);

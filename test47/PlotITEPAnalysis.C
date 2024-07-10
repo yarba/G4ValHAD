@@ -71,9 +71,11 @@ int ColorVersion[5] = { kRed, kGreen, 7, kBlack, 14 };
 //
 const int NModels = 4;
 // std::string Models[3] = { "bertini", "binary", "ftfp" };
-std::string Models[4] = { "bertini", "inclxx", "binary", "ftfp" };
+// std::string Models[4] = { "bertini", "inclxx", "binary", "ftfp" };
+std::string Models[4] = { "bertini", "ftfp", "ftfp_tune3", "fluka" };
 // int ColorModel[6] = { 6, 3, 14 };
-int  ColorModel[6] = { kMagenta, kRed, kBlack, 7, 14 }; // 14 = grey, 7 = light "sky"-blue
+// int  ColorModel[5] = { kMagenta, kRed, kBlack, 7, 14 }; // 14 = grey, 7 = light "sky"-blue
+int         ColorModel[6] = { kMagenta, kRed, kGreen, kBlue, 14, 7 }; // 14 = grey, 7 = light "sky"-blue
 
 // --> General purspose exp.data read-in
 //
@@ -324,7 +326,7 @@ void plotModelRegreSummary( std::string beam, std::string target, std::string mo
       //std::string txt = model + " vs (ITEP) Data";
       //TLatex* ltxt = new TLatex( 0.1, 0.8, txt.c_str() );
       //ltxt->SetTextSize(0.2);
-      ltxt->Draw();
+      // --> ltxt->Draw();
 
       int icounter1 = 0;
       for ( int m=0; m<NVersions; ++m )
@@ -334,13 +336,24 @@ void plotModelRegreSummary( std::string beam, std::string target, std::string mo
          chi2 += Chi2KESpectrumITEP( beam, target, "1.40", "proton", "59.1",  model, NDF, Versions[m] );
          chi2 += Chi2KESpectrumITEP( beam, target, "1.40", "proton", "119.0", model, NDF, Versions[m] );
          std::ostringstream os;
+         if ( (chi2/NDF) < 100 )
+         {
+            os.precision(3);
+         }
+         else
+         {
+            os.precision(4);
+         }
          os << (chi2/NDF);
 //      std::string txt1 = "Integral over all agnular bins: #chi^{2}/NDF = ";
          std::string txt1 = "#chi^{2}/NDF = ";
          txt1 += os.str();
-         txt1 += ( " for " + Versions[m] );
-         TLatex* ltxt1 = new TLatex(0.10, 0.6-icounter1*0.2, txt1.c_str() );
+         // ---> txt1 += ( " for " + Versions[m] );
+         // ---> TLatex* ltxt1 = new TLatex(0.10, 0.6-icounter1*0.2, txt1.c_str() );
+         txt1 += ( "  " + Versions[m] );
+         TLatex* ltxt1 = new TLatex(0.10, 0.8-icounter1*0.2, txt1.c_str() );
          ltxt1->SetTextSize(0.2);
+	 ltxt1->SetTextColor( ColorVersion[m] );
          ltxt1->Draw();
          icounter1++;
       }
@@ -366,7 +379,7 @@ void plotModelRegreSummary( std::string beam, std::string target, std::string mo
       // std::string txt = model + " vs (ITEP) Data";
       // TLatex* ltxt = new TLatex( 0.1, 0.8, txt.c_str() );
       // ltxt->SetTextSize(0.2);
-      ltxt->Draw();
+      // ---> ltxt->Draw();
 
       icounter1 = 0;
       for ( int m=0; m<NVersions; ++m )
@@ -383,13 +396,24 @@ void plotModelRegreSummary( std::string beam, std::string target, std::string mo
 	    break;
          }
          std::ostringstream os;
+         if ( (chi2/NDF) < 100 )
+         {
+            os.precision(3);
+         }
+         else
+         {
+            os.precision(4);
+         }
          os << (chi2/NDF);
 //      std::string txt1 = "Integral over all agnular bins: #chi^{2}/NDF = ";
          std::string txt1 = "#chi^{2}/NDF = ";
          txt1 += os.str();
-         txt1 += ( " for " + Versions[m] );
-         TLatex* ltxt1 = new TLatex(0.10, 0.6-icounter1*0.2, txt1.c_str() );
+         // ---> txt1 += ( " for " + Versions[m] );
+         // ---> TLatex* ltxt1 = new TLatex(0.10, 0.6-icounter1*0.2, txt1.c_str() );
+         txt1 += ( "  " + Versions[m] );
+         TLatex* ltxt1 = new TLatex(0.10, 0.8-icounter1*0.2, txt1.c_str() );
          ltxt1->SetTextSize(0.2);
+	 ltxt1->SetTextColor( ColorVersion[m] );
          ltxt1->Draw();
          icounter1++;
       }
@@ -450,7 +474,7 @@ void plotModelRegreSummary( std::string beam, std::string target, std::string mo
       //std::string txt11 = model + " vs (ITEP) Data";
       //TLatex* ltxt11 = new TLatex( 0.1, 0.8, txt.c_str() );
       //ltxt11->SetTextSize(0.2);
-      ltxt->Draw();
+      // ---> ltxt->Draw();
 
       int icounter2 = 0;
       for ( int m=0; m<NVersions; ++m )
@@ -460,13 +484,24 @@ void plotModelRegreSummary( std::string beam, std::string target, std::string mo
          chi2 += Chi2KESpectrumITEP( beam, target, en, "proton", "59.1",  model, NDF, Versions[m] );
          chi2 += Chi2KESpectrumITEP( beam, target, en, "proton", "119.0", model, NDF, Versions[m] );
          std::ostringstream os;
+         if ( (chi2/NDF) < 100 )
+         {
+            os.precision(3);
+         }
+         else
+         {
+            os.precision(4);
+         }
          os << (chi2/NDF);
 //      std::string txt1 = "Integral over all agnular bins: #chi^{2}/NDF = ";
          std::string txt1 = "#chi^{2}/NDF = ";
          txt1 += os.str();
-         txt1 += ( " for " + Versions[m] );
-         TLatex* ltxt1 = new TLatex(0.10, 0.6-icounter2*0.2, txt1.c_str() );
+         // ---> txt1 += ( " for " + Versions[m] );
+         // ----> TLatex* ltxt1 = new TLatex(0.10, 0.6-icounter2*0.2, txt1.c_str() );
+         txt1 += ( "  " + Versions[m] );
+         TLatex* ltxt1 = new TLatex(0.10, 0.8-icounter2*0.2, txt1.c_str() );
          ltxt1->SetTextSize(0.2);
+	 ltxt1->SetTextColor( ColorVersion[m] );
          ltxt1->Draw();
          icounter2++;
       }
@@ -488,7 +523,7 @@ void plotModelRegreSummary( std::string beam, std::string target, std::string mo
       TPad* pad14 = new TPad("pad14","", 0.51, 0.01, 0.99, 0.13 );
       pad14->Draw();
       pad14->cd();
-      ltxt->Draw();
+      // ---> ltxt->Draw();
 
       icounter2 = 0;
       for ( int m=0; m<NVersions; ++m )
@@ -505,13 +540,24 @@ void plotModelRegreSummary( std::string beam, std::string target, std::string mo
 	    break;
          }
          std::ostringstream os;
+         if ( (chi2/NDF) < 100 )
+         {
+            os.precision(3);
+         }
+         else
+         {
+            os.precision(4);
+         }
          os << (chi2/NDF);
 //      std::string txt1 = "Integral over all agnular bins: #chi^{2}/NDF = ";
          std::string txt1 = "#chi^{2}/NDF = ";
          txt1 += os.str();
-         txt1 += ( " for " + Versions[m] );
-         TLatex* ltxt1 = new TLatex(0.10, 0.6-icounter2*0.2, txt1.c_str() );
+         // ---> txt1 += ( " for " + Versions[m] );
+         // ---> TLatex* ltxt1 = new TLatex(0.10, 0.6-icounter2*0.2, txt1.c_str() );
+         txt1 += ( "  " + Versions[m] );
+         TLatex* ltxt1 = new TLatex(0.10, 0.8-icounter2*0.2, txt1.c_str() );
          ltxt1->SetTextSize(0.2);
+	 ltxt1->SetTextColor( ColorVersion[m] );
          ltxt1->Draw();
          icounter2++;
       }
@@ -557,11 +603,15 @@ void plotMC2Data( std::string beam, std::string target, std::string energy,
    }
 
    TGraph*  gr1 = new TGraphErrors(NPtKE,KE,YY,0,Err2);
-   gr1->SetMarkerColor(4);  gr1->SetMarkerStyle(22);
+   gr1->SetMarkerColor(kBlack /* 4 */ );  gr1->SetMarkerStyle(22);
    gr1->SetMarkerSize(1.6);
    std::string xtitle = "Kinetic Energy of secondary " + secondary_type + " (GeV)";
    gr1->GetXaxis()->SetTitle( xtitle.c_str() );
+   gr1->GetXaxis()->SetTitleFont(62);
+   gr1->GetXaxis()->SetLabelFont(62);
    gr1->GetYaxis()->SetTitle("MC/Data");
+   gr1->GetYaxis()->SetTitleFont(62);
+   gr1->GetYaxis()->SetLabelFont(62);
    
    TGraph* gr[NVersions];
    std::string dir;
@@ -659,7 +709,8 @@ void plotMC2Data( std::string beam, std::string target, std::string energy,
    }
    gr[iv]->GetXaxis()->SetTitle( xtitle.c_str() );
    gr[iv]->GetYaxis()->SetTitle("MC/Data");
-   gr[iv]->SetMarkerColor(ColorVersion[iv]);  
+   gr[iv]->SetMarkerColor(ColorVersion[iv]); 
+   gr[iv]->SetLineColor(ColorVersion[iv]); 
    gr[iv]->SetMarkerStyle(21);
    gr[iv]->SetMarkerSize(1.6);
    
@@ -670,19 +721,20 @@ void plotMC2Data( std::string beam, std::string target, std::string energy,
    if ( ymax < 3. ) ymax = 3.;
    // gr1->GetYaxis()->SetRangeUser(ymin-0.1, ymax+0.2);  
    // gr1->GetYaxis()->SetRangeUser(ymin, ymax); 
-   gr1->GetYaxis()->SetRangeUser( 0.1, 30. ); 
+   gr1->GetYaxis()->SetRangeUser( 0.2, 6. ); // 0.1, 30. ); 
    
    gr1->Draw("apl");
 
-   TLegend* leg = new TLegend(0.65, 0.65, 0.99, 0.9);   
+   // ---> TLegend* leg = new TLegend(0.65, 0.65, 0.99, 0.9);   
+   TLegend* leg = new TLegend(0.6, 0.85, 0.90, 0.90);   
    
    for ( int iv=0; iv<NVer; iv++ )
    {
       gr[iv]->Draw("lpsame");       
-      leg->AddEntry( gr[iv], Versions[iv].c_str(), "p" );  
+      // ---> leg->AddEntry( gr[iv], Versions[iv].c_str(), "p" );  
    }
     
-   leg->AddEntry( gr1, "exp.data", "p");     
+   leg->AddEntry( gr1, "ITEP771 data", "p");     
 
    leg->Draw();
    leg->SetFillColor(kWhite);
@@ -755,9 +807,9 @@ void plotModelsMC2DataSummary( std::string beam, std::string target, std::string
    pad5->Draw();
    pad5->cd();
   
-   TText* txt = new TText( 0.1, 0.8, "MonteCarlo vs (ITEP) Data" );
-   txt->SetTextSize(0.2);
-   txt->Draw();
+//   TText* txt = new TText( 0.1, 0.8, "MonteCarlo vs (ITEP) Data" );
+//   txt->SetTextSize(0.2);
+//   txt->Draw();
 
    int icounter = 0;
    for ( int m=0; m<NModels; ++m )
@@ -773,13 +825,35 @@ void plotModelsMC2DataSummary( std::string beam, std::string target, std::string
       chi2 += Chi2KESpectrumITEP( beam, target, energy, "proton", "59.1",  Models[m], NDF );
       chi2 += Chi2KESpectrumITEP( beam, target, energy, "proton", "119.0", Models[m], NDF );
       std::ostringstream os;
+      if ( (chi2/NDF) < 100 )
+      {
+         os.precision(3);
+      }
+      else
+      {
+         os.precision(4);
+      }
       os << (chi2/NDF);
 //      std::string txt1 = "Integral over all agnular bins: #chi^{2}/NDF = ";
       std::string txt1 = "#chi^{2}/NDF = ";
       txt1 += os.str();
-      txt1 += ( " for " + Models[m] );
-      TLatex* ltxt1 = new TLatex(0.10, 0.6-icounter*0.2, txt1.c_str() );
+      if ( Models[m].find("flu") != std::string::npos )
+      {
+         txt1 += ( "  fluka.cern v4.4.0" );
+      }
+      else
+      {
+         txt1 += ( "  " + Models[m] );
+      }
+//      txt1 += ( " for " + Models[m] );
+//      if ( Models[m].find("flu") != std::string::npos )
+//      {
+//         txt1 += "4.4.0";
+//      }
+      // --> TLatex* ltxt1 = new TLatex(0.10, 0.6-icounter*0.2, txt1.c_str() );
+      TLatex* ltxt1 = new TLatex(0.10, 0.8-icounter*0.2, txt1.c_str() );
       ltxt1->SetTextSize(0.2);
+      ltxt1->SetTextColor( ColorModel[m] );
       ltxt1->Draw();
       icounter++;
    }
@@ -809,7 +883,7 @@ void plotModelsMC2DataSummary( std::string beam, std::string target, std::string
   
    // TText* txt = new TText( 0.1, 0.8, "MonteCarlo vs (ITEP) Data" );
    // txt->SetTextSize(0.2);
-   txt->Draw();
+//   txt->Draw();
 
    icounter=0;
    for ( int m=0; m<NModels; ++m )
@@ -834,13 +908,34 @@ void plotModelsMC2DataSummary( std::string beam, std::string target, std::string
       }
       
       std::ostringstream os;
+      if ( (chi2/NDF) < 100 )
+      {
+         os.precision(3);
+      }
+      else
+      {
+         os.precision(4);
+      }
       os << (chi2/NDF);
 //      std::string txt1 = "Integral over all agnular bins: #chi^{2}/NDF = ";
       std::string txt1 = "#chi^{2}/NDF = ";
       txt1 += os.str();
-      txt1 += ( " for " + Models[m] );
-      TLatex* ltxt1 = new TLatex(0.10, 0.6-icounter*0.2, txt1.c_str() );
+      if ( Models[m].find("flu") != std::string::npos )
+      {
+         txt1 += ( "  fluka.cern v4.4.0" );
+      }
+      else
+      {
+         txt1 += ( "  " + Models[m] );
+      }
+      if ( Models[m].find("flu") != std::string::npos )
+      {
+         txt1 += "4.4.0";
+      }
+      // --> TLatex* ltxt1 = new TLatex(0.10, 0.6-icounter*0.2, txt1.c_str() );
+      TLatex* ltxt1 = new TLatex(0.10, 0.8-icounter*0.2, txt1.c_str() );
       ltxt1->SetTextSize(0.2);
+      ltxt1->SetTextColor(ColorModel[m]);
       ltxt1->Draw();
       icounter++;
    }
@@ -879,11 +974,15 @@ void plotModelsMC2Data( std::string beam, std::string target, std::string energy
    }
 
    TGraph*  gr1 = new TGraphErrors(NPtKE,KE,YY,0,Err2);
-   gr1->SetMarkerColor(4);  gr1->SetMarkerStyle(22);
+   gr1->SetMarkerColor(kBlack /* 4 */ );  gr1->SetMarkerStyle(22);
    gr1->SetMarkerSize(1.6);
    std::string xtitle = "Kinetic Energy of secondary " + secondary_type + " (GeV)";
    gr1->GetXaxis()->SetTitle( xtitle.c_str() );
+   gr1->GetXaxis()->SetTitleFont(62);
+   gr1->GetXaxis()->SetLabelFont(62);
    gr1->GetYaxis()->SetTitle("MC/Data");
+   gr1->GetYaxis()->SetTitleFont(62);
+   gr1->GetYaxis()->SetLabelFont(62);
    
    TGraph* gr[NModels];
 
@@ -973,8 +1072,13 @@ void plotModelsMC2Data( std::string beam, std::string target, std::string energy
       gr[iv]->SetTitle("");
    }
    gr[iv]->GetXaxis()->SetTitle( xtitle.c_str() );
+   gr[iv]->GetXaxis()->SetTitleFont(62);
+   gr[iv]->GetXaxis()->SetLabelFont(62);
    gr[iv]->GetYaxis()->SetTitle("MC/Data");
-   gr[iv]->SetMarkerColor(ColorModel[iv]);  
+   gr[iv]->GetYaxis()->SetTitleFont(62);
+   gr[iv]->GetYaxis()->SetLabelFont(62);
+   gr[iv]->SetMarkerColor(ColorModel[iv]); 
+   gr[iv]->SetLineColor(ColorModel[iv]); 
    gr[iv]->SetMarkerStyle(21);
    gr[iv]->SetMarkerSize(1.0); // mrk size used to be 1.6
    
@@ -985,20 +1089,21 @@ void plotModelsMC2Data( std::string beam, std::string target, std::string energy
    if ( ymax < 3. ) ymax = 3.;
    // gr1->GetYaxis()->SetRangeUser(ymin-0.1, ymax+0.2);  
    // gr1->GetYaxis()->SetRangeUser(ymin, ymax); 
-   gr1->GetYaxis()->SetRangeUser( 0.1, 30. ); 
+   gr1->GetYaxis()->SetRangeUser( 0.2, 5.); // 0.1, 30. ); 
    
    gr1->Draw("apl");
    
-   TLegend* leg = new TLegend(0.65, 0.65, 0.99, 0.90);   
+   // --> TLegend* leg = new TLegend(0.65, 0.65, 0.99, 0.90);   
+   TLegend* leg = new TLegend(0.6, 0.85, 0.90, 0.90);   
    
    for ( int iv=0; iv<NModels; iv++ )
    {
       if ( Models[iv] == skip ) continue;
       gr[iv]->Draw("lpsame");   
-      leg->AddEntry( gr[iv], Models[iv].c_str(), "p" );
-   } 
-    
-   leg->AddEntry( gr1, "exp.data", "p");     
+//       leg->AddEntry( gr[iv], Models[iv].c_str(), "p" );
+   }     
+
+   leg->AddEntry( gr1, "ITEP771 data", "p"); // "exp.data", "p");     
 
    leg->Draw();
    leg->SetFillColor(kWhite);

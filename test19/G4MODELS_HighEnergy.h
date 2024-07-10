@@ -26,14 +26,15 @@
 #ifndef G4MODELS_HE_H
 #define G4MODELS_HE_H
 
-const int NModels_HE = 3;
+const int NModels_HE = 4;
 //std::string ModelName_HE[3]  = { "qgsp", "ftfp", "qgsp-g4lund-str-fragm" };
-std::string ModelName_HE[3]  = { "qgsp", "ftfp", "ftfp+baryon-tune2022-v0" };
-//int         ColorModel_HE[5] = { kMagenta, 7, kRed, kBlack, 14 }; // 14 = grey, 7 = light "sky"-blue
+std::string ModelName_HE[4]  = { "qgsp", "ftfp", "ftfp_tune3", "fluka4.4.0" };
+//int         ColorModel_HE[5] = { kMagenta, 7, kRed, kBlue /* kBlack */ , 14 }; // 14 = grey, 7 = light "sky"-blue
 // kMagenta is for BERTINI !!!
-// int         ColorModel_HE[5] = { kBlack, 7, kRed, 14, kGreen }; // 14 = grey, 7 = light "sky"-blue
+// int         ColorModel_HE[5] = { kBlue /* kBlack */ , 7, kRed, 14, kGreen }; // 14 = grey, 7 = light "sky"-blue
 // int         SymbModel_HE[4]     = { 8, 21, 25, 23 };
-int         ColorModel_HE[5] = { 7, kRed, kGreen, kBlack, 14 }; // 14 = grey, 7 = light "sky"-blue
+// int         ColorModel_HE[5] = { 7, kRed, kGreen, kBlack, 14 }; // 14 = grey, 7 = light "sky"-blue
+int         ColorModel_HE[6] = { 7, kRed, kGreen, kBlue, 14, kMagenta }; // 14 = grey, 7 = light "sky"-blue
 int         SymbModel_HE[4]     = { 8, 25, 21, 23 };
 
 #endif

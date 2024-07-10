@@ -74,6 +74,8 @@ HistoTest47::HistoTest47( const TstReader* pset )
    fBeamMomentum = tmp + "GeV";
    fHistoTitle = fBeamNameTmp + "+" + fTarget + fModel + "-" + fBeamMomentum;
    
+   std::cout << " fHistoTitle = " << fHistoTitle << std::endl;
+   
    if ( pset->GetExpDataSet() == "ITEP" )
    {
       fHistoSet = new HistoITEPTest47( fHistoTitle );

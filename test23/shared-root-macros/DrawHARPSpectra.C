@@ -133,7 +133,7 @@ void PlotHARPHisto( std::string beam, std::string target, std::string energy,
    }
    
    TGraph* gr = new TGraphErrors( NPointsHARP[ibin], X, YHARP[ibin], 0, EYHARP[ibin] );
-   gr->SetMarkerColor(kBlue);
+   gr->SetMarkerColor(kBlack /* kBlue */ );
    gr->SetMarkerStyle(22);
    gr->SetMarkerSize(1.5);
     
@@ -299,7 +299,7 @@ void PlotHARPMC2Data( std::string beam, std::string target, std::string energy,
    gr1->GetYaxis()->SetRangeUser( ymin, ymax );
    // gr1->GetXaxis()->SetRangeUser( -0.3, 0.4 );
    
-   gr1->SetMarkerColor(kBlue);
+   gr1->SetMarkerColor(kBlack /* kBlue */);
    gr1->SetMarkerStyle(22);
    gr1->SetMarkerSize(1.0);
    // gr1->SetMarkerSize(1.5);
@@ -457,7 +457,7 @@ void PlotHARPHistoRegre( std::string beam, std::string target, std::string energ
    }
    
    TGraph* gr = new TGraphErrors( NPointsHARP[ibin], X, YHARP[ibin], 0, EYHARP[ibin] );
-   gr->SetMarkerColor(kBlue);
+   gr->SetMarkerColor(kBlack /* kBlue */ );
    gr->SetMarkerStyle(22);
    gr->SetMarkerSize(1.5);
     

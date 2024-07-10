@@ -63,8 +63,6 @@
 #include "G4Box.hh"
 #include "G4PVPlacement.hh"
 #include "G4Step.hh"
-#include "G4GRSVolume.hh"
-#include "G4GRSSolid.hh"
 
 #include "G4TrackingManager.hh"
 #include "G4Region.hh"
@@ -376,7 +374,7 @@ int main(int argc, char** argv) {
     //    GetCaptureCrossSection(&dParticle, Z ); // 2nd arg used to be G4Element*, but now it's G4int Z
     // G4HadronicProcessStore* store = G4HadronicProcessStore::Instance();
     // cross_sec = store->GetCaptureCrossSectionPerAtom(part,0.,elm,material);
-    // cross_sec /= millibarn;
+    cross_sec /= millibarn;
 
 
 /* move out of the loop over configs
