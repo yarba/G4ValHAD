@@ -69,6 +69,10 @@
 
 
 #include "G4ParticleTable.hh"
+//
+#include "G4HadronicProcessStore.hh"
+#include "G4BGGNucleonInelasticXS.hh"
+#include "G4BGGPionInelasticXS.hh"
 
 //
 // G4 HAD model(s) parameters variation
@@ -314,13 +318,12 @@ int main(int argc, char** argv)
       runManager->InitializePhysics();      
       runManager->Initialize();
 
-      //G4double xsec = beam->GetXSecOnTarget() / millibarn;
-      //G4cout << " xsec = " << xsec << G4endl;
+      // G4double xsec = beam->GetXSecOnTarget() / millibarn;
+      // G4cout << " xsec = " << xsec << G4endl;
 
       runManager->ConfirmBeamOnCondition();
       runManager->RunInitialization(); // this is part of BeamOn 
-                                       // and needs be done (at least) to set GeomClosed status 
-      
+                                       // and needs be done (at least) to set GeomClosed status       
       stepping->SetTargetPtr( geom->GetTarget() );
             
       G4Timer timer;
@@ -341,6 +344,32 @@ int main(int argc, char** argv)
       timer.Stop();
       G4cout << " CPU = " << timer.GetUserElapsed() << G4endl;
       G4cout << " Real Time = " << timer.GetRealElapsed() << G4endl;      
+      
+      G4double xsec = beam->GetXSecOnTarget() / millibarn;
+      G4cout << " xsec = " << xsec << G4endl;
+
+      G4ParticleTable* partTable = G4ParticleTable::GetParticleTable();
+      G4ParticleDefinition* partDef = partTable->FindParticle( theConfigReader->GetBeamParticle() );
+   G4double partMass = partDef->GetPDGMass();
+   G4double partMom = theConfigReader->GetBeamMomentum();
+   G4double partEnergy = std::sqrt( partMom*partMom + partMass*partMass ); // this is total energy
+      G4DynamicParticle dParticle( partDef, theConfigReader->GetDirection(), partEnergy-partMass );
+      dParticle.DumpInfo();
+      G4Material* mat = geom->GetCurrentMaterial();
+      const G4Element* elm = mat->GetElement(0);
+      std::cout << mat << std::endl;
+      std::cout << elm << std::endl;
+
+      G4HadronicProcessStore* const store = G4HadronicProcessStore::Instance();      
+      store->PrintInfo(partDef);
+      store->Dump(1);
+      // NOTE: Technically speaking, this method below does extract xsec *without* material (nullptr)
+      //       but it produces a warning of not being able to calculate something unless mat is given
+      double xsec_from_store = store->GetInelasticCrossSectionPerAtom(partDef, 
+                                                                      dParticle.GetKineticEnergy(), 
+								      elm, mat);
+
+      std::cout << " xsec_from_store = " << xsec_from_store/millibarn << std::endl;
       
       histo->Write( theConfigReader->GetNEvents(), (beam->GetXSecOnTarget()/millibarn) );
       

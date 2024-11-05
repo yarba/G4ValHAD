@@ -23,10 +23,10 @@ void HARPModels( std::string beampart="piminus", std::string tg="Be", double ene
    PlotHARPAnalysis(beampart,tg,en,"piminus","FW");
    PlotHARPAnalysis(beampart,tg,en,"piminus","LA");
 
-   if ( beampart == "proton" && tg == "Ta" && en == "8.0" )
+   if ( beampart == "proton" && ( tg == "Ta" || tg == "C" ) && en == "8.0" )
    {
-      PlotHARPForMu2e( "piplus" );
-      PlotHARPForMu2e( "piminus" );
+      PlotHARPForMu2e( "piplus", tg );
+      PlotHARPForMu2e( "piminus" , tg );
    }   
 
    return;   

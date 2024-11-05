@@ -44,6 +44,11 @@
 
 #include "G4SystemOfUnits.hh"
 
+#include "G4ParticleTable.hh"
+#include "G4HadronicProcessStore.hh"
+#include "G4BGGNucleonInelasticXS.hh"
+#include "G4BGGPionInelasticXS.hh"
+
 using namespace std;
 
 int main(int argc, char** argv) 
@@ -71,7 +76,7 @@ int main(int argc, char** argv)
       Test19ExecProcessLevel* exec = new Test19ExecProcessLevel( theConfigReader );
       
       // exec->Init( theConfigReader ); // leftover from old design, will delete later
-      
+
       TstHisto* histo = 0;
       histo = new Test19Histo( theConfigReader );
       if ( !histo )
@@ -127,7 +132,54 @@ int main(int argc, char** argv)
       
       timer.Stop();
       G4cout << " CPU = " << timer.GetUserElapsed() << G4endl;
-      G4cout << " Real Time = " << timer.GetRealElapsed() << G4endl;
+      G4cout << " Real Time = " << timer.GetRealElapsed() << G4endl;      
+      
+/* In principle, this scenario works just fine 
+   meaning that there's no need for XSecOnTarget thing
+   BUT !!! Somehow it crashes with 11.2.p01 on extracting the XS 
+   while working just fine with 11.2.r06 (debug or prof) 
+   NOTE: OK, in this particular case the issue was in NOT having
+   cs->BuildPhysicsTable(*partDef) executedc prior to trying 
+   to extract the XS.
+   Still not quite clear why it was working without in case of 11.2.r06...
+   */
+   
+      G4ParticleTable* partTable = G4ParticleTable::GetParticleTable();
+      G4ParticleDefinition* partDef = partTable->FindParticle( exec->GetBeam()->GetBeamPartName() );
+      G4DynamicParticle dParticle( partDef, exec->GetBeam()->GetBeamMomentum() );
+      dParticle.DumpInfo();
+      G4Material* mat = exec->GetTarget()->GetCurrentMaterial();
+      const G4Element* elm = mat->GetElement(0);
+
+      std::cout << mat << std::endl;
+      std::cout << elm << std::endl;
+
+  G4VCrossSectionDataSet* cs = 0;
+  if ( partDef == G4Proton::Definition() || partDef == G4Neutron::Definition() ) 
+  {
+      cs = new G4BGGNucleonInelasticXS( partDef );
+  } 
+  else if ( partDef == G4PionPlus::Definition() || partDef == G4PionMinus::Definition() ) 
+  {
+      cs = new G4BGGPionInelasticXS( partDef );
+  }
+  if (cs)
+  { 
+      cs->BuildPhysicsTable(*partDef);
+      double scale_test = cs->GetCrossSection( &dParticle, elm );
+      std::cout << " scale_test = " << scale_test << std::endl;
+  }
+/* */
+      std::cout << " XSecOnTarget = " << exec->GetXSecOnTarget() << std::endl;
+      std::cout << " XSecOnTarget/mb = " << exec->GetXSecOnTarget()/millibarn << std::endl;
+
+      G4HadronicProcessStore* const store = G4HadronicProcessStore::Instance();
+      
+      // store->PrintInfo(partDef);
+      store->Dump(1);
+      double xsec_from_store = store->GetInelasticCrossSectionPerAtom(partDef, 
+                                                                      dParticle.GetKineticEnergy(), 
+								      elm ); // , fMaterial);
       
       histo->Write( theConfigReader->GetNEvents(), exec->GetXSecOnTarget()/millibarn );
       

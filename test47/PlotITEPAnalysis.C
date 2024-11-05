@@ -928,10 +928,10 @@ void plotModelsMC2DataSummary( std::string beam, std::string target, std::string
       {
          txt1 += ( "  " + Models[m] );
       }
-      if ( Models[m].find("flu") != std::string::npos )
-      {
-         txt1 += "4.4.0";
-      }
+//      if ( Models[m].find("flu") != std::string::npos )
+//      {
+//         txt1 += "4.4.0";
+//      }
       // --> TLatex* ltxt1 = new TLatex(0.10, 0.6-icounter*0.2, txt1.c_str() );
       TLatex* ltxt1 = new TLatex(0.10, 0.8-icounter*0.2, txt1.c_str() );
       ltxt1->SetTextSize(0.2);

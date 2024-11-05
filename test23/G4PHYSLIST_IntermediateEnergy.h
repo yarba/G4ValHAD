@@ -26,13 +26,15 @@
 #ifndef G4PHYSLIST_IE_H
 #define G4PHYSLIST_IE_H
 
-const int NModels_IE = 4;
+const int NModels_IE = 3;
 // --> std::string ModelName_IE[2]  = { "ftfp_bert", "NuBeam" };
-std::string ModelName_IE[4]  = { "ftfp_bert", "qgsp_bert", "Shielding", "ShieldingM" };
-// --> !!! std::string ModelName_IE[3]  = { "ftfp_bert", "Shielding", "ShieldingM" };
+// --> std::string ModelName_IE[4]  = { "ftfp_bert", "qgsp_bert", "Shielding", "ShieldingM" };
+std::string ModelName_IE[3]  = { "ftfp_bert", "ShieldingM", "G4_HP_CFLUKAHI" };
 // int         ColorModel_IE[5] = { kMagenta, 7, kRed, kBlack, 14 }; // 14 = grey, 7 = light "sky"-blue
 // int         ColorModel_IE[5] = { 7, kMagenta, kGreen, kBlack, 14 }; // 14 = grey, 7 = light "sky"-blue
-int         ColorModel_IE[5] = { 7, kRed, kGreen, kBlack, 14 }; // 14 = grey, 7 = light "sky"-blue
+//int         ColorModel_IE[5] = { 7, kRed, kGreen, kBlack, 14 }; // 14 = grey, 7 = light "sky"-blue
+//                       FTF   BERT      FLUKA
+int ColorModel_IE[5] = { kRed, kMagenta, kBlue, 14, 7 };
 int         SymbModel_IE[4]     = { 8, 21, 23, 25 };
 
 #endif
