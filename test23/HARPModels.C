@@ -49,10 +49,10 @@ void HARPModels( std::string beampart="piminus", std::string tg="Be", int energy
       PlotHARPAnalysis(beampart,tg,"8.9","piminus","LA");
    }
 
-   if ( beampart == "proton" && tg == "Ta" && ene == "8.0" )
+   if ( beampart == "proton" && ( tg == "Ta" || tg == "C"  ) && ene == "8.0" )
    {	 
-	 PlotHARPForMu2e( "piplus" );
-	 PlotHARPForMu2e( "piminus" );
+	 PlotHARPForMu2e( "piplus", tg );
+	 PlotHARPForMu2e( "piminus", tg );
    }
 
    return;   

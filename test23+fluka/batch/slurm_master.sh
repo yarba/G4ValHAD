@@ -19,6 +19,6 @@ echo " nevents per core = ${nevents}"
 
 echo " SLURM_SUBMIT_DIR = ${SLURM_SUBMIT_DIR}"
 
-srun -l $1
+srun -l $1 $2 $3 $4 $5
 
 

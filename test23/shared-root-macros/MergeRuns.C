@@ -28,23 +28,9 @@ void fancyMerge( std::string beam, std::string target, std::string energy, std::
    
    TFile* targetFile = TFile::Open( output.c_str(), "RECREATE" );
    
-// --> "old" Wilson"   double scale = 1./32.;
-//   double scale = 1./64.;
-   double scale = 1./16.;
-   
-   
-   // std::string input = beam + target + model + energy + "GeV-1.root";
-   // std::string input = "../t23-bld/harp-histo-no-res-decays/" + beam + target + energy + "GeV" + physlist +"-1.root";
-
-   // std::string input = "../t23-bld/harp-histo/" + beam + target + energy + "GeV" + physlist +"-1.root";
-
-   // std::string input = "../t23-bld/na49-histo/" + beam + target + energy + "GeV" + physlist +"-1.root";
-   
-   //
-   // NOTE (JVY): PBS was numbering jobs from 1 to 32 while SLURM does from 0 to 31
-   //
-   // std::string input = dir + "/" + beam + target + energy + "GeV" + physlist + "-1.root";
-// --> "old" Wilson   std::string input = dir + "/" + beam + target + energy + "GeV" + physlist + "-0.root";
+   // back to LQ1
+   double scale = 1./40.;
+      
    std::string input = dir + "/" + beam + target + energy + "GeV" + physlist + "-1.root";
   
    TFile*    iFile1 = TFile::Open( input.c_str() );
@@ -63,17 +49,15 @@ void fancyMerge( std::string beam, std::string target, std::string energy, std::
          std::cout << " histoname = " << hName << std::endl;
 	 TH1F* h1 = (TH1F*)h->Clone();
 	 if ( h1->GetSumw2() == 0 ) h1->Sumw2();
-// NOTE: PBS numbering was starting from 1, while SLURM starts from 0
-//	 for ( int id=2; id<=32; id++ )
-// --> "old" Wilson          for ( int id=1; id<=31; id++ )
-//	 for ( int id=2; id<=64; id++ )
-	 for ( int id=2; id<=16; id++ )
+	 // back to LQ1
+	 for ( int id=2; id<=40; id++ )
 	 {
 	    std::string input_t = dir + "/" + beam + target + energy + "GeV" + physlist + "-" ;
             char buf[5];
             sprintf( buf, "%i", id );
             input_t.append( buf ); 
             input_t += ".root"; 
+// -->	    std::cout << " input_t = " << input_t.c_str() << std::endl;
 	    TFile* iFile_t = TFile::Open( input_t.c_str() );
 	    TH1F* h_t = (TH1F*)iFile_t->Get( h->GetName() );
 	    if ( h_t->GetEntries() <= 0 ) continue;
