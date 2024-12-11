@@ -140,14 +140,14 @@ void plot_dNdxF_pT( std::string beam, std::string target, std::string secondary 
       }
       os1 << (chi2/NDF1);
       std::string txt1 = " #chi^{2}/NDF=" + os1.str();
-      if ( ModelName_HE[m].find("fluka4.4.0") != std::string::npos )
-      {
-         txt1 += ( "  fluka.cern v4.4.0" );
-      }
-      else
-      {
+//      if ( ModelName_HE[m].find("fluka4.4.0") != std::string::npos )
+//      {
+//         txt1 += ( "  fluka.cern v4.4.0" );
+//      }
+//      else
+//      {
          txt1 += ( "  " + ModelName_HE[m] ); // + " vs NA49 Data" );
-      }
+//      }
       lentry = leg->AddEntry("", txt1.c_str(),"L");
       lentry->SetLineColor( ColorModel_HE[m] );
       lentry->SetLineWidth(3);
@@ -177,14 +177,14 @@ void plot_dNdxF_pT( std::string beam, std::string target, std::string secondary 
       }
       os1 << (chi2/NDF1);
       std::string txt1 = " #chi^{2}/NDF=" + os1.str();
-      if ( ModelName_HE[m].find("fluka4.4.0") != std::string::npos )
-      {
-         txt1 += ( "  fluka.cern v4.4.0" );
-      }
-      else
-      {
+//      if ( ModelName_HE[m].find("fluka4.4.0") != std::string::npos )
+//      {
+//         txt1 += ( "  fluka.cern v4.4.0" );
+//      }
+//      else
+//      {
          txt1 += ( "  " + ModelName_HE[m] ); 
-      }
+//      }
       lentry = leg->AddEntry("", txt1.c_str(),"L");
       lentry->SetLineColor( ColorModel_HE[m] );
       lentry->SetLineWidth(3);

@@ -1,25 +1,22 @@
 #----------------------------------------------------------------------------
 #
-#  Note-1: Env.variables G4INSTALL, G4LIB, ROOTSYS need to be setup
+#  Note-1: Env.variables G4INSTALL,  ROOTSYS need to be setup
 #
-#  Note-2: Maybe ROOT can be pulled in via ROOT_INCLUDE_DIR - need to double check...
 #
 # Usage:
 #
 # mkdir /tests/t23-bld
 # cd /tests/t23-bld
-# cmake -DGeant4_DIR=$G4LIB/Geant4-9.6.0 \
+# cmake -DCMAKE_PREFIX_PATH=$G4INSTALL \
 #       ../test23
 # make
 #
-# Note-3: in some cases, one would also use -DGeant4_SOURCE_DIR=$G4INSTALL option,
-#         but here's it's not necessary - the system will even tell about that
-#
-
+# Note-2 : To activate interface to FLUKA.CERN use flags -DG4_USE_FLUKA=1
+#          BEAR IN MIND to setup FLUKA.CERN as described in $(FLUKAHI_PATH}/FlukaInterface/README.md
 
 # Specify mandatory
 #
-cmake_minimum_required(VERSION 3.16...3.21)
+cmake_minimum_required(VERSION 3.16...3.27)
 
 #----Standalone--------------------------------------------------------------------------
 
@@ -48,6 +45,23 @@ find_package(Geant4 REQUIRED)
 #
 include(${Geant4_USE_FILE})
 
+#----------------------------------------------------------------------------
+# Check whether FLUKA should be used or not
+set(G4_USE_FLUKA OFF CACHE BOOL "Using FLUKA")
+if(G4_USE_FLUKA)
+  message(STATUS "G4_USE_FLUKA=ON : Using FLUKA interface for building ${PROJECT_SOURCE_DIR}")
+  add_definitions(-DG4_USE_FLUKA)
+  find_package(FLUKAInterface REQUIRED)
+  if(FLUKAInterface_FOUND)
+    message(STATUS "FLUKA cmake module was found : ${CMAKE_MODULE_PATH}")
+  else()
+    message(FATAL_ERROR "FLUKA cmake module was NOT found! Please add one.")
+  endif()
+else()
+  message(STATUS "G4_USE_FLUKA=OFF : NOT using FLUKA interface for building ${PROJECT_SOURCE_DIR}. \n \
+  If ever you want to use the FLUKA interface, please repeat cmake command with -DG4_USE_FLUKA=1")
+endif()
+
 #
 # find additional ROOT package
 #
@@ -57,39 +71,12 @@ if(NOT ROOT_FOUND)
   return()
 endif()
 
-# add option specific to a group of tests
-#
-if (USE_G4PUBLIC)
-#
-# add_definitions seems to only define like on/off
-#
-#   add_definitions(-DUSE_G4PUBLIC)
-#
-# if you put this on top of add_definitions, the system will give warnings of re-definition
-#
-   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DUSE_G4PUBLIC=${USE_G4PUBLIC}")
-endif(USE_G4PUBLIC)
-
-if (USE_G4REF)
-#   add_definitions(-DUSE_G4REF)
-   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DUSE_G4REF=${USE_G4REF}")
-endif(USE_G4REF)
-
-#
-# an attempt to factor out and re-use common cmake fragment
-# ... so far, doesn't work:
-#     the inclusion is fine, and inside the fragment, things seem to startout fine
-#     but I need to figure out how to properly return some ENV variables to the master
-#
-#include(${PROJECT_SOURCE_DIR}/../test23/shared/HeadersAndSources.cmake)
-#HEADERS_AND_SOURCES( sources, headers )
-#message("sources: ${sources}")
-
 #----------------------------------------------------------------------------
 # setup include directories
 #
 include_directories(${PROJECT_SOURCE_DIR}/include
                     ${PROJECT_SOURCE_DIR}/../test23/shared/g4app/include
+		    ${FLUKAInterface_INCLUDE_DIR}
                     ${Geant4_INCLUDE_DIR})
 
 #----------------------------------------------------------------------------
@@ -107,7 +94,6 @@ file(GLOB g4app_sources
 file(GLOB g4app_headers
   ${PROJECT_SOURCE_DIR}/../test23/shared/g4app/include/*.hh)
 
-
 #
 # additional headers and spources from ROOT (if any)
 #
@@ -118,11 +104,10 @@ file(GLOB rootana_sources
 file(GLOB rootana_headers
   ${PROJECT_SOURCE_DIR}/../test23/shared/rootana/include/*.hh)
 
-#
-# finally, put all headers and sources together
-#
 list(APPEND sources ${prj_sources} ${g4app_sources} ${rootana_sources})
 list(APPEND headers ${prj_headers} ${g4app_headers} ${rootana_headers})
+
+#message("sources: ${sources}")
 
 #----------------------------------------------------------------------------
 #
@@ -133,7 +118,7 @@ add_executable(test23 test23.cc ${sources} ${headers})
 #
 # ... plus, the external libraries
 #
-target_link_libraries(test23 ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
+target_link_libraries(test23 ${Geant4_LIBRARIES} ${FLUKAInterface_LIBRARIES} ${ROOT_LIBRARIES})
 
 # copy over config for the ctest
 #

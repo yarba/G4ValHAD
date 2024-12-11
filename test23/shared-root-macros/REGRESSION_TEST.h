@@ -30,7 +30,7 @@ const int NVersions = 4;
 
 // std::string Versions[4] = { "geant4-10-04-patch-03", "geant4-10-05", "geant4-10-06-patch-03",
 //                            "geant4-10-07-patch-02" };
- std::string Versions[4] = { "geant4-10-07-patch-02", "geant4-11-00", 
+ std::string Versions[4] = { "geant4-10-07-patch-02", "geant4-11-00-patch-02", 
                             "geant4-11-01", "geant4-11-02-patch-01" };
 // --> Apr 2024 --> std::string Versions[2] = { "geant4-11-01", "geant4-11-02-patch-01" };
 

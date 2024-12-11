@@ -59,7 +59,7 @@ class ProcessWrapper : public G4HadronicProcess
 								     fStringDecay(0), 
 								     fUseLundStrFragm(false) { 
 			// AddDataSet(new G4HadronInelasticDataSet()); 
-			AddDataSet( new G4CrossSectionInelastic( new G4ComponentGGHadronNucleusXsc ) );
+			// --> AddDataSet( new G4CrossSectionInelastic( new G4ComponentGGHadronNucleusXsc ) );
      }
      virtual ~ProcessWrapper();
      

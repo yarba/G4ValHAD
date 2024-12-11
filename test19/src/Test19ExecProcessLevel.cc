@@ -52,13 +52,25 @@
 #include "G4HadronicDeveloperParameters.hh"
 #include "G4FTFTunings.hh"
 
+#ifdef G4_USE_FLUKA
+// interface to FLUKA.CERN, if specified
+#include "fluka_interface.hh"
+#include "FLUKAParticleTable.hh"
+// --> no need here --> #include "FLUKAInelasticScatteringXS.hh"
+#include "FLUKANuclearInelasticModel.hh"
+#endif
+
+#include <boost/algorithm/string.hpp>
+
 // #include "G4HadronicParameters.hh"
 
 void Test19ExecProcessLevel::InitProcess( const TstReader* pset )
 {
 
    // G4String name = (dynamic_cast<const TstDiscreteProcessReader*>(pset))->GetProcessName();
-   G4String name = (pset)->GetPhysics();
+   
+   G4String name    =  (pset)->GetPhysics();
+   G4String name_lc =  boost::algorithm::to_lower_copy( name );
       
    ProcessWrapper* pw = 0;
    
@@ -430,6 +442,20 @@ void Test19ExecProcessLevel::InitProcess( const TstReader* pset )
 				     // in principle INCL++ is good up to 3AGeV for p,n,pi, A(<18)
       pw->RegisterMe(inclxx);
    }
+#ifdef G4_USE_FLUKA
+   else if ( name_lc.find("fluka") != std::string::npos )
+   {
+      const G4bool activateCoalescence = true;
+      const G4bool activateHeavyFragmentsEvaporation = true;
+      fluka_interface::initialize(activateCoalescence, 
+                                  activateHeavyFragmentsEvaporation);
+      fluka_particle_table::initialize();
+      pw = new ProcessWrapper( "FLUKA.CERN.ProcessQrapper" );
+      FLUKANuclearInelasticModel* flukaHI = new FLUKANuclearInelasticModel();
+      flukaHI->SetMaxEnergy(1.*TeV);
+      pw->RegisterMe(flukaHI);
+   }
+#endif
     
    // if (!fProcWrapper) 
    if (!pw) 

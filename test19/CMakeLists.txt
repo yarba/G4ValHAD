@@ -1,27 +1,24 @@
 #----------------------------------------------------------------------------
 #
-#  Note-1: Env.variables G4INSTALL, G4LIB, ROOTSYS need to be setup
+#  Note-1: Env.variables G4INSTALL, ROOTSYS need to be setup
 #
-#  Note-2: Maybe ROOT can be pulled in via ROOT_INCLUDE_DIR - need to double check...
+# Usage:
 #
-# Usage (for local testing/development):
-#
-# mkdir /tests/test19-build
-# cd /tests/test19-build
-# cmake -DGeant4_DIR=$G4LIB/Geant4-9.6.0 \
+# mkdir /tests/t19-bld
+# cd /tests/t19-bld
+# cmake -DCMAKE_PREFIX_PATH=$G4INSTALL \
+#       -DCMAKE_CXX_COMPILER=g++ \
 #       ../test19
 # make
 #
-# Note-3: in some cases, one would also use -DGeant4_SOURCE_DIR=$G4INSTALL option,
-#         but here's it's not necessary - the system will even tell about that
+# Note-2 : To activate interface to FLUKA.CERN use flags -DG4_USE_FLUKA=1
+#          BEAR IN MIND to setup FLUKA.CERN as described in $(FLUKAHI_PATH}/FlukaInterface/README.md
 #
-
 
 # Specify mandatory
 #
-cmake_minimum_required(VERSION 3.16...3.21)
+cmake_minimum_required(VERSION 3.16...3.27)
 
-#----Included in Geant4------------------------------------------------------------------
 #----Standalone--------------------------------------------------------------------------
 
 #------------------------------------------------------------------------------
@@ -50,10 +47,38 @@ find_package(Geant4 REQUIRED)
 include(${Geant4_USE_FILE})
 
 #----------------------------------------------------------------------------
+# Check whether FLUKA should be used or not
+set(G4_USE_FLUKA OFF CACHE BOOL "Using FLUKA")
+if(G4_USE_FLUKA)
+  message(STATUS "G4_USE_FLUKA=ON : Using FLUKA interface for building ${PROJECT_SOURCE_DIR}")
+  add_definitions(-DG4_USE_FLUKA)
+  find_package(FLUKAInterface REQUIRED)
+  if(FLUKAInterface_FOUND)
+    message(STATUS "FLUKA cmake module was found : ${CMAKE_MODULE_PATH}")
+  else()
+    message(FATAL_ERROR "FLUKA cmake module was NOT found! Please add one.")
+  endif()
+else()
+  message(STATUS "G4_USE_FLUKA=OFF : NOT using FLUKA interface for building ${PROJECT_SOURCE_DIR}. \n \
+  If ever you want to use the FLUKA interface, please repeat cmake command with -DG4_USE_FLUKA=1")
+endif()
+
+#
+# find additional ROOT package
+#
+find_package(ROOT QUIET)
+if(NOT ROOT_FOUND)
+  message(STATUS "G4 TESTS: ROOT package not found. ")
+  return()
+endif()
+
+
+#----------------------------------------------------------------------------
 # setup include directories
 #
 include_directories(${PROJECT_SOURCE_DIR}/include
                     ${PROJECT_SOURCE_DIR}/../test23/shared/g4app/include
+		    ${FLUKAInterface_INCLUDE_DIR}
                     ${Geant4_INCLUDE_DIR})
 
 #----------------------------------------------------------------------------
@@ -72,26 +97,7 @@ file(GLOB g4app_headers
   ${PROJECT_SOURCE_DIR}/../test23/shared/g4app/include/*.hh)
 
 #
-# find additional ROOT package
-#
-find_package(ROOT QUIET)
-if(NOT ROOT_FOUND)
-  message(STATUS "G4 TESTS: ROOT package not found. ")
-  return()
-endif()
-
-# add option specific to a group of tests
-#
-if (USE_G4PUBLIC)
-   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DUSE_G4PUBLIC=${USE_G4PUBLIC}")
-endif(USE_G4PUBLIC)
-
-if (USE_G4REF)
-   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DUSE_G4REF=${USE_G4REF}")
-endif(USE_G4REF)
-
-#
-# additional headers and spources from ROOT (if any)
+# additional headers and sources from ROOT (if any)
 #
 include_directories(${PROJECT_SOURCE_DIR}/../test23/shared/rootanalysis/include
   ${ROOT_INCLUDE_DIRS})
@@ -100,12 +106,11 @@ file(GLOB rootana_sources
 file(GLOB rootana_headers
   ${PROJECT_SOURCE_DIR}/../test23/shared/rootana/include/*.hh)
 
-#
-# finally, put all headers and sources together
-#
+# NO need to explicitly add anythings from FlukaCern example/interface
 list(APPEND sources ${prj_sources} ${g4app_sources} ${rootana_sources})
 list(APPEND headers ${prj_headers} ${g4app_headers} ${rootana_headers})
 
+#message("sources: ${sources}")
 
 #----------------------------------------------------------------------------
 #
@@ -116,27 +121,9 @@ add_executable(test19 test19.cc ${sources} ${headers})
 #
 # ... plus, the external libraries
 #
-target_link_libraries(test19 ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
-
-#
-# FOR (near) FUTURE: tools to upload MC results to G4 Val Repo
-#
-# --> file(GLOB test19_upload_sources ${PROJECT_SOURCE_DIR}/g4val-upload-scripts/*.cc)
-# --> file(GLOB g4upload_sql_sources ${PROJECT_SOURCE_DIR}/../test23/shared-upload-scripts/*.cc)
-#
-# --> add_executable(test19_gen_histo_sql ${test19_upload_sources} ${g4upload_sql_sources})
-# --> target_link_libraries(test19_gen_histo_sql ${ROOT_LIBRARIES})
+target_link_libraries(test19 ${Geant4_LIBRARIES} ${FLUKAInterface_LIBRARIES} ${ROOT_LIBRARIES})
 
 
-# copy over the ctest config
-#
-#set(test19_SCRIPTS ctest19-na61.config ctest19-harp.config)
-#foreach(_script ${test19_SCRIPTS})
-#   configure_file(${PROJECT_SOURCE_DIR}/${_script} ${PROJECT_BINARY_DIR}/${_script} COPYONLY)
-#endforeach()
-
-# alternative approach:
-#
 file(GLOB test19_FILES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/ctest19-na61.config
                                                       ${PROJECT_SOURCE_DIR}/test19.harp.*
 						      ${PROJECT_SOURCE_DIR}/test19.na49
@@ -146,6 +133,7 @@ file(GLOB test19_FILES RELATIVE ${PROJECT_SOURCE_DIR} ${PROJECT_SOURCE_DIR}/ctes
 						      ${PROJECT_SOURCE_DIR}/g4val-upload-scripts/gen_*.sh
 						      ${PROJECT_SOURCE_DIR}/*Models.C
 						      ${PROJECT_SOURCE_DIR}/*Regre.C)
+
 foreach(_file ${test19_FILES})
    configure_file(
        ${PROJECT_SOURCE_DIR}/${_file} ${PROJECT_BINARY_DIR}/${_file} COPYONLY

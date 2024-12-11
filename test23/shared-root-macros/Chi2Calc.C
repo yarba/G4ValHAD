@@ -63,15 +63,16 @@ double Chi2( TGraphErrors* gdata, TH1F* hsim, int& NDF )
 
    int     NXData = gdata->GetN();
 
-   //   std::cout << "NXData = " << NXData << std::endl; 
+   // std::cout << "NXData = " << NXData << std::endl; 
 
    double* XData  = gdata->GetX();
    double* YData  = gdata->GetY();
    double* EYData = gdata->GetEY();
-         
+   
+            
    int NXSim  = hsim->GetNbinsX();
 
-   //   std::cout << " NXSim = " << NXSim << std::endl;
+   // std::cout << " NXSim = " << NXSim << std::endl;
 
       for ( int k=1; k<=NXSim; ++k ) 
       { 

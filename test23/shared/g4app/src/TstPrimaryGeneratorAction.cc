@@ -49,6 +49,15 @@
 #include "G4ComponentGGHadronNucleusXsc.hh"
 #include "G4ComponentGGNuclNuclXsc.hh"
 #include "G4ComponentAntiNuclNuclearXS.hh"
+//
+#include "G4HadronicProcessStore.hh"
+
+#include "G4RunManagerKernel.hh"
+
+#ifdef G4_USE_FLUKA
+// interface to FLUKA.CERN, if specified
+#include "FLUKAInelasticScatteringXS.hh"
+#endif
 
 TstPrimaryGeneratorAction::~TstPrimaryGeneratorAction()
 {
@@ -92,85 +101,6 @@ void TstPrimaryGeneratorAction::InitBeam( TstReader* pset )
    
    G4DynamicParticle dParticle( partDef, pset->GetDirection(), partEnergy-partMass); // 3rd arg has to be EKin  
    
-   /* this basically defaults to the Gheisha XSec while there may be more modern versions
-   fXSecOnTarget = (G4HadronCrossSections::Instance())->GetInelasticCrossSection( &dParticle, Z, A );
-   */
-
-   G4VCrossSectionDataSet* cs = 0;
-
-/* --> "old" code that worked prior to 10.7.refXX <--
-   if ( ( pset->GetBeamParticle() == "proton" || pset->GetBeamParticle() == "neutron" ) && Z > 1 )
-   {
-      cs = new G4BGGNucleonInelasticXS(partDef);
-   }
-   else if ( (pset->GetBeamParticle() == "pi+" || pset->GetBeamParticle() == "pi-") && Z > 1 )
-   {
-      cs = new G4BGGPionInelasticXS(partDef);
-   }
-   else
-   {
-      cs = new G4HadronInelasticDataSet();
-   }   
-   if ( cs ) 
-   {
-      cs->BuildPhysicsTable(*partDef);
-      fXSecOnTarget = cs->GetCrossSection( &dParticle, elm );
-      delete cs;
-   }
-   else
-   {
-      fXSecOnTarget = (G4HadronCrossSections::Instance())->GetInelasticCrossSection( &dParticle, Z, A );
-   }
-*/
-
-   if ( partDef == G4Proton::Definition() || partDef == G4Neutron::Definition() ) 
-   {
-      cs = new G4BGGNucleonInelasticXS( partDef );
-   } 
-   else if ( partDef == G4PionPlus::Definition() || partDef == G4PionMinus::Definition() ) 
-   {
-      cs = new G4BGGPionInelasticXS( partDef );
-   } 
-   else if ( partDef->GetBaryonNumber() > 1 ) 
-   {  // Ions
-      cs = new G4CrossSectionInelastic( new G4ComponentGGNuclNuclXsc );
-   } 
-   else if ( partDef == G4AntiProton::Definition() ||
-	       partDef == G4AntiNeutron::Definition() ||
-	       partDef == G4AntiDeuteron::Definition() ||
-	       partDef == G4AntiTriton::Definition() ||
-	       partDef == G4AntiHe3::Definition() ||
-	       partDef == G4AntiAlpha::Definition() ) 
-   {
-      cs = new G4CrossSectionInelastic( new G4ComponentAntiNuclNuclearXS ); 
-   } 
-   else 
-   {
-      cs = new G4CrossSectionInelastic( new G4ComponentGGHadronNucleusXsc );
-   }
-      
-   if ( cs ) 
-   {
-      cs->BuildPhysicsTable(*partDef);
-      fXSecOnTarget = cs->GetCrossSection( &dParticle, elm );
-   }
-   
-   // FIXME !!!
-   // Need "default" solution that's be similar to 
-   // (G4HadronCrossSections::Instance())->GetInelasticCrossSection( &dParticle, Z, A ) !!!
-   
-   /* this won't work as 
-      "no data sets registered
-       terminate called after throwing an instance of 'G4HadronicException'"
-   G4CrossSectionDataStore XSecStore;
-   XSecStore.BuildPhysicsTable( *partDef );
-   double tstXSecOnTarget = XSecStore.ComputeCrossSection( &dParticle, target->GetCurrentMaterial() );
-   */
-
-       // if under an agnle, then like this:
-       //labv = G4LorentzVector(mom.x()/CLHEP::GeV, mom.y()/CLHEP::GeV, 
-       //			      mom.z()/CLHEP::GeV, (e0+mass+amass)/CLHEP::GeV);
-   
    fLabV.setX(0.);
    fLabV.setY(0.);
    fLabV.setZ( std::sqrt( partEnergy*(partEnergy+2.0*partMass) )/GeV );
@@ -179,7 +109,89 @@ void TstPrimaryGeneratorAction::InitBeam( TstReader* pset )
    fLabP.setY(0.);
    fLabP.setZ( std::sqrt(partEnergy*(partEnergy+2.0*partMass))/GeV );
    fLabP.setT( (partEnergy+partMass+G4Proton::Proton()->GetPDGMass())/GeV );
-   
+
+   /* this basically defaults to the Gheisha XSec while there may be more modern versions
+   fXSecOnTarget = (G4HadronCrossSections::Instance())->GetInelasticCrossSection( &dParticle, Z, A );
+   */
+
+/*
+   // Check if PhysList is there
+   // ... BUT it also needs to be initialized (BuildPhysicsTable, etc.),
+   // otherwise the store returns ZERO;
+   // however, so far can't see any clear way how to check for that
+   // even if there's a flag fIsPhysicsTableBuilt in G4VUserPhysicsList... 
+   //
+   if ( G4RunManagerKernel::GetRunManagerKernel()->GetPhysicsList() != nullptr )
+   {
+      std::cout << " PhysicsList is there !" << std::endl;
+      // If so, extract XS from the store
+      //
+      G4HadronicProcessStore* const store = G4HadronicProcessStore::Instance();      
+      fXSecOnTarget = store->GetInelasticCrossSectionPerAtom(partDef, 
+                                                             dParticle.GetKineticEnergy(), 
+						             elm, 
+							     target->GetCurrentMaterial());
+      
+      return;
+   }
+*/      
+
+   // This comes to play if PhysList is NOT there and/or 
+   // if the physics table isn't properly built (yet) 
+   //
+   G4VCrossSectionDataSet* cs = 0;
+
+   if ( pset->GetPhysics().find("FLUKA") == std::string::npos )
+   {
+      if ( partDef == G4Proton::Definition() || partDef == G4Neutron::Definition() ) 
+      {
+         cs = new G4BGGNucleonInelasticXS( partDef );
+      } 
+      else if ( partDef == G4PionPlus::Definition() || partDef == G4PionMinus::Definition() ) 
+      {
+         cs = new G4BGGPionInelasticXS( partDef );
+      } 
+      else if ( partDef->GetBaryonNumber() > 1 ) 
+      {  // Ions
+         cs = new G4CrossSectionInelastic( new G4ComponentGGNuclNuclXsc );
+      } 
+      else if ( partDef == G4AntiProton::Definition() ||
+	       partDef == G4AntiNeutron::Definition() ||
+	       partDef == G4AntiDeuteron::Definition() ||
+	       partDef == G4AntiTriton::Definition() ||
+	       partDef == G4AntiHe3::Definition() ||
+	       partDef == G4AntiAlpha::Definition() ) 
+      {
+         cs = new G4CrossSectionInelastic( new G4ComponentAntiNuclNuclearXS ); 
+      } 
+      else 
+      {
+         cs = new G4CrossSectionInelastic( new G4ComponentGGHadronNucleusXsc );
+      }
+   } // end check if no-FLUKA
+#ifdef G4_USE_FLUKA
+   else 
+   {
+      cs = new FLUKAInelasticScatteringXS();
+   }
+#endif      
+
+   if ( cs ) 
+   {
+      cs->BuildPhysicsTable(*partDef);
+      fXSecOnTarget = cs->GetCrossSection( &dParticle, elm );
+   }
+      
+/* move up
+   fLabV.setX(0.);
+   fLabV.setY(0.);
+   fLabV.setZ( std::sqrt( partEnergy*(partEnergy+2.0*partMass) )/GeV );
+   fLabV.setT( (partEnergy+partMass+amass)/GeV );
+   fLabP.setX(0.);
+   fLabP.setY(0.);
+   fLabP.setZ( std::sqrt(partEnergy*(partEnergy+2.0*partMass))/GeV );
+   fLabP.setT( (partEnergy+partMass+G4Proton::Proton()->GetPDGMass())/GeV );
+*/   
    return;
 
 }

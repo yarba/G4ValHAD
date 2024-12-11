@@ -32,11 +32,6 @@
 #include "Randomize.hh"
 #include "G4SystemOfUnits.hh"
 
-//#ifdef G4MULTITHREADED
-//#include "G4MTRunManager.hh"
-//#else
-//#include "G4RunManager.hh"
-//#endif
 #include "G4RunManagerFactory.hh"
 
 #include "G4GeometryManager.hh"
@@ -85,6 +80,12 @@
 #include "G4NuclearLevelData.hh"
 #include "G4DeexPrecoParameters.hh"
 
+#ifdef G4_USE_FLUKA
+// FLUKA Interface if required
+#include "FLUKAParticleTable.hh"
+#include "G4_HP_CernFLUKAHadronInelastic_PhysicsList.hh"
+#endif
+
 using namespace std;
 
 int main(int argc, char** argv) 
@@ -92,9 +93,9 @@ int main(int argc, char** argv)
 
    TstPhysListReader* theConfigReader = new TstPhysListReader();
 
-   // Choose the Random engine
-   //
-   CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine);
+   // Seed the Random engine
+   // NOTE: However, don't reset it; instead use the default one
+   // CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine);
    CLHEP::HepRandom::setTheSeed( 1234 ); // just something... to be on the safe side
    
    // Control on input
@@ -116,15 +117,8 @@ int main(int argc, char** argv)
    //       will prevent their re-creation in the same job;
    //       however, run manager can be somewhat re-configured
    //   
-//#ifdef G4MULTITHREADED
-//  G4MTRunManager* runManager = new G4MTRunManager;
-//  runManager->SetNumberOfThreads(2);
-//#else
-//   G4RunManager* runManager = new G4RunManager();
-//#endif
-//
-  auto runManager =
-     G4RunManagerFactory::CreateRunManager( G4RunManagerType::SerialOnly );
+   auto runManager =
+      G4RunManagerFactory::CreateRunManager( G4RunManagerType::SerialOnly );
 
    // Note-2: This is related to an attempt to run a loop
    //       over physics lists, changing them as we go.
@@ -273,21 +267,27 @@ int main(int argc, char** argv)
       {
          plist = new ShieldingLEND();
       }
-// #if  USE_G4REF>4100006) || USE_G4PUBLIC>41000
-#if (USE_G4REF==0 && USE_G4PUBLIC==0) || USE_G4REF>4100006 || USE_G4PUBLIC>41000
-//
-// ShieldingM itself is available starting 4.10.1.b01
-// although this particular construct was introduced later in the 4.10 dev cycle
-// maybe around ref07 or so
-//
+// --> leave as example --> #if (USE_G4REF==0 && USE_G4PUBLIC==0) || USE_G4REF>4100006 || USE_G4PUBLIC>41000
       else if (  theConfigReader->GetPhysics() ==  "ShieldingM" )
       {
          plist = new Shielding(1,"HP","M");
+      }
+#ifdef G4_USE_FLUKA
+      else if ( theConfigReader->GetPhysics().find("G4_HP_CFLUKAHI") != std::string::npos )
+      {
+         plist = new G4_HP_CernFLUKAHadronInelastic_PhysicsList();
       }
 #endif
       
       runManager->SetUserInitialization( plist );
       
+#ifdef G4_USE_FLUKA
+      if ( theConfigReader->GetPhysics().find("G4_HP_CFLUKAHI") != std::string::npos )
+      {
+	 fluka_particle_table::initialize();
+      }
+#endif
+
       if ( beam ) delete beam;
       beam = new TstPrimaryGeneratorAction();
       beam->InitBeam( theConfigReader );
@@ -318,12 +318,13 @@ int main(int argc, char** argv)
       runManager->InitializePhysics();      
       runManager->Initialize();
 
-      // G4double xsec = beam->GetXSecOnTarget() / millibarn;
-      // G4cout << " xsec = " << xsec << G4endl;
+      //G4double xsec = beam->GetXSecOnTarget() / millibarn;
+      //G4cout << " xsec = " << xsec << G4endl;
 
       runManager->ConfirmBeamOnCondition();
       runManager->RunInitialization(); // this is part of BeamOn 
-                                       // and needs be done (at least) to set GeomClosed status       
+                                       // and needs be done (at least) to set GeomClosed status 
+      
       stepping->SetTargetPtr( geom->GetTarget() );
             
       G4Timer timer;
@@ -344,33 +345,30 @@ int main(int argc, char** argv)
       timer.Stop();
       G4cout << " CPU = " << timer.GetUserElapsed() << G4endl;
       G4cout << " Real Time = " << timer.GetRealElapsed() << G4endl;      
-      
-      G4double xsec = beam->GetXSecOnTarget() / millibarn;
-      G4cout << " xsec = " << xsec << G4endl;
-
-      G4ParticleTable* partTable = G4ParticleTable::GetParticleTable();
-      G4ParticleDefinition* partDef = partTable->FindParticle( theConfigReader->GetBeamParticle() );
+            
+      // G4ParticleTable* partTable = G4ParticleTable::GetParticleTable();
+      G4ParticleDefinition* partDef = G4ParticleTable::GetParticleTable()->
+                                      FindParticle( theConfigReader->GetBeamParticle() );
    G4double partMass = partDef->GetPDGMass();
    G4double partMom = theConfigReader->GetBeamMomentum();
    G4double partEnergy = std::sqrt( partMom*partMom + partMass*partMass ); // this is total energy
       G4DynamicParticle dParticle( partDef, theConfigReader->GetDirection(), partEnergy-partMass );
-      dParticle.DumpInfo();
+      // dParticle.DumpInfo();
       G4Material* mat = geom->GetCurrentMaterial();
       const G4Element* elm = mat->GetElement(0);
-      std::cout << mat << std::endl;
-      std::cout << elm << std::endl;
 
       G4HadronicProcessStore* const store = G4HadronicProcessStore::Instance();      
-      store->PrintInfo(partDef);
-      store->Dump(1);
+      // store->PrintInfo(partDef);
+      // store->Dump(1);
       // NOTE: Technically speaking, this method below does extract xsec *without* material (nullptr)
       //       but it produces a warning of not being able to calculate something unless mat is given
       double xsec_from_store = store->GetInelasticCrossSectionPerAtom(partDef, 
                                                                       dParticle.GetKineticEnergy(), 
 								      elm, mat);
 
+      std::cout << " xsec_from_beam = " << beam->GetXSecOnTarget()/millibarn << std::endl;
       std::cout << " xsec_from_store = " << xsec_from_store/millibarn << std::endl;
-      
+
       histo->Write( theConfigReader->GetNEvents(), (beam->GetXSecOnTarget()/millibarn) );
       
       runManager->RunTermination();

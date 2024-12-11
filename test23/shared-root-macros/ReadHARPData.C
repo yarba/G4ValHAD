@@ -199,26 +199,39 @@ TGraphErrors* getHARPAsThetaGraph( float pmin, float pmax, std::string region="L
    float* Y  = new float[NN];
    float* EY = new float[NN];
    
+   for ( int i=0; i<NN; ++i )
+   {
+      X[i] = 0.;
+      Y[i] = 0.;
+      EY[i] = 0.;
+   }
+   
    float pmean = 0.5 * ( pmin + pmax );
    
    float ymax = -1.;
    
-   for ( int i=0; i<NN; ++ i)
+   int ifound=0;
+  
+   for ( int i=0; i<NN; ++i)
    {
-      X[i] = 0.5 * ( AngleBinHARP[0][i] + AngleBinHARP[1][i] );
-      Y[i] = 0.;
-      EY[i] = 0.;
+//      X[i] = 0.5 * ( AngleBinHARP[0][i] + AngleBinHARP[1][i] );
+//      Y[i] = 0.;
+//      EY[i] = 0.;
       for ( int j=0; j<NPointsHARP[i]; ++j )
       {
          if ( pmean > XMinHARP[i][j] && pmean <= XMaxHARP[i][j] )
 	 {
-	    Y[i] = YHARP[i][j];
-	    EY[i] = EYHARP[i][j];
-	    if ( ymax < Y[i]+EY[i] ) ymax = Y[i]+EY[i];
+	    ifound++;
+	    X[ifound] = 0.5 * ( AngleBinHARP[0][i] + AngleBinHARP[1][i] );
+	    Y[ifound] = YHARP[i][j];
+	    EY[ifound] = EYHARP[i][j];
+	    if ( ymax < Y[ifound]+EY[ifound] ) ymax = Y[ifound]+EY[ifound];
 	    break;
 	 }
       }
    } 
+   
+   NN=ifound;
 
    TGraphErrors* gr = new TGraphErrors( NN, X, Y, 0, EY );
    gr->GetYaxis()->SetRangeUser( 0., ymax );

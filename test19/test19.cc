@@ -134,57 +134,41 @@ int main(int argc, char** argv)
       G4cout << " CPU = " << timer.GetUserElapsed() << G4endl;
       G4cout << " Real Time = " << timer.GetRealElapsed() << G4endl;      
       
-/* In principle, this scenario works just fine 
-   meaning that there's no need for XSecOnTarget thing
-   BUT !!! Somehow it crashes with 11.2.p01 on extracting the XS 
-   while working just fine with 11.2.r06 (debug or prof) 
-   NOTE: OK, in this particular case the issue was in NOT having
-   cs->BuildPhysicsTable(*partDef) executedc prior to trying 
-   to extract the XS.
-   Still not quite clear why it was working without in case of 11.2.r06...
-   */
    
-      G4ParticleTable* partTable = G4ParticleTable::GetParticleTable();
-      G4ParticleDefinition* partDef = partTable->FindParticle( exec->GetBeam()->GetBeamPartName() );
+      G4ParticleDefinition* partDef = G4ParticleTable::GetParticleTable()->
+                                      FindParticle( exec->GetBeam()->GetBeamPartName() );      
       G4DynamicParticle dParticle( partDef, exec->GetBeam()->GetBeamMomentum() );
-      dParticle.DumpInfo();
       G4Material* mat = exec->GetTarget()->GetCurrentMaterial();
       const G4Element* elm = mat->GetElement(0);
 
-      std::cout << mat << std::endl;
-      std::cout << elm << std::endl;
-
-  G4VCrossSectionDataSet* cs = 0;
-  if ( partDef == G4Proton::Definition() || partDef == G4Neutron::Definition() ) 
-  {
-      cs = new G4BGGNucleonInelasticXS( partDef );
-  } 
-  else if ( partDef == G4PionPlus::Definition() || partDef == G4PionMinus::Definition() ) 
-  {
-      cs = new G4BGGPionInelasticXS( partDef );
-  }
-  if (cs)
-  { 
-      cs->BuildPhysicsTable(*partDef);
-      double scale_test = cs->GetCrossSection( &dParticle, elm );
-      std::cout << " scale_test = " << scale_test << std::endl;
-  }
-/* */
-      std::cout << " XSecOnTarget = " << exec->GetXSecOnTarget() << std::endl;
-      std::cout << " XSecOnTarget/mb = " << exec->GetXSecOnTarget()/millibarn << std::endl;
-
+      // NOTE: in order to be able to extract XS from the store one needs
+      //       to add scecific XS to the particle's process AND (at least)
+      //       call PreparePhysicsTable for that process so that both 
+      //       the particle and process end up in the store 
+      //       (see e.g. code at the end of ExecProcessLevel::InitBeam)
+      //
       G4HadronicProcessStore* const store = G4HadronicProcessStore::Instance();
       
       // store->PrintInfo(partDef);
-      store->Dump(1);
+      // store->Dump(1);
+      //
+      // NOTE: in principle, giving material (mat) is not stricktly necessary
+      //       as the function will still extract the right XS for the element (elm),
+      //       but in the later case it'll also spit a warning of not being able
+      //       to calculate for materials
       double xsec_from_store = store->GetInelasticCrossSectionPerAtom(partDef, 
                                                                       dParticle.GetKineticEnergy(), 
-								      elm ); // , fMaterial);
+								      elm, mat ); 
       
-      histo->Write( theConfigReader->GetNEvents(), exec->GetXSecOnTarget()/millibarn );
+      std::cout << " Compare XS : from exec --> " << exec->GetXSecOnTarget()/millibarn 
+                << " from store --> " << xsec_from_store/millibarn << std::endl;
+      
+      // histo->Write( theConfigReader->GetNEvents(), exec->GetXSecOnTarget()/millibarn );
+      histo->Write( theConfigReader->GetNEvents(), xsec_from_store/millibarn );
       
       if ( histo ) delete histo; // delete histograms after writing them out
       
+  // Q: is this from FLUKA.CERN-based example ?
   const auto stop = std::chrono::high_resolution_clock::now();
   const auto diff = stop - start;
   const auto time = static_cast<G4double>(

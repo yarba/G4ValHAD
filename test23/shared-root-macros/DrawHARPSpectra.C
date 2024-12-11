@@ -522,7 +522,7 @@ void PlotHARPThetaSpectrum( std::string beam, std::string target, std::string en
       sprintf( buf, "%i", ibin1 );      
       std::string histoname = secondary + "_mom_";
       histoname.append( buf );
-      
+            
       hi[m] = (TH1F*)f->Get( histoname.c_str() );
             
       hi[m]->SetStats(0);
@@ -556,7 +556,6 @@ void PlotHARPThetaSpectrum( std::string beam, std::string target, std::string en
       else hi[m]->Draw("histE1same");
       
       ChiSqThetaModel[m] = Chi2( gr, hi[m], NDFThetaModel[m] );
-                              
    }
    
 
