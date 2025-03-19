@@ -65,6 +65,9 @@ std::string Versions[2] = { "geant4-09-06-p03", "geant4-10-01-b01" };
 int ColorVersion[5] = { kRed, kGreen, 7, kBlack, 14 };
 */
 
+//  KEproton0protonCflukafix-g4xsec7.50GeV119.0
+//  KEproton0protonCflukafix-g4xsec-7.50GeV119.0
+
 #include "../test23/shared-root-macros/REGRESSION_TEST.h"
 
 // model comparison business
@@ -72,7 +75,8 @@ int ColorVersion[5] = { kRed, kGreen, 7, kBlack, 14 };
 const int NModels = 4;
 // std::string Models[3] = { "bertini", "binary", "ftfp" };
 // std::string Models[4] = { "bertini", "inclxx", "binary", "ftfp" };
-std::string Models[4] = { "bertini", "ftfp", "ftfp_tune3", "fluka" };
+std::string Models[4] = { "bertini", "ftfp", "ftfp_tune3", "fluka.cern.4.4.0" };
+// std::string Models[3] = { "fluka", "fluka_g4interface_fix", "fluka_fix_g4xsec" };
 // int ColorModel[6] = { 6, 3, 14 };
 // int  ColorModel[5] = { kMagenta, kRed, kBlack, 7, 14 }; // 14 = grey, 7 = light "sky"-blue
 int         ColorModel[6] = { kMagenta, kRed, kGreen, kBlue, 14, 7 }; // 14 = grey, 7 = light "sky"-blue
@@ -837,14 +841,14 @@ void plotModelsMC2DataSummary( std::string beam, std::string target, std::string
 //      std::string txt1 = "Integral over all agnular bins: #chi^{2}/NDF = ";
       std::string txt1 = "#chi^{2}/NDF = ";
       txt1 += os.str();
-      if ( Models[m].find("flu") != std::string::npos )
-      {
-         txt1 += ( "  fluka.cern v4.4.0" );
-      }
-      else
-      {
+//      if ( Models[m].find("flu") != std::string::npos )
+//      {
+//         txt1 += ( "  fluka.cern v4.4.0" );
+//      }
+//      else
+//      {
          txt1 += ( "  " + Models[m] );
-      }
+//      }
 //      txt1 += ( " for " + Models[m] );
 //      if ( Models[m].find("flu") != std::string::npos )
 //      {
@@ -920,17 +924,13 @@ void plotModelsMC2DataSummary( std::string beam, std::string target, std::string
 //      std::string txt1 = "Integral over all agnular bins: #chi^{2}/NDF = ";
       std::string txt1 = "#chi^{2}/NDF = ";
       txt1 += os.str();
-      if ( Models[m].find("flu") != std::string::npos )
-      {
-         txt1 += ( "  fluka.cern v4.4.0" );
-      }
-      else
-      {
-         txt1 += ( "  " + Models[m] );
-      }
 //      if ( Models[m].find("flu") != std::string::npos )
 //      {
-//         txt1 += "4.4.0";
+//         txt1 += ( "  fluka.cern v4.4.0" );
+//      }
+//      else
+//      {
+         txt1 += ( "  " + Models[m] );
 //      }
       // --> TLatex* ltxt1 = new TLatex(0.10, 0.6-icounter*0.2, txt1.c_str() );
       TLatex* ltxt1 = new TLatex(0.10, 0.8-icounter*0.2, txt1.c_str() );
@@ -1013,7 +1013,7 @@ void plotModelsMC2Data( std::string beam, std::string target, std::string energy
    
    TFile* hfile = new TFile( histofile.c_str() );
    
-//   std::cout << " Histo name : " << histoname << std::endl;
+   std::cout << " Histo name : " << histoname << std::endl;
    TH1F* hi = (TH1F*)hfile->Get( histoname.c_str() );
    
    if ( hi == 0 || NPtKE <= 0 ) 

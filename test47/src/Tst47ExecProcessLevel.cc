@@ -50,6 +50,14 @@
 // #include "G4HadronicDeveloperParameters.hh"
 #include "G4FTFTunings.hh"
 
+#ifdef G4_USE_FLUKA
+// interface to FLUKA.CERN, if specified
+#include "fluka_interface.hh"
+#include "FLUKAParticleTable.hh"
+// --> no need here --> #include "FLUKAInelasticScatteringXS.hh"
+#include "FLUKANuclearInelasticModel.hh"
+#endif
+
 void Tst47ExecProcessLevel::InitProcess( const TstReader* pset )
 {
 
@@ -88,6 +96,19 @@ void Tst47ExecProcessLevel::InitProcess( const TstReader* pset )
    {
       model = new G4INCLXXInterface();
    }
+#ifdef G4_USE_FLUKA
+   else if ( name.find("fluka") != std::string::npos )
+   {
+      const G4bool activateCoalescence = true;
+      const G4bool activateHeavyFragmentsEvaporation = true;
+      fluka_interface::initialize(activateCoalescence, 
+                                  activateHeavyFragmentsEvaporation);
+      fluka_particle_table::initialize();
+      // FLUKANuclearInelasticModel* flukaHI = new FLUKANuclearInelasticModel();
+      // flukaHI->SetMaxEnergy(1.*TeV);
+      model = new FLUKANuclearInelasticModel();
+   }
+#endif
    
    //
    // Note: Need to add Elastic ?

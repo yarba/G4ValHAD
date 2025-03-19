@@ -67,6 +67,7 @@
 
 #include "G4HadronicAbsorptionBertini.hh"
 #include "G4HadronicAbsorptionFritiof.hh"
+#include "G4HadronicAbsorptionINCLXX.hh"
 
 //
 // new development, in place since g4.9.6.b01
@@ -254,7 +255,14 @@ G4VProcess* TestStoppingPhysics::GetProcess(const G4String& gen_name,
 
     if (part_name == "anti_neutron" )
     {
-       theProcess = new G4HadronicAbsorptionFritiof();
+       if ( gen_name == "FTF" )
+       {
+          theProcess = new G4HadronicAbsorptionFritiof();
+       }
+       else if ( gen_name == "INCLXX" )
+       {
+          theProcess = new G4HadronicAbsorptionINCLXX();
+       }
     }
     else if ( part_name == "mu-")
     {
@@ -304,6 +312,13 @@ G4VProcess* TestStoppingPhysics::GetProcess(const G4String& gen_name,
      if ( part_name == "anti_proton" )
      {
         theProcess = new G4HadronicAbsorptionFritiof();
+     }
+  }
+  else if ( gen_name == "INCLXX" )
+  {
+     if ( part_name == "anti_proton" )
+     {
+        theProcess = new G4HadronicAbsorptionINCLXX(); 
      }
   }
   else 

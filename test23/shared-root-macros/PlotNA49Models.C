@@ -50,6 +50,7 @@ void plot_dNdxF_pT( std::string beam, std::string target, std::string secondary 
       myc->cd();
       TPad* pad3 = new TPad("pad3","",0.01, 0.01, 0.99, 0.125);
       pad3->Draw();
+            
       for ( int m=0; m<NModels_HE; ++m )
       {
          int NDF1=0;
@@ -80,10 +81,12 @@ void plot_dNdxF_pT( std::string beam, std::string target, std::string secondary 
    TCanvas* myc   = new TCanvas("myc","",1200,600);
 
    TPad* pad1 = new TPad( "pad1", "", 0.01, 0.01, 0.4, 0.99 );
-
+   
    pad1->Draw();
    pad1->Divide(1.,2.,0.,0.);
    pad1->cd(1); gPad->SetRightMargin(0.025);
+   std::cout << " at pad1, about to draw int. spectra" << std::endl;
+   
    drawIntegratedSpectrum( beam, target, secondary, "dNdxF", false );  // no legend
    pad1->cd(2); gPad->SetRightMargin(0.025);
    gPad->SetLogy();

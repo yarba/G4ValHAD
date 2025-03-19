@@ -35,10 +35,14 @@ int         SymbModel[4]     = { 29, 20, 21, 8 };
 #ifndef G4VAL_PLOTANTIPROTONSTOPPING_C
 #define G4VAL_PLOTANTIPROTONSTOPPING_C
 
-const int NModelsBaryons=1;
-std::string ModelsBaryons[1] = { "FTF" };
-int         ColorModel[1]    = { 6 };
-int         SymbModel[1]     = { 29 }; 
+const int NModelsBaryons=2;
+std::string ModelsBaryons[2] = { "FTF", "INCLXX" };
+int         ColorModel[2]    = { kRed, 48 }; // NOTE: Bert is magenta, FTF is red, 
+                                             //       FTF_tune3 is green,
+					     //       QGS is light blue (7),
+					     //       fluka is blue;
+                                             //       let's make INCLXX brown-purplish (48)
+int         SymbModel[2]     = { 29, 28 }; 
 
 // pbar beam business
 const int NPointsPbar_PionMom  = 44;
@@ -125,7 +129,7 @@ TGraphErrors* getPionMultAsGraph()
 
 }
 
-double calcChi2PionMult( std::string target="H", std::string model="FTF", int NDF=0 )
+double calcChi2PionMult( std::string target, std::string model, int& NDF )
 {
    double chi2 = 0.;
 //   int NDF = 0;
@@ -139,7 +143,7 @@ double calcChi2PionMult( std::string target="H", std::string model="FTF", int ND
    
    chi2 = Chi2( gdata, hi_mult, NDF );
    
-   std::cout << " chi2/NDF = " << chi2 << "/" << NDF << " = " << (chi2/NDF) << std::endl;
+   std::cout << " calcChi2PionMult: chi2/NDF = " << chi2 << "/" << NDF << " = " << (chi2/NDF) << std::endl;
    
    return chi2;
    
@@ -174,7 +178,7 @@ double calcChi2ChPiMom( std::string target, std::string model, int& NDF )
    
    chi2 = Chi2( gdata, hi_mom, NDF );
    
-   std::cout << " chi2/NDF = " << chi2 << "/" << NDF << " = " << (chi2/NDF) << std::endl;
+   std::cout << " calcChi2ChPiMom: chi2/NDF = " << chi2 << "/" << NDF << " = " << (chi2/NDF) << std::endl;
    
    return chi2;
    
@@ -325,9 +329,9 @@ void plotAntiProton( std::string target="H" )
    txt->SetTextSize(0.05);
    txt->Draw();
    
-   TPad* pad1 = new TPad("pad1","",0.01, 0.01,0.49,0.92);
+   TPad* pad1 = new TPad("pad1","",0.01, 0.12,0.49,0.92);
    pad1->Draw();
-   TPad* pad2 = new TPad("pad2","",0.51, 0.01,0.99,0.92);
+   TPad* pad2 = new TPad("pad2","",0.51, 0.12,0.99,0.92);
    pad2->Draw();
    // pad2->SetLogy();
       
@@ -345,8 +349,7 @@ void plotAntiProton( std::string target="H" )
 	 if ( ymin_mom < 0. ) ymin_mom = 0.;
       }
    }
-   
-   
+      
    for ( int m=0; m<NModelsBaryons; m++ )
    {
       std::string histofile = "antiproton" + target + ModelsBaryons[m];
@@ -359,13 +362,21 @@ void plotAntiProton( std::string target="H" )
       hi_mult[m]->SetTitle("");
       hi_mom[m]->SetLineColor(ColorModel[m]);
       hi_mult[m]->SetLineColor(ColorModel[m]);
-      hi_mom[m]->SetLineWidth(2);
-      hi_mult[m]->SetLineWidth(2);
+      hi_mom[m]->SetLineWidth(3);
+      hi_mult[m]->SetLineWidth(3);
       hi_mom[m]->GetXaxis()->SetTitle("Charged Pion Momentum (GeV/c)");
+      hi_mom[m]->GetXaxis()->SetTitleFont(62);
+      hi_mom[m]->GetXaxis()->CenterTitle();
       hi_mom[m]->GetYaxis()->SetTitle("dN/dP (GeV/c)^{-1} / NEvents");
+      hi_mom[m]->GetYaxis()->SetTitleFont(62);
+      hi_mom[m]->GetYaxis()->CenterTitle();
       hi_mult[m]->GetXaxis()->SetTitle("Number of pions (#pi^{+} + #pi^{-} + #pi^{0})");
+      hi_mult[m]->GetXaxis()->SetTitleFont(62);
+      hi_mult[m]->GetXaxis()->CenterTitle();
 //      hi_mult[m]->GetYaxis()->SetTitle("Fraction [%] of events" );
       hi_mult[m]->GetYaxis()->SetTitle("Fraction of events" );
+      hi_mult[m]->GetYaxis()->SetTitleFont(62);
+      hi_mult[m]->GetYaxis()->CenterTitle();
       hi_mom[m]->GetYaxis()->SetTitleOffset(1.5);
       hi_mult[m]->GetYaxis()->SetTitleOffset(1.5);
       int nx = hi_mom[m]->GetNbinsX();
@@ -387,7 +398,7 @@ void plotAntiProton( std::string target="H" )
 //      myc->cd(2);
       pad2->cd();
       if ( m == 0 ) hi_mult[m]->Draw("histo");
-      else hi_mult[m]->Draw("histosame");      
+      else hi_mult[m]->Draw("histosame");  
    }
    
    TLegend* leg1 = new TLegend(0.6, 0.70, 0.9, 0.9);
@@ -403,16 +414,39 @@ void plotAntiProton( std::string target="H" )
       hi_mult[m]->GetYaxis()->SetRangeUser(ymin_mult,1.);
       hi_mult[m]->SetStats(0);
       leg2->AddEntry( hi_mult[m], ModelsBaryons[m].c_str(), "L" );
+      std::ostringstream os1;
+      os1.precision(3);
+      int NDF = 0;
+      double chi2 = calcChi2ChPiMom( target, ModelsBaryons[m], NDF );
+      os1 << (chi2/NDF);
+      std::string txt1 = "#chi^{2}/NDF = " + os1.str() + " for " + ModelsBaryons[m];
+      TLatex* ltxt1 = new TLatex( 0.1, 0.09-0.035*m, txt1.c_str() );
+      ltxt1->SetTextSize(0.035);
+      ltxt1->SetTextColor(ColorModel[m]);
+      myc->cd();
+      ltxt1->Draw();
+      std::ostringstream os2;
+      os2.precision(3);
+      NDF = 0;
+      chi2 = 0;
+      chi2 = calcChi2PionMult( target, ModelsBaryons[m], NDF );   
+      os2 << (chi2/NDF);
+      std::string txt2 = "#chi^{2}/NDF = " + os2.str() + " for " + ModelsBaryons[m];
+      TLatex* ltxt2 = new TLatex( 0.6, 0.09-0.035*m, txt2.c_str() );
+      ltxt2->SetTextSize(0.035);
+      ltxt2->SetTextColor(ColorModel[m]);
+      myc->cd();
+      ltxt2->Draw();
    }
    
    // readAntiProton();
    
    TGraph*  gr1 = new TGraphErrors(NPointsPbar_PionMom,MomX,MomValue,0,MomError);
    TGraph*  gr2 = new TGraphErrors(NPointsPbar_PionMult,MultX,MultValue,0,MultError);
-   gr1->SetMarkerColor(4);  gr1->SetMarkerStyle(22);
+   gr1->SetMarkerColor(kBlack);  gr1->SetMarkerStyle(22);
    gr1->SetMarkerSize(1.6);
    
-   gr2->SetMarkerColor(4);  gr2->SetMarkerStyle(22);
+   gr2->SetMarkerColor(kBlack);  gr2->SetMarkerStyle(22);
    gr2->SetMarkerSize(1.6);
    
 //    myc->cd(1);

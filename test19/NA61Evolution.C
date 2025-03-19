@@ -26,10 +26,11 @@ std::string TEST_NAME="test19";
 
 #include "../test23/shared-root-macros/REGRESSION_TEST.h"
 
-const int NModels = 4;
-std::string Models[4] = { "qgsp", "ftfp", 
-                          "ftfp_tune3", 
-			  "fluka4.4.0" };
+const int NModels = 3; // 4;
+//std::string Models[4] = { "qgsp", "ftfp", 
+//                          "ftfp_tune3", 
+//			  "fluka4.4.0" };
+std::string Models[3] = { "fluka4.4.0","fluka_g4interface_fix", "fluka_fix_g4xsec" }; 
 // int ColorModel[4] = { kRed, kBlack, 14, kMagenta };
 int         ColorModel[6] = { 7, kRed, kGreen, kBlue, 14, kMagenta }; // 14 = grey, 7 = light "sky"-blue
 
@@ -43,7 +44,8 @@ void NA61EvolutionProtonBeam( std::string model, std::string sec )
    TPad* pad = new TPad( pname.c_str(), "", 0.01, 0.01, 0.99, 0.97 );
    pad->Divide( 4, 3, 0.01, 0.01 );
    
-   TLegend* leg = new TLegend( 0.01, 0.01, 0.99, 0.99 );
+   // TLegend* leg = new TLegend( 0.01, 0.01, 0.99, 0.99 );
+   TLegend* leg = new TLegend( -0.01, 0.01, 0.99, 0.99 );
    leg->SetFillColor(kWhite);
    leg->SetBorderSize(0);
    TLegendEntry* lentry = 0; 
@@ -437,7 +439,7 @@ void NA61ModelsProtonBeam( std::string sec )
    TPad* pad = new TPad( pname.c_str(), "", 0.01, 0.01, 0.99, 0.97 );
    pad->Divide( 4, 3, 0.01, 0.01 );
    
-   TLegend* leg = new TLegend( 0.01, 0.01, 0.99, 0.99 );
+   TLegend* leg = new TLegend( -0.02, 0.01, 0.99, 0.99 );
    leg->SetFillColor(kWhite);
    leg->SetBorderSize(0);
    TLegendEntry* lentry = 0; 
@@ -473,7 +475,15 @@ void NA61ModelsProtonBeam( std::string sec )
 
       os << (chi2/NDF);
       std::string txt1 = "#chi^{2}/NDF=" + os.str();
-      txt1 += ( " " + Models[iv] );
+      // tmp !!
+      if ( Models[iv].find("fluka") != std::string::npos )
+      {
+         txt1 += ( " fluka.cern v4.4.0" );
+      }
+      else
+      {
+         txt1 += ( " " + Models[iv] );
+      }
 
       lentry = leg->AddEntry( "", txt1.c_str(), "L" );
       lentry->SetLineColor( ColorModel[iv] );
@@ -525,7 +535,7 @@ void NA61ModelsProtonBeam( std::string sec )
       cnv->Update();
       for ( int iv=1; iv<NModels; ++iv )
       {
-         h[iv] =(TH1F*)( files[iv]->Get( key_name.c_str()) );
+	 h[iv] =(TH1F*)( files[iv]->Get( key_name.c_str()) );
 	 h[iv]->SetStats(0);
 	 h[iv]->SetLineColor(ColorModel[iv]);
 	 h[iv]->SetLineWidth(5-iv); // 2);
@@ -537,7 +547,7 @@ void NA61ModelsProtonBeam( std::string sec )
 	 {
 	    h[iv1]->GetYaxis()->SetRangeUser( 0., ymax );
 	 }
-         gPad->Update();
+	 gPad->Update();
          pad->Update();
          cnv->Update();
 	 h[iv]->DrawCopy("histE1same" );    
@@ -548,7 +558,7 @@ void NA61ModelsProtonBeam( std::string sec )
       std::vector<std::string> tokens;
       SplitString( key_name, "_", tokens );
       int ntk = tokens.size();
-//      std::cout << tokens[ntk-2] << "..." << tokens[ntk-1] << std::endl;
+      // std::cout << tokens[ntk-2] << "..." << tokens[ntk-1] << std::endl;
       readMomSpectrum( "proton", "C", sec, 
                        tokens[ntk-2], tokens[ntk-1], 
                        "../test23/na61-exp-data/Pub-2015/" );
@@ -559,7 +569,7 @@ void NA61ModelsProtonBeam( std::string sec )
       gdata->SetMarkerStyle(22);
       gdata->SetMarkerSize(1.5);
       gdata->GetYaxis()->SetRangeUser( 0., ymax );
-      for ( int iv=0; iv<NVersions; ++iv )
+      for ( int iv=0; iv<NModels; ++iv )
       {
          h[iv]->GetYaxis()->SetRangeUser( 0., ymax );
       }
@@ -598,7 +608,7 @@ void NA61ModelsPiplusBeam( std::string sec )
    TPad* pad = new TPad( pname.c_str(), "", 0.01, 0.01, 0.99, 0.97 );
    pad->Divide( 4, 3, 0.01, 0.01 );
    
-   TLegend* leg = new TLegend( 0.01, 0.01, 0.99, 0.99 );
+   TLegend* leg = new TLegend( -0.02, 0.01, 0.99, 0.99 );
    leg->SetFillColor(kWhite);
    leg->SetBorderSize(0);
    TLegendEntry* lentry = 0; 
@@ -764,7 +774,15 @@ void NA61ModelsPiplusBeam( std::string sec )
 
       os << (chi2total[iv]/NDFtotal[iv]);
       std::string txt1 = "#chi^{2}/NDF=" + os.str();
-      txt1 += ( " " + Models[iv] );
+      // tmp !!!
+      if ( Models[iv].find("fluka") != std::string::npos )
+      {
+         txt1 += ( " fluka.cern v4.4.0" );
+      }
+      else
+      {
+         txt1 += ( " " + Models[iv] );
+      }
 
       lentry = leg->AddEntry( "", txt1.c_str(), "L" );
       lentry->SetLineColor( ColorModel[iv] );

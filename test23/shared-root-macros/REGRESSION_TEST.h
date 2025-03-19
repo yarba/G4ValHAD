@@ -26,15 +26,18 @@
 #ifndef G4VAL_REGRESSION_H
 #define G4VAL_REGRESSION_H
 
-const int NVersions = 4;
+const int NVersions = 2;
 
 // std::string Versions[4] = { "geant4-10-04-patch-03", "geant4-10-05", "geant4-10-06-patch-03",
 //                            "geant4-10-07-patch-02" };
- std::string Versions[4] = { "geant4-10-07-patch-02", "geant4-11-00-patch-02", 
-                            "geant4-11-01", "geant4-11-02-patch-01" };
+// std::string Versions[4] = { "geant4-10-07-patch-02", "geant4-11-00-patch-02", 
+//                            "geant4-11-01", "geant4-11-02-patch-01" };
 // --> Apr 2024 --> std::string Versions[2] = { "geant4-11-01", "geant4-11-02-patch-01" };
+// --> Jan 2025 --> 
+std::string Versions[2] = { "geant4-11-02-patch-01", "geant4-11-03" };
 
-std::string CurrentVersion = "geant4-11-02-patch-01";
+
+std::string CurrentVersion = "geant4-11-03"; // "geant4-11-02-patch-01";
 
 // --> int ColorVersion[5] = { kRed, kGreen, 7, kBlue /* kBlack */ , 14 };
 // this is to match SASM6E

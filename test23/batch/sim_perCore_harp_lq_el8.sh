@@ -19,6 +19,8 @@ physlist=${4}
 
 EXP=HARP
 
+echo "SLURM_ARRAY_TASK_COUNT = ${SLURM_ARRAY_TASK_COUNT}"
+echo "SLURM_ARRAY_TASK_MAX = ${SLURM_ARRAY_TASK_MAX}"
 echo "SLURM_NPROCS = ${SLURM_NPROCS}"
 echo "SLURM_NTASKS = ${SLURM_NTASKS}"
 nevents=$((1000000/${SLURM_NPROCS}))
@@ -48,7 +50,8 @@ if [ -e ${G4WORKDIR}/${config} ]; then
 /bin/rm -f ${G4WORKDIR}/${config}
 fi
 
-/usr/bin/printf "#verbose \n-1 \n#rad \n" >> ${config}
+# --> /usr/bin/printf "#verbose \n-1 \n#rad \n" >> ${config}
+/usr/bin/printf "#verbose \n1 \n#rad \n" >> ${config}
 /usr/bin/printf "#events \n" >> ${config}
 /usr/bin/printf "%d\n" ${nevents} >> ${config}
 if [ "x" == "x$JobID" ]; then
@@ -87,7 +90,7 @@ spack load root@6.26.06
 
 if [ "x${physlist}" == "xG4_HP_CFLUKAHI" ]; then
 FLUKABIN=/project/Geant4/yarba_j/geant4-local-builds/el8+gcc-11.4.0/FLUKA/4.4.0/fluka4-4.0/bin
-FLUKAHI=/project/Geant4/yarba_j/geant4-local-builds/el8+gcc-11.4.0/geant4-11-02-patch-01/examples/extended/hadronic/FlukaCern/FlukaInterface
+FLUKAHI=/project/Geant4/yarba_j/geant4-local-builds/el8+gcc-11.4.0/geant4-11-03-ref-00/examples/extended/hadronic/FlukaCern/FlukaInterface
 export PATH=${FLUKABIN}:${PATH}
 source ${FLUKAHI}/env_FLUKA_G4_interface.sh 
 fi

@@ -29,7 +29,9 @@
 const int NModels_IE = 4;
 // std::string ModelName_IE[3]  = { "inclxx", "bertini", "ftfp" };
 // std::string ModelName_IE[3]  = { "bertini", "ftfp", "inclxx" };
-std::string ModelName_IE[4]  = { "bertini", "ftfp", "ftfp_tune3", "fluka4.4.0" };
+std::string ModelName_IE[4]  = { "bertini", "ftfp", "ftfp_tune3", "fluka.cern.4.4.0" };
+// std::string ModelName_IE[3]  = { "fluka4.4.0", "fluka_g4interface_fix", "fluka_fix_g4xsec" };
+
 // std::string ModelName_IE[1] = {"ftfp"};
 //
 /* ---> for VMP business

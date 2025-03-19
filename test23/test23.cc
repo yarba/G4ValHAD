@@ -332,12 +332,12 @@ int main(int argc, char** argv)
       
       for (G4int iter=0; iter<theConfigReader->GetNEvents(); ++iter) 
       {
-/*
-	 if ( (iter%10) == 0 ) 
+/* */
+	 if ( theConfigReader->GetVerbosity() > -1 && iter%1000 == 0 ) 
 	 {
 	    G4cout << " event # " << iter << G4endl;
 	 }
-*/
+/* */
 	 runManager->ProcessOneEvent( iter );
          // G4Event* event = runManager->GenerateEvent( iter );
       }

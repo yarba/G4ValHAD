@@ -118,6 +118,11 @@ void drawIntegratedSpectrum( std::string beam, std::string target,
 
       std::string histofile = "./na49-histo/" + beam + target + "158.0GeV" + ModelName_HE[m] + ".root"; 
       TFile* f = new TFile( histofile.c_str() );
+      
+      if ( !f )
+      {
+         std::cout << " histo file " << histofile << " does not exist " << std::endl;
+      }
 
       std::string histoname = secondary + "_" + histo ;
       
@@ -138,7 +143,7 @@ void drawIntegratedSpectrum( std::string beam, std::string target,
       hi[m]->SetStats(0);
       hi[m]->SetLineColor(ColorModel_HE[m]);
       hi[m]->SetLineWidth(2);
-      if ( m == 0 ) hi[m]->SetLineWidth(3.5);
+      if ( m == 0 ) hi[m]->SetLineWidth(3);
       
       int nx = hi[m]->GetNbinsX();
       for (int k=1; k <= nx; k++) 

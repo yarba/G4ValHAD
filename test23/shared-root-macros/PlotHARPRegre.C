@@ -170,13 +170,16 @@ void PlotHARPRegreForReview()
    
 }
 
-void PlotHARPRegreForMu2e( std::string secondary, std::string model )
+// void PlotHARPRegreForMu2e( std::string secondary, std::string model )
+void PlotHARPRegreForMu2e( std::string secondary, std::string tg, std::string model )
 {
 
    TCanvas* myc = new TCanvas( "myc", "", 800, 800 );
-   ReadHARPData( "proton", "Ta", "8.0", secondary, "LA" );
+// -->   ReadHARPData( "proton", "Ta", "8.0", secondary, "LA" );
+   ReadHARPData( "proton", tg, "8.0", secondary, "LA" );
    
-   std::string txt1 = "8.0GeV/c proton + Ta #rightarrow " + secondary;
+// -->   std::string txt1 = "8.0GeV/c proton + Ta #rightarrow " + secondary;
+   std::string txt1 = "8.0GeV/c proton + " + tg + " #rightarrow " + secondary;
    TLatex* ltxt1 = new TLatex( 0.35, 0.97, txt1.c_str() );
    ltxt1->SetTextSize(0.025);
    std::string txt2 = "";
@@ -217,7 +220,8 @@ void PlotHARPRegreForMu2e( std::string secondary, std::string model )
    mypad->cd(1);
    gPad->SetRightMargin(0.1);
    gPad->SetLeftMargin(0.15);
-   PlotHARPThetaSpectrumRegre( "proton","Ta", "8.0", secondary, 0.1, 0.15, model );
+// -->   PlotHARPThetaSpectrumRegre( "proton","Ta", "8.0", secondary, 0.1, 0.15, model );
+   PlotHARPThetaSpectrumRegre( "proton", tg, "8.0", secondary, 0.1, 0.15, model );
    for ( int m=0; m<NVersions; ++m )
    {
       ChiSqTotal[m] += ChiSqThetaRegre[m];
@@ -234,7 +238,8 @@ void PlotHARPRegreForMu2e( std::string secondary, std::string model )
    mypad->cd(2);
    gPad->SetRightMargin(0.01);
    gPad->SetLeftMargin(0.1);
-   PlotHARPThetaSpectrumRegre( "proton","Ta", "8.0", secondary, 0.15, 0.2, model );
+// -->   PlotHARPThetaSpectrumRegre( "proton","Ta", "8.0", secondary, 0.15, 0.2, model );
+   PlotHARPThetaSpectrumRegre( "proton", tg, "8.0", secondary, 0.15, 0.2, model );
    for ( int m=0; m<NVersions; ++m )
    {
       ChiSqTotal[m] += ChiSqThetaRegre[m];
@@ -251,7 +256,8 @@ void PlotHARPRegreForMu2e( std::string secondary, std::string model )
    mypad->cd(3);
    gPad->SetRightMargin(0.1);
    gPad->SetLeftMargin(0.15);
-   PlotHARPThetaSpectrumRegre( "proton","Ta", "8.0", secondary, 0.2, 0.25, model );
+// -->   PlotHARPThetaSpectrumRegre( "proton","Ta", "8.0", secondary, 0.2, 0.25, model );
+   PlotHARPThetaSpectrumRegre( "proton", tg, "8.0", secondary, 0.2, 0.25, model );
    for ( int m=0; m<NVersions; ++m )
    {
       ChiSqTotal[m] += ChiSqThetaRegre[m];
@@ -268,7 +274,8 @@ void PlotHARPRegreForMu2e( std::string secondary, std::string model )
    mypad->cd(4);
    gPad->SetRightMargin(0.01);
    gPad->SetLeftMargin(0.1);
-   PlotHARPThetaSpectrumRegre( "proton","Ta", "8.0", secondary, 0.25, 0.3, model );
+// -->   PlotHARPThetaSpectrumRegre( "proton","Ta", "8.0", secondary, 0.25, 0.3, model );
+   PlotHARPThetaSpectrumRegre( "proton", tg, "8.0", secondary, 0.25, 0.3, model );
    for ( int m=0; m<NVersions; ++m )
    {
       ChiSqTotal[m] += ChiSqThetaRegre[m];
@@ -314,7 +321,8 @@ void PlotHARPRegreForMu2e( std::string secondary, std::string model )
       chi2ltxt[m]->Draw();       
    }
 
-   std::string out = "proton-Ta-8.0GeV-" + secondary + "-theta-spectra-" + model;
+// -->   std::string out = "proton-Ta-8.0GeV-" + secondary + "-theta-spectra-" + model;
+   std::string out = "proton-" + tg + "-8.0GeV-" + secondary + "-theta-spectra-" + model;
    out += "-regre.gif";
    myc->Print( out.c_str() );
 

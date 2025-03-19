@@ -28,7 +28,7 @@
 
 const int NModels_HE = 4;
 //std::string ModelName_HE[3]  = { "qgsp", "ftfp", "qgsp-g4lund-str-fragm" };
-std::string ModelName_HE[4]  = { "qgsp", "ftfp", "ftfp_tune3", "fluka4.4.0" };
+std::string ModelName_HE[4]  = { "qgsp", "ftfp", "ftfp_tune3", "fluka.cern.4.4.0" };
 //int         ColorModel_HE[5] = { kMagenta, 7, kRed, kBlue /* kBlack */ , 14 }; // 14 = grey, 7 = light "sky"-blue
 // kMagenta is for BERTINI !!!
 // int         ColorModel_HE[5] = { kBlue /* kBlack */ , 7, kRed, 14, kGreen }; // 14 = grey, 7 = light "sky"-blue

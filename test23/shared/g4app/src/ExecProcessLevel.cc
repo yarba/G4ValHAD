@@ -296,8 +296,8 @@ void ExecProcessLevel::InitBeam( const TstReader* pset )
    
    std::string physics_lc = boost::algorithm::to_lower_copy(pset->GetPhysics());
    std::cout << " GetPhysics = " << pset->GetPhysics() << " ---> physics_lc = " << physics_lc << std::endl;
-   if ( physics_lc.find("fluka") == std::string::npos )
-   {
+//   if ( physics_lc.find("fluka") == std::string::npos )
+//   {
       if ( partDef == G4Proton::Definition() || partDef == G4Neutron::Definition() ) 
       {
          cs = new G4BGGNucleonInelasticXS( partDef );
@@ -323,13 +323,13 @@ void ExecProcessLevel::InitBeam( const TstReader* pset )
       {
          cs = new G4CrossSectionInelastic( new G4ComponentGGHadronNucleusXsc );
       }
-   }
-#ifdef G4_USE_FLUKA
-   else 
-   {
-      cs = new FLUKAInelasticScatteringXS();
-   }
-#endif      
+//   }
+//#ifdef G4_USE_FLUKA
+//   else 
+//   {
+//      cs = new FLUKAInelasticScatteringXS();
+//   }
+//#endif      
       
    if ( cs ) 
    {
