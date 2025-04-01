@@ -81,9 +81,9 @@ mom=$((${momentum}/1000))
 /usr/bin/printf "#momentum(MeV/c) \n" >> ${config}
 /usr/bin/printf "%d\n" ${momentum} >> ${config}
 
-#/usr/bin/printf "// --- \n#generator \n" >> ${config}
-#/usr/bin/printf "bertini \n" >> ${config}
-#/usr/bin/printf "#run \n" >> ${config}
+/usr/bin/printf "// --- \n#generator \n" >> ${config}
+/usr/bin/printf "bertini \n" >> ${config}
+/usr/bin/printf "#run \n" >> ${config}
 #
 ##/usr/bin/printf "// --- \n#generator \n" >> ${config}
 ##/usr/bin/printf "inclxx \n" >> ${config}
