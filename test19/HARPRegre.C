@@ -46,10 +46,12 @@ void HARPRegre( std::string beampart="piminus", std::string tg="Be", std::string
       PlotHARPAnalysisRegre( beampart, tg, en, "piminus", "FW", ModelName_IE[m] ); 
       PlotHARPAnalysisRegre( beampart, tg, en, "piminus", "LA", ModelName_IE[m] ); 
 
-      if ( beampart == "proton" && tg == "Ta" && en == "8.0" )
+      if ( beampart == "proton" && (tg == "C" || tg == "Ta") && en == "8.0" )
       {	 
-	 PlotHARPRegreForMu2e( "piplus", ModelName_IE[m] );
-	 PlotHARPRegreForMu2e( "piminus", ModelName_IE[m] );
+// -->	 PlotHARPRegreForMu2e( "piplus", ModelName_IE[m] );
+// -->	 PlotHARPRegreForMu2e( "piminus", ModelName_IE[m] );
+	 PlotHARPRegreForMu2e( "piplus", tg, ModelName_IE[m] );
+	 PlotHARPRegreForMu2e( "piminus", tg, ModelName_IE[m] );
       }
 
    }

@@ -479,7 +479,7 @@ void PlotHARPForMu2e( std::string secondary, std::string tg  )
    myc->cd();
    leg->Draw();
    
-   TLatex* genltxt = new TLatex( 0.1, 0.12, "#chi^{2}/NDF is a sum calculated for all shown P(pi) bins" );
+   TLatex* genltxt = new TLatex( 0.1, 0.13, "#chi^{2}/NDF is a sum calculated for all shown P(pi) bins" );
    genltxt->SetTextFont(62);
    genltxt->SetTextSize(0.0225);
    myc->cd();
@@ -500,7 +500,7 @@ void PlotHARPForMu2e( std::string secondary, std::string tg  )
 //      {
          chi2txt += ModelName_IE[m];
 //      }
-      chi2ltxt[m] = new TLatex( 0.1, (0.09-0.025*m), chi2txt.c_str() );
+      chi2ltxt[m] = new TLatex( 0.1, (0.105-0.025*m), chi2txt.c_str() );
       chi2ltxt[m]->SetTextFont(62);
       chi2ltxt[m]->SetTextSize(0.0225);
       myc->cd();

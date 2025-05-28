@@ -72,14 +72,14 @@ int ColorVersion[5] = { kRed, kGreen, 7, kBlack, 14 };
 
 // model comparison business
 //
-const int NModels = 4;
+const int NModels = 5;
 // std::string Models[3] = { "bertini", "binary", "ftfp" };
 // std::string Models[4] = { "bertini", "inclxx", "binary", "ftfp" };
-std::string Models[4] = { "bertini", "ftfp", "ftfp_tune3", "fluka.cern.4.4.0" };
+std::string Models[5] = { "bertini", "ftfp", "ftfp_tune3", "fluka.cern.4.4.0", "bertini.11.2" };
 // std::string Models[3] = { "fluka", "fluka_g4interface_fix", "fluka_fix_g4xsec" };
 // int ColorModel[6] = { 6, 3, 14 };
 // int  ColorModel[5] = { kMagenta, kRed, kBlack, 7, 14 }; // 14 = grey, 7 = light "sky"-blue
-int         ColorModel[6] = { kMagenta, kRed, kGreen, kBlue, 14, 7 }; // 14 = grey, 7 = light "sky"-blue
+int         ColorModel[6] = { kMagenta, kRed, kGreen, kBlue, 7, 14 }; // 14 = grey, 7 = light "sky"-blue
 
 // --> General purspose exp.data read-in
 //
@@ -716,7 +716,7 @@ void plotMC2Data( std::string beam, std::string target, std::string energy,
    gr[iv]->SetMarkerColor(ColorVersion[iv]); 
    gr[iv]->SetLineColor(ColorVersion[iv]); 
    gr[iv]->SetMarkerStyle(21);
-   gr[iv]->SetMarkerSize(1.6);
+   gr[iv]->SetMarkerSize(1.6-0.25*iv);
    
    } // end loop on versions
       

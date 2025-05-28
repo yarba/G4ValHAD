@@ -401,7 +401,7 @@ void PlotHARPHistoRegre( std::string beam, std::string target, std::string energ
       
       hi[m]->SetStats(0);
       hi[m]->SetLineColor(ColorVersion[m]);
-      hi[m]->SetLineWidth(2);
+      hi[m]->SetLineWidth(5-m); // 2);
       
       int nx = hi[m]->GetNbinsX();
       for (int k=1; k <= nx; k++) 
@@ -546,7 +546,7 @@ void PlotHARPThetaSpectrum( std::string beam, std::string target, std::string en
 	 hi[m]->GetXaxis()->SetLabelFont(62);
 	 hi[m]->GetXaxis()->CenterTitle();
 	 hi[m]->GetYaxis()->SetTitle("d^{2}#sigma / dpd#Theta [mb/(GeV/c/rad)]");
-	 hi[m]->GetYaxis()->SetTitleOffset(1.0);
+	 hi[m]->GetYaxis()->SetTitleOffset(1.1);  //  1.0);
 	 hi[m]->GetYaxis()->SetTitleSize(0.05);
 	 hi[m]->GetYaxis()->SetTitleFont(62);
 	 hi[m]->GetYaxis()->SetLabelFont(62);
@@ -668,7 +668,7 @@ void PlotHARPThetaSpectrumRegre( std::string beam, std::string target, std::stri
 	 hi[m]->GetXaxis()->SetLabelFont(62);
 	 hi[m]->GetXaxis()->CenterTitle();
 	 hi[m]->GetYaxis()->SetTitle("d^{2}#sigma / dpd#Theta [mb/(GeV/c/rad)]");
-	 hi[m]->GetYaxis()->SetTitleOffset(1.1);
+	 hi[m]->GetYaxis()->SetTitleOffset(1.1); //   1.0);
 	 hi[m]->GetYaxis()->SetTitleSize(0.05);
 	 hi[m]->GetYaxis()->SetTitleFont(62);
 	 hi[m]->GetYaxis()->SetLabelFont(62);

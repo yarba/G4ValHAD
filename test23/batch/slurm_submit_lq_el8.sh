@@ -18,21 +18,33 @@
 
 
 # --> pl0=(ShieldingM Shielding ftfp_bert qgsp_bert)
-# --> pl0=(ShieldingM ftfp_bert G4_HP_CFLUKAHI)
-pl0=( G4_HP_CFLUKAHI )
+pl0=(ShieldingM ftfp_bert)  # -->  G4_HP_CFLUKAHI)
+# --> pl0=( G4_HP_CFLUKAHI )
 
 for (( p=0; p<${#pl0[@]}; ++p )) do
 
-#sbatch -N 1 -n 40 -c 1 -p lq1_cpu -A g4 --exclusive \
-#	slurm_master.sh sim_perCore_harp_lq_el8.sh piplus C 3000 ${pl0[$p]}
+sbatch -N 1 -n 40 -c 1 -p lq1_cpu -A g4 --exclusive \
+	slurm_master.sh sim_perCore_harp_lq_el8.sh proton C 3000 ${pl0[$p]}
 
-#sbatch -N 1 -n 40 -c 1 -p lq1_cpu -A g4 --exclusive  \
-#	slurm_master.sh sim_perCore_harp_lq_el8.sh piplus Ta 3000 ${pl0[$p]}
+sbatch -N 1 -n 40 -c 1 -p lq1_cpu -A g4 --exclusive  \
+	slurm_master.sh sim_perCore_harp_lq_el8.sh piplus C 3000 ${pl0[$p]}
 
-#sbatch -N 1 -n 40 -c 1 -p lq1_cpu -A g4 --exclusive \
-#	slurm_master.sh sim_perCore_harp_lq_el8.sh piplus C 8000 ${pl0[$p]}
+sbatch -N 1 -n 40 -c 1 -p lq1_cpu -A g4 --exclusive \
+	slurm_master.sh sim_perCore_harp_lq_el8.sh proton Ta 3000 ${pl0[$p]}
 
-sbatch -N 1 -n 20 -c 1 -p lq1_cpu -A g4 --exclusive  \
+sbatch -N 1 -n 40 -c 1 -p lq1_cpu -A g4 --exclusive  \
+	slurm_master.sh sim_perCore_harp_lq_el8.sh piplus Ta 3000 ${pl0[$p]}
+
+sbatch -N 1 -n 40 -c 1 -p lq1_cpu -A g4 --exclusive \
+	slurm_master.sh sim_perCore_harp_lq_el8.sh proton C 8000 ${pl0[$p]}
+
+sbatch -N 1 -n 40 -c 1 -p lq1_cpu -A g4 --exclusive  \
+	slurm_master.sh sim_perCore_harp_lq_el8.sh piplus C 8000 ${pl0[$p]}
+
+sbatch -N 1 -n 40 -c 1 -p lq1_cpu -A g4 --exclusive \
+	slurm_master.sh sim_perCore_harp_lq_el8.sh proton Ta 8000 ${pl0[$p]}
+
+sbatch -N 1 -n 40 -c 1 -p lq1_cpu -A g4 --exclusive  \
 	slurm_master.sh sim_perCore_harp_lq_el8.sh piplus Ta 8000 ${pl0[$p]}
 
 done

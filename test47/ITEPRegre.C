@@ -105,6 +105,7 @@ void plotModelRegreMu2e( std::string beam, std::string target, std::string model
          txt1 += ( " for " + Versions[m] );
          TLatex* ltxt1 = new TLatex(0.10, 0.6-icounter1*0.2, txt1.c_str() );
          ltxt1->SetTextSize(0.17);
+	 ltxt1->SetTextColor(ColorVersion[m]);
          ltxt1->Draw();
          icounter1++;
    }
@@ -154,6 +155,7 @@ void plotModelRegreMu2e( std::string beam, std::string target, std::string model
          txt1 += ( " for " + Versions[m] );
          TLatex* ltxt1 = new TLatex(0.10, 0.6-icounter1*0.2, txt1.c_str() );
          ltxt1->SetTextSize(0.17);
+	 ltxt1->SetTextColor(ColorVersion[m]);
          ltxt1->Draw();
          icounter1++;
    }

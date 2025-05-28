@@ -81,12 +81,12 @@ mom=$((${momentum}/1000))
 /usr/bin/printf "// --- \n#generator \n" >> ${config}
 /usr/bin/printf "bertini \n" >> ${config}
 /usr/bin/printf "#run \n" >> ${config}
-/usr/bin/printf "// --- \n#generator \n" >> ${config}
-/usr/bin/printf "ftfp \n" >> ${config}
-/usr/bin/printf "#run \n" >> ${config}
-/usr/bin/printf "// --- \n#generator \n" >> ${config}
-/usr/bin/printf "ftfp_tune3 \n" >> ${config}
-/usr/bin/printf "#run \n" >> ${config}
+# /usr/bin/printf "// --- \n#generator \n" >> ${config}
+# /usr/bin/printf "ftfp \n" >> ${config}
+# /usr/bin/printf "#run \n" >> ${config}
+# /usr/bin/printf "// --- \n#generator \n" >> ${config}
+# /usr/bin/printf "ftfp_tune3 \n" >> ${config}
+# /usr/bin/printf "#run \n" >> ${config}
 #
 # /usr/bin/printf "// --- \n#generator \n" >> ${config}
 # /usr/bin/printf "inclxx \n" >> ${config}

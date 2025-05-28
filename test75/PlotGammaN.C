@@ -154,6 +154,7 @@ void PlotGamma300CuRegre()
       txt1 += ( " for " + Versions[m] );
       TLatex* ltxt1 = new TLatex(0.10, 0.6-m*0.2, txt1.c_str() );
       ltxt1->SetTextSize(0.25);
+      ltxt1->SetTextColor(ColorVersion[m]);
       ltxt1->Draw();
    }
 
@@ -305,6 +306,7 @@ void PlotGamma668CuRegre()
       txt1 += ( " for " + Versions[m] );
       TLatex* ltxt1 = new TLatex(0.10, 0.6-m*0.2, txt1.c_str() );
       ltxt1->SetTextSize(0.22);
+      ltxt1->SetTextColor(ColorVersion[m]);
       ltxt1->Draw();
    }
 
@@ -467,6 +469,7 @@ void PlotGamma668PbRegre()
       txt1 += ( " for " + Versions[m] );
       TLatex* ltxt1 = new TLatex(0.1, 0.65-m*0.2, txt1.c_str() );
       ltxt1->SetTextSize(0.2);
+      ltxt1->SetTextColor(ColorVersion[m]);
       ltxt1->Draw();
    }
 
@@ -783,7 +786,7 @@ void OverlayData(const TString& hname, const TString& target, TLegend* leg=0 )
   if ( data )
   {
      data->SetMarkerStyle(22);
-     data->SetMarkerColor(kBlue);
+     data->SetMarkerColor(kBlack); // kBlue);
      data->SetMarkerSize(1.6);
      if ( leg ) leg->AddEntry( data, "exp.data", "p" );
      data->Draw("P same");

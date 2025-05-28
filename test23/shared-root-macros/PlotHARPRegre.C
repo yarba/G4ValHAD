@@ -179,23 +179,11 @@ void PlotHARPRegreForMu2e( std::string secondary, std::string tg, std::string mo
    ReadHARPData( "proton", tg, "8.0", secondary, "LA" );
    
 // -->   std::string txt1 = "8.0GeV/c proton + Ta #rightarrow " + secondary;
-   std::string txt1 = "8.0GeV/c proton + " + tg + " #rightarrow " + secondary;
-   TLatex* ltxt1 = new TLatex( 0.35, 0.97, txt1.c_str() );
+   std::string txt1 = model + ":   8.0GeV/c proton + " + tg + " #rightarrow " + secondary;
+   TLatex* ltxt1 = new TLatex( 0.25, 0.97, txt1.c_str() );
    ltxt1->SetTextSize(0.025);
-   std::string txt2 = "";
-   if ( TEST_NAME == "test23" )
-   {
-      txt2 = "PhysList: " + model;
-   }
-   else
-   {
-      txt2 = "Model: " + model;
-   }
-   TLatex* ltxt2 = new TLatex( 0.4, 0.93, txt2.c_str() );
-   ltxt2->SetTextSize(0.025);
    myc->cd();
    ltxt1->Draw();
-   ltxt2->Draw();
    
    double ChiSqTotal[NVersions]; 
    int NDFTotal[NVersions];
@@ -205,21 +193,15 @@ void PlotHARPRegreForMu2e( std::string secondary, std::string tg, std::string mo
       NDFTotal[m] = 0.;
    }
     
-    TPad* mypad = new TPad( "mypad", "", 0.01, 0.135, 0.99, 0.925 );
-    mypad->Divide( 2., 2., 0., 0. ); 
-    myc->cd();
-    mypad->Draw();
-   
-   // TPad* pad1 = new TPad("pad1", "", 0.01, 0.46, 0.49, 0.9 );
-/*
-   TPad* pad1 = new TPad("pad1", "", 0.01, 0.505, 0.49, 0.9 );
+// -->     TPad* mypad = new TPad( "mypad", "", 0.01, 0.135, 0.99, 0.925 );
+   TPad* mypad = new TPad( "mypad", "", 0.01, 0.15, 0.99, 0.95 );
+   mypad->Divide( 2., 2., 0.01, 0.01 ); 
    myc->cd();
-   pad1->Draw();
-   pad1->cd();
-*/
+   mypad->Draw();
+   
    mypad->cd(1);
-   gPad->SetRightMargin(0.1);
-   gPad->SetLeftMargin(0.15);
+// -->   gPad->SetRightMargin(0.1);
+// -->   gPad->SetLeftMargin(0.15);
 // -->   PlotHARPThetaSpectrumRegre( "proton","Ta", "8.0", secondary, 0.1, 0.15, model );
    PlotHARPThetaSpectrumRegre( "proton", tg, "8.0", secondary, 0.1, 0.15, model );
    for ( int m=0; m<NVersions; ++m )
@@ -228,16 +210,9 @@ void PlotHARPRegreForMu2e( std::string secondary, std::string tg, std::string mo
       NDFTotal[m] += NDFThetaRegre[m];
    }
 
-   // TPad* pad2 = new TPad("pad2", "", 0.51, 0.46, 0.99, 0.9 );
-/*
-   TPad* pad2 = new TPad("pad2", "", 0.51, 0.505, 0.99, 0.9 );
-   myc->cd();
-   pad2->Draw();
-   pad2->cd();
-*/
    mypad->cd(2);
-   gPad->SetRightMargin(0.01);
-   gPad->SetLeftMargin(0.1);
+// -->   gPad->SetRightMargin(0.01);
+// -->   gPad->SetLeftMargin(0.1);
 // -->   PlotHARPThetaSpectrumRegre( "proton","Ta", "8.0", secondary, 0.15, 0.2, model );
    PlotHARPThetaSpectrumRegre( "proton", tg, "8.0", secondary, 0.15, 0.2, model );
    for ( int m=0; m<NVersions; ++m )
@@ -246,16 +221,9 @@ void PlotHARPRegreForMu2e( std::string secondary, std::string tg, std::string mo
       NDFTotal[m] += NDFThetaRegre[m];
    }
 
-   // TPad* pad3 = new TPad("pad3", "", 0.01, 0.01, 0.49, 0.45 );
-/*
-   TPad* pad3 = new TPad("pad3", "", 0.01, 0.1, 0.49, 0.495 );
-   myc->cd();
-   pad3->Draw();
-   pad3->cd();
-*/
    mypad->cd(3);
-   gPad->SetRightMargin(0.1);
-   gPad->SetLeftMargin(0.15);
+// -->   gPad->SetRightMargin(0.1);
+// -->   gPad->SetLeftMargin(0.15);
 // -->   PlotHARPThetaSpectrumRegre( "proton","Ta", "8.0", secondary, 0.2, 0.25, model );
    PlotHARPThetaSpectrumRegre( "proton", tg, "8.0", secondary, 0.2, 0.25, model );
    for ( int m=0; m<NVersions; ++m )
@@ -264,16 +232,9 @@ void PlotHARPRegreForMu2e( std::string secondary, std::string tg, std::string mo
       NDFTotal[m] += NDFThetaRegre[m];
    }
 
-   // TPad* pad4 = new TPad("pad4", "", 0.51, 0.01, 0.99, 0.45 );
-/*
-   TPad* pad4 = new TPad("pad4", "", 0.51, 0.1, 0.99, 0.495 );
-   myc->cd();
-   pad4->Draw();
-   pad4->cd();
-*/
    mypad->cd(4);
-   gPad->SetRightMargin(0.01);
-   gPad->SetLeftMargin(0.1);
+// -->   gPad->SetRightMargin(0.01);
+// -->   gPad->SetLeftMargin(0.1);
 // -->   PlotHARPThetaSpectrumRegre( "proton","Ta", "8.0", secondary, 0.25, 0.3, model );
    PlotHARPThetaSpectrumRegre( "proton", tg, "8.0", secondary, 0.25, 0.3, model );
    for ( int m=0; m<NVersions; ++m )
@@ -283,7 +244,7 @@ void PlotHARPRegreForMu2e( std::string secondary, std::string tg, std::string mo
       std::cout << " chi2/NDF = " << ChiSqTotal[m] << "/" << NDFTotal[m] << " = " << ChiSqTotal[m]/NDFTotal[m] << "  for " << Versions[m] << std::endl;
    }
    
-   TLegend* leg = new TLegend(0.7,0.01,0.99,0.13);
+   TLegend* leg = new TLegend(0.7,0.01,0.99,0.14);
    TLegendEntry* entry = 0;
    for ( int m=0; m<NVersions; ++m )
    {
@@ -301,7 +262,8 @@ void PlotHARPRegreForMu2e( std::string secondary, std::string tg, std::string mo
    myc->cd();
    leg->Draw();
 
-   TLatex* genltxt = new TLatex( 0.1, 0.10, "#chi^{2}/NDF is calculated for the given P(pi-) bins" );
+   // --> TLatex* genltxt = new TLatex( 0.1, 0.10, "#chi^{2}/NDF is calculated for the given P(pi-) bins" );
+   TLatex* genltxt = new TLatex( 0.1, 0.13, "#chi^{2}/NDF is calculated for the given P(pi-) bins" );
    genltxt->SetTextFont(62);
    genltxt->SetTextSize(0.0225);
    myc->cd();
@@ -314,7 +276,8 @@ void PlotHARPRegreForMu2e( std::string secondary, std::string tg, std::string mo
       os1 << ChiSqTotal[m];
       os2 << ChiSqTotal[m]/NDFTotal[m];
       std::string chi2txt = "#chi^{2}/NDF = " + os1.str() + "/" + std::to_string(NDFTotal[m]) + " = " + os2.str() + " for " + Versions[m];
-      chi2ltxt[m] = new TLatex( 0.1, (0.075-0.025*m), chi2txt.c_str() );
+      // --> chi2ltxt[m] = new TLatex( 0.1, (0.075-0.025*m), chi2txt.c_str() );
+      chi2ltxt[m] = new TLatex( 0.1, (0.105-0.025*m), chi2txt.c_str() );
       chi2ltxt[m]->SetTextFont(62);
       chi2ltxt[m]->SetTextSize(0.0225);
       myc->cd();

@@ -81,22 +81,23 @@ mom=$((${momentum}/1000))
 /usr/bin/printf "#momentum(MeV/c) \n" >> ${config}
 /usr/bin/printf "%d\n" ${momentum} >> ${config}
 
-#/usr/bin/printf "// --- \n#generator \n" >> ${config}
-#/usr/bin/printf "bertini \n" >> ${config}
-#/usr/bin/printf "#run \n" >> ${config}
+/usr/bin/printf "// --- \n#generator \n" >> ${config}
+# --> if 11.2 state of Bertini is needed --> /usr/bin/printf "bertini.11.2 \n" >> ${config}
+/usr/bin/printf "bertini \n" >> ${config}
+/usr/bin/printf "#run \n" >> ${config}
 #
 ##/usr/bin/printf "// --- \n#generator \n" >> ${config}
 ##/usr/bin/printf "inclxx \n" >> ${config}
 ##/usr/bin/printf "#run \n" >> ${config}
 #
-if [ "${momentum}" -gt "3000" ]; then
-/usr/bin/printf "// --- \n#generator \n" >> ${config}
-/usr/bin/printf "ftfp \n" >> ${config}
-/usr/bin/printf "#run \n" >> ${config}
-/usr/bin/printf "// --- \n#generator \n" >> ${config}
-/usr/bin/printf "ftfp_tune3 \n" >> ${config}
-/usr/bin/printf "#run \n" >> ${config}
-fi
+# if [ "${momentum}" -gt "3000" ]; then
+# /usr/bin/printf "// --- \n#generator \n" >> ${config}
+# /usr/bin/printf "ftfp \n" >> ${config}
+# /usr/bin/printf "#run \n" >> ${config}
+# /usr/bin/printf "// --- \n#generator \n" >> ${config}
+# /usr/bin/printf "ftfp_tune3 \n" >> ${config}
+# /usr/bin/printf "#run \n" >> ${config}
+# fi
 if [ "x${2}" == "xwith-fluka.cern.4.4.0" ]; then
 /usr/bin/printf "// --- \n#generator \n" >> ${config}
 /usr/bin/printf "fluka.cern.4.4.0 \n" >> ${config}

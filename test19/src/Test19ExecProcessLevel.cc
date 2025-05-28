@@ -62,7 +62,8 @@
 
 #include <boost/algorithm/string.hpp>
 
-// #include "G4HadronicParameters.hh"
+// needed to turn Bertini back to its 11.2 state
+#include "G4HadronicParameters.hh"
 
 void Test19ExecProcessLevel::InitProcess( const TstReader* pset )
 {
@@ -387,17 +388,18 @@ void Test19ExecProcessLevel::InitProcess( const TstReader* pset )
        // fProcWrapper = new QGSPWrapper();
        pw = new QGSPWrapper();
    }
-   else if ( name.find("bertini") != std::string::npos )
+   // --> else if ( name.find("bertini") != std::string::npos )
+   else if ( name.find("bert") != std::string::npos )
    {
       //
-/*
+/* 
       G4CascadeParameters::Instance();
       G4UImanager* uim = 0;
       G4ApplicationState currentstate = G4StateManager::GetStateManager()->GetCurrentState();   
       bool ok = G4StateManager::GetStateManager()->SetNewState(G4State_PreInit);
       if ( !ok )
       {
-         G4cout << " G4StateManager PROBLEM: can NOT change state to G4State_Idle !" << G4endl;
+         G4cout << " G4StateManager PROBLEM: can NOT change state to G4State_PreInit !" << G4endl;
       } 
       else
       {
@@ -418,6 +420,46 @@ void Test19ExecProcessLevel::InitProcess( const TstReader* pset )
       }
       ok = G4StateManager::GetStateManager()->SetNewState( currentstate );
 */
+      // turning Bartini back to its 11.2 state, if requested
+      //
+      if ( name.find("11.2") != std::string::npos || name.find("11_2") != std::string::npos ) 
+      {
+      
+         G4cout << "Is Bertini 11_2 ? " << G4HadronicParameters::Instance()->IsBertiniAs11_2() << G4endl;
+      
+         G4ApplicationState currentstate = G4StateManager::GetStateManager()->GetCurrentState();   
+         bool ok = G4StateManager::GetStateManager()->SetNewState(G4State_PreInit);
+      
+         G4cout << " Is PreInit set ? " << ok << G4endl;
+
+         bool isState_PreInit = ( G4StateManager::GetStateManager()->GetCurrentState() == G4State_PreInit );
+         G4cout << " isState_PreInit = " << isState_PreInit << G4endl;
+      
+         bool isMaster = G4Threading::IsMasterThread();
+         G4cout << " Is Master ? " << isMaster << G4endl;
+
+         // NOTE: Can NOT call G4HadronicParameters::Instance()->IsLocked() since it's private
+      
+         bool isLocked = ( !isMaster || !isState_PreInit );
+         G4cout << " Is locked ?  " << isLocked << G4endl; 
+
+         if ( !ok )
+         {
+            G4cout << " G4StateManager PROBLEM: can NOT change state to G4State_PreInit !" << G4endl;
+         } 
+         else
+         {
+	    G4HadronicParameters::Instance()->SetBertiniAs11_2(true);
+         }
+
+         ok = G4StateManager::GetStateManager()->SetNewState( currentstate );
+
+         G4cout << "Is Bertini NOW 11_2 ? " << G4HadronicParameters::Instance()->IsBertiniAs11_2() << G4endl;
+         G4cout << "AngEmission11_2 = " << G4HadronicParameters::Instance()->IsBertiniAngularEmissionsAs11_2() << G4endl;
+         G4cout << "NucModel11_2 = " << G4HadronicParameters::Instance()->IsBertiniNucleiModelAs11_2() << G4endl;
+      
+      }  // end turning Bertini to its 11.2 state (if requested)
+
       //
       pw = new ProcessWrapper( "BertiniProcessWrapper" );
       G4CascadeInterface* bert = new G4CascadeInterface();
