@@ -83,7 +83,8 @@ class TstReader
       G4int           GetClusterID()         const { return fClusterID; }
       G4int           GetVerbosity()         const { return fVerbose; } 
       G4String        GetExpDataSet()        const { return fExpDataSet; } 
-      G4String        GetPhysics()           const { return fPhysics; }  
+      G4String        GetPhysics()           const { return fPhysics; } 
+      G4bool          IsBertiniAs11_2()      const { return fBertiniAs11_2; }
       G4bool          ForceResDecay()        const { return fForceResDecay; }   
             
       G4bool IsDone() { return fEndConfig; }
@@ -128,6 +129,7 @@ class TstReader
       G4ThreeVector    fTargetSize;   // in mm
       G4String         fTargetShape;
       G4String         fPhysics;
+      G4bool           fBertiniAs11_2;
       G4double         fStep;         // mm ...not really used though... 
       long             fRndmSeed;
       G4int            fJobID;

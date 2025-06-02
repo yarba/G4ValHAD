@@ -31,11 +31,15 @@ void TstPhysListReader::ProcessLine( G4String line )
    
    TstReader::ProcessLine( line );
    
-   if ( line != "#physicslist" ) return;
+   if ( line != "#physicslist" && line != "#bertini_as_11_2" ) return;
    
    if(line == "#physicslist") 
    {
         (*fInStream) >> fPhysics;
+   }
+   if (line == "#bertini_as_11_2" )
+   {
+      fBertiniAs11_2 = true;
    }
 
    return;

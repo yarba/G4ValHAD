@@ -86,6 +86,9 @@
 #include "G4_HP_CernFLUKAHadronInelastic_PhysicsList.hh"
 #endif
 
+// for reverting Bertini to its 11.2 state
+#include "G4HadronicParameters.hh"
+
 using namespace std;
 
 int main(int argc, char** argv) 
@@ -164,6 +167,13 @@ int main(int argc, char** argv)
       if(!G4StateManager::GetStateManager()->SetNewState(G4State_PreInit))
          G4cout << "G4StateManager PROBLEM! " << G4endl;
       
+      if ( theConfigReader->IsBertiniAs11_2() )
+      {
+         // fisrt of all, set Bertini to 11.2 if requested (it's a global setting)
+         //
+         G4HadronicParameters::Instance()->SetBertiniAs11_2(true);
+      }
+      
       if ( geom ) delete geom;
       geom = new TstTarget();    
       G4ThreeVector targetSize = theConfigReader->GetTargetSize();
@@ -230,6 +240,7 @@ int main(int argc, char** argv)
       }
       ok = G4StateManager::GetStateManager()->SetNewState( currentstate );
 */
+      
       G4VModularPhysicsList* plist = 0;
       if ( theConfigReader->GetPhysics() == "ftfp_bert" )
       {

@@ -53,6 +53,7 @@ TstReader::TstReader()
      fTargetSize( G4ThreeVector(100., 100., 100. ) ),
      fTargetShape("G4Box"),
      fPhysics(""),
+     fBertiniAs11_2(false),
      fStep(0.01*micrometer),
      fRndmSeed(135799753),
      fJobID(-1),
