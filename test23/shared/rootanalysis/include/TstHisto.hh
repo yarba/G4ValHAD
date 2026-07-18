@@ -36,6 +36,7 @@
 
 // fwd declaration
 //class G4VParticleChange;
+class ModelConfig;
 
 class TstHisto
 {
@@ -68,6 +69,8 @@ protected:
    TstHistoSet*    fHistoSet;
    TFile*          fHistoFile;   
    G4bool          fDoResDecay;
+   
+   ModelConfig*    fModelConfig;
 
 };
 

@@ -88,6 +88,8 @@
 
 // for reverting Bertini to its 11.2 state
 #include "G4HadronicParameters.hh"
+// for FTF tunes
+#include "G4FTFTunings.hh"
 
 using namespace std;
 
@@ -172,6 +174,12 @@ int main(int argc, char** argv)
          // fisrt of all, set Bertini to 11.2 if requested (it's a global setting)
          //
          G4HadronicParameters::Instance()->SetBertiniAs11_2(true);
+      }
+      
+      std::cout << " FTF Tune = " << theConfigReader->FTFTuneID() << std::endl;
+      if ( theConfigReader->FTFTuneID() > 0 && theConfigReader->FTFTuneID() <= 3 )
+      {
+         G4FTFTunings::Instance()->SetTuneApplicabilityState( theConfigReader->FTFTuneID(), 1 );
       }
       
       if ( geom ) delete geom;

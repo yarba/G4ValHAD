@@ -42,7 +42,10 @@ class TstHistoSet
 //      enum NuERange        { kNone=-1, kR_0_2=0, kR_2_5=1, kR_5_10=2, kR_10_20=3, kR_20_50=4 };
 //      enum InteractionType { kOther=-1, kFromP=0, kFromPim=1, kFromPip=2 };
    
-      TstHistoSet(G4String) : fDoResDecay(false) {}
+      TstHistoSet(G4String) : fIncludeExpData(false), fDataSubDir(""), fDoResDecay(false){}
+      TstHistoSet( const TstReader* pset ) : fIncludeExpData(pset->IncludeExpData()),
+                                             fDataSubDir(""), 
+                                             fDoResDecay(false){}
       virtual ~TstHistoSet() {}
       
       virtual void FillEvt( G4VParticleChange*, const G4LorentzVector&, const G4LorentzVector& ) = 0;
@@ -52,9 +55,16 @@ class TstHistoSet
       
    protected:
    
+      // commented out here *for now*
+      // because otherwise derived ones won't compile if not implemented
+      //
+      //virtual void BookStandardHisto( G4String ) = 0;
+      //virtual void BookHistoWithExpData( const TstReader* );
+   
       void AccountForResDecay( G4VParticleChange* );
-//      void AccountForPionDecay( const G4Track* );
 
+      G4bool           fIncludeExpData;
+      G4String         fDataSubDir;
       G4bool           fDoResDecay;
 //      NuERange         fNuERange;
 //      NuERange         fNubarERange;

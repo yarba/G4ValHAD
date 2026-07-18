@@ -31,15 +31,21 @@ void TstPhysListReader::ProcessLine( G4String line )
    
    TstReader::ProcessLine( line );
    
-   if ( line != "#physicslist" && line != "#bertini_as_11_2" ) return;
+   if ( line != "#physicslist" && 
+        line != "#bertini_as_11_2" &&
+	line.find("#ftf_tune") == std::string::npos ) return;
    
    if(line == "#physicslist") 
    {
-        (*fInStream) >> fPhysics;
+	(*fInStream) >> fPhysics;
    }
    if (line == "#bertini_as_11_2" )
    {
       fBertiniAs11_2 = true;
+   }
+   if (line.find("#ftf_tune") != std::string::npos )
+   {
+      fFTFTuneID = atoi(&(line.back())); 
    }
 
    return;

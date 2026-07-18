@@ -28,13 +28,16 @@
 
 const int NModels_IE = 4;
 // --> std::string ModelName_IE[2]  = { "ftfp_bert", "NuBeam" };
-// --> std::string ModelName_IE[4]  = { "ftfp_bert", "qgsp_bert", "Shielding", "ShieldingM" };
-std::string ModelName_IE[4]  = { "ftfp_bert", "ShieldingM", "G4_HP_CFLUKAHI", "ShieldingM.bert.11.2" };
+// --> std::string ModelName_IE[4]  = { "ftfp_bert", "qgsp_bert", "Shielding", "ShieldingM"  };
+// --> Mu2e-1 --> std::string ModelName_IE[4]  = { "ftfp_bert", "ShieldingM", "G4_HP_CFLUKAHI", /* "ShieldingM.bert.11.2" */ "Shielding" };
+std::string ModelName_IE[4]  = { "ShieldingM", "G4_HP_CFLUKAHI", "Shielding", "Shielding_ftf_tune3" };
 // int         ColorModel_IE[5] = { kMagenta, 7, kRed, kBlack, 14 }; // 14 = grey, 7 = light "sky"-blue
 // int         ColorModel_IE[5] = { 7, kMagenta, kGreen, kBlack, 14 }; // 14 = grey, 7 = light "sky"-blue
 //int         ColorModel_IE[5] = { 7, kRed, kGreen, kBlack, 14 }; // 14 = grey, 7 = light "sky"-blue
 //                       FTF   BERT      FLUKA
-int ColorModel_IE[7] = { kRed, kMagenta, kBlue, 7, 14, 9 /* deep violet */, 28 /* brown */ };
+// int ColorModel_IE[7] = { kRed, kMagenta, kBlue, 7, 14, 9 /* deep violet */, 28 /* brown */ };
+// --> Mu2e-1 --> int ColorModel_IE[4] = { kRed, kMagenta, kBlue, 28 /* brown */ };
+int ColorModel_IE[4] = { kMagenta, kBlue, 28 /* brown */, kGreen };
 int         SymbModel_IE[4]     = { 8, 21, 23, 25 };
 
 #endif

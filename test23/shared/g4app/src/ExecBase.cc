@@ -54,6 +54,10 @@
 
 #include "Randomize.hh"
 
+#include <boost/algorithm/string.hpp>
+
+#include "ModelConfigMapper.hh"
+
 ExecBase::~ExecBase()
 {
 
@@ -61,6 +65,7 @@ ExecBase::~ExecBase()
    if ( fRndmEngine ) delete fRndmEngine;
    fRndmEngine=0; 
 */
+   if ( fConfigMapper ) delete fConfigMapper;
 
 }
 
@@ -86,7 +91,12 @@ void ExecBase::Init( const TstReader* config )
    if(!G4StateManager::GetStateManager()->SetNewState(G4State_PreInit))
        G4cout << "G4StateManager PROBLEM! " << G4endl;
 
-   InitParticles();   
+   InitParticles(); 
+   if ( (config->GetPhysicsConfig()).find("default") == std::string::npos )
+   {
+      std::cout << " NON_DEFAULT physics model configuration" << std::endl;
+      ApplyModelParameters( config );  
+   }
    
    if(!G4StateManager::GetStateManager()->SetNewState(G4State_Idle))
       G4cout << "G4StateManager PROBLEM! " << G4endl;
@@ -143,4 +153,42 @@ void ExecBase::InitParticles()
    // --> ionTable->CreateAllIsomer();
 
   return;
+}
+
+void ExecBase::ApplyModelParameters( const TstReader* pset )
+{
+
+//   std::cout << " PLACEHOLDER FOR CONFIGURING MODEL PARAMETERS " << std::endl;
+   
+   if ( !fConfigMapper ) fConfigMapper = new ModelConfigMapper();
+   
+   std::vector<std::string> conf_models = pset->GetConfiguredModels();
+   
+   for ( size_t i=0; i<conf_models.size(); ++i )
+   {   
+//      std::cout << " Get configured parameters for model: " << conf_models[i] << std::endl;
+      const std::vector< std::pair<std::string,double> >* params = pset->GetConfig(conf_models[i]);
+      for ( size_t i1=0; i1<(*params).size(); ++i1 )
+      {
+//         std::cout << " parameter: " << ((*params)[i1]).first 
+//	           << " , value: " << ((*params)[i1]).second << std::endl;
+         fConfigMapper->ChangeParameter( conf_models[i],
+	                                 ((*params)[i1]).first,
+					 ((*params)[i1]).second ); // ,
+					 // true ); // last arg is verbosity, D=false
+      }
+   }
+     
+/* 
+   std::cout << " PRINT DEFAULTS HERE: " << std::endl;
+   for ( size_t i=0; i<conf_models.size(); ++i )
+   {
+      std::cout << " DEFAULTS for model: " << conf_models[i] << std::endl;
+      fConfigMapper->PrintDefaults( conf_models[i] );
+   }  
+   
+   fConfigMapper->PrintCurrentSettings();
+*/    
+   return;
+   
 }

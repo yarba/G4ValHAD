@@ -35,6 +35,9 @@
 #include <sstream>
 #include <iomanip>
 
+#include <vector>
+#include <map>
+
 
 class TstReader
 {
@@ -83,12 +86,18 @@ class TstReader
       G4int           GetClusterID()         const { return fClusterID; }
       G4int           GetVerbosity()         const { return fVerbose; } 
       G4String        GetExpDataSet()        const { return fExpDataSet; } 
+      bool            IncludeExpData()       const { return fIncludeExpData; }
       G4String        GetPhysics()           const { return fPhysics; } 
       G4bool          IsBertiniAs11_2()      const { return fBertiniAs11_2; }
+      G4int           FTFTuneID()            const { return fFTFTuneID; }
+      G4String        GetPhysicsConfig()     const { return fPhysicsConfig; }
+      std::vector<std::string>                            GetConfiguredModels() const;      
+      const std::vector< std::pair<std::string,double> >* GetConfig( const std::string& ) const;
       G4bool          ForceResDecay()        const { return fForceResDecay; }   
             
       G4bool IsDone() { return fEndConfig; }
       void ProcessConfig();
+      void ProcessModelParameters();
       void SyncKinematics() const;
             
       virtual G4bool IsDiscreteProcess() const = 0;
@@ -99,9 +108,11 @@ class TstReader
 
       virtual void ProcessLine( G4String line );
       void SetExpDataSet( G4String dset ) { fExpDataSet=dset; return; }
-      void SetPhysics( G4String physname ) { fPhysics=physname; return; }
+      void SetIncludeExpData( bool flag ) { fIncludeExpData=flag; return; }
+      void SetPhysics( G4String physname ){ fPhysics=physname; return; }
       
       std::ifstream*   fInStream;
+      std::ifstream*   fParamStream;
       G4bool           fEndConfig;
       
       G4int            fNEvents;
@@ -130,12 +141,16 @@ class TstReader
       G4String         fTargetShape;
       G4String         fPhysics;
       G4bool           fBertiniAs11_2;
+      G4int            fFTFTuneID;
+      G4String         fPhysicsConfig;
+      std::map< std::string, std::vector< std::pair<std::string,double> > > fModelConfig;
       G4double         fStep;         // mm ...not really used though... 
       long             fRndmSeed;
       G4int            fJobID;
       G4int            fClusterID;
       G4int            fVerbose;
       G4String         fExpDataSet;
+      G4bool           fIncludeExpData;
       G4bool           fForceResDecay;
       
 };

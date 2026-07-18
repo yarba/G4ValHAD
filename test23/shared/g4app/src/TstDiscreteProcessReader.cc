@@ -25,6 +25,7 @@
 //
 
 #include "TstDiscreteProcessReader.hh"
+#include <limits>
 
 void TstDiscreteProcessReader::ProcessLine( G4String line )
 {
@@ -35,7 +36,43 @@ void TstDiscreteProcessReader::ProcessLine( G4String line )
    
    if(line == "#generator") 
    {
-        (*fInStream) >> fPhysics;
+        // (*fInStream) >> fPhysics; // the >> operator stops at the 1st whitespace;
+	                             // but it also automatically goes to the next line
+	// this is needed because otherwise getline will read the leftover remainder of the current line
+	
+	fInStream->ignore( std::numeric_limits<std::streamsize>::max(), '\n' );
+	std::getline( *fInStream, fPhysics ); // this one reads the whole line
+
+/* it's operational but won't account if there're extra whitespaces
+	std::string::size_type pos = fPhysics.find(":");
+	if ( pos != std::string::npos )
+	{
+	   fPhysicsConfig = fPhysics.substr(pos+2,fPhysics.length());
+	   fPhysics = fPhysics.substr(0,pos-1);
+	}
+*/	
+	size_t delim_pos = fPhysics.find(":"); // one can also use rfind
+        if ( delim_pos != std::string::npos )
+	{
+	   G4String whitespace = " \t\n\r\f\v";
+	   size_t char_pos = fPhysics.find_first_not_of( whitespace, delim_pos+1 );
+	   fPhysicsConfig = fPhysics.substr( char_pos, fPhysics.length() );	
+	   // NOTE(JVY): if delim_pos instead of delim_pos-1, it doesn't skip whitespaces
+	   char_pos = fPhysics.find_last_not_of( whitespace, delim_pos-1 );
+	   // if char_pos instead of char_pos+1 it chops the last char (to add endl?)
+	   fPhysics = fPhysics.substr( 0, char_pos+1 );	
+	}
+	
+	// check/remove if there's any whitespace accidently left 
+	// in the name of physics model/config
+	fPhysics.erase( std::remove(fPhysics.begin(),fPhysics.end(),' '), 
+	                fPhysics.end() );
+	fPhysicsConfig.erase( std::remove(fPhysicsConfig.begin(),fPhysicsConfig.end(),' '), 
+	                      fPhysicsConfig.end() );
+	
+	std::cout << " physics model = " << fPhysics 
+	          << " config = " << fPhysicsConfig 
+	<< std::endl;
    }
 
    return;

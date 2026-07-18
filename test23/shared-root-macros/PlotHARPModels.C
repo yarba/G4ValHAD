@@ -103,7 +103,7 @@ void PlotHARPAnalysis( std::string beam, std::string target, std::string energy,
    std::string general = "MC vs HARP Data; #chi^{2}/NDF calculated over ";
    general += ( region + " theta bins" );
 
-   TLatex* ltxt = new TLatex(0.1, 0.10, general.c_str() );
+   TLatex* ltxt = new TLatex(0.1, 0.11, general.c_str() );
    ltxt->SetTextSize(0.02);
    myc->cd();
    ltxt->Draw();
@@ -128,8 +128,9 @@ void PlotHARPAnalysis( std::string beam, std::string target, std::string energy,
 //      {
          txt1 += ( " for " + ModelName_IE[m] );
 //      }
-      TLatex* ltxt1 = new TLatex( 0.1, 0.08-0.02*m, txt1.c_str() );
+      TLatex* ltxt1 = new TLatex( 0.1, 0.09-0.02*m, txt1.c_str() );
       ltxt1->SetTextSize(0.02);
+      ltxt1->SetTextColor(ColorModel_IE[m]);
       myc->cd();
       ltxt1->Draw();
       

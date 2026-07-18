@@ -30,6 +30,7 @@
 //
 class TstReader;
 class G4VParticleChange;
+class ModelConfigMapper;
 namespace CLHEP
 {
 class HepRandomEngine;
@@ -41,10 +42,9 @@ class ExecBase
    public: 
    
       // ctor & dtor
-      ExecBase( const TstReader* pset ) : fRndmEngine(0)  { Init(pset); }
+      ExecBase( const TstReader* pset ) : fRndmEngine(0), fConfigMapper(0) { Init(pset); }
       virtual ~ExecBase(); 
-      
-      
+            
       virtual G4VParticleChange* DoEvent() = 0;
 
    protected:
@@ -53,6 +53,8 @@ class ExecBase
       virtual void InitSetup( const TstReader* ) = 0;
       virtual void InitBeam(  const TstReader* ) = 0;
       
+      void ApplyModelParameters( const TstReader* );
+      
       void InitParticles();
 
    private:
@@ -60,6 +62,8 @@ class ExecBase
       void Init( const TstReader* );
 
       CLHEP::HepRandomEngine* fRndmEngine;
+      
+      ModelConfigMapper*      fConfigMapper;
 
 };
 

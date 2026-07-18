@@ -159,7 +159,7 @@ void ReadHARPData( std::string beam, std::string target, std::string energy,
       for ( int j=0; j<NPointsHARP[i]; j++ )
       {
          infile >> XMinHARP[i][j] >> XMaxHARP[i][j] >> YHARP[i][j] >> EYHARP[i][j];
-	 YHARP[i][j] *= 1000.; // why do I miltiply by 1000. ? I think it has something with the unites (mb,...)
+	 YHARP[i][j] *= 1000.; // why do I miltiply by 1000. ? I think it has something with the units (mb,...)
 	 EYHARP[i][j] *= 1000.; // I think there's something in Valdimir's scripts about that...
       }
    }

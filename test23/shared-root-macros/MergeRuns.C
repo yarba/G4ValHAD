@@ -29,7 +29,9 @@ void fancyMerge( std::string beam, std::string target, std::string energy, std::
    TFile* targetFile = TFile::Open( output.c_str(), "RECREATE" );
    
    // back to LQ1
-   double scale = 1./40.;
+   // double scale = 1./40.;
+   // NERSC
+   double scale = 1./100. ;
       
    std::string input = dir + "/" + beam + target + energy + "GeV" + physlist + "-1.root";
   
@@ -50,7 +52,9 @@ void fancyMerge( std::string beam, std::string target, std::string energy, std::
 	 TH1F* h1 = (TH1F*)h->Clone();
 	 if ( h1->GetSumw2() == 0 ) h1->Sumw2();
 	 // back to LQ1
-	 for ( int id=2; id<=40; id++ )
+	 // for ( int id=2; id<=40; id++ )
+	 // NERSC
+	 for ( int id=2; id<=100; id++ )
 	 {
 	    std::string input_t = dir + "/" + beam + target + energy + "GeV" + physlist + "-" ;
             char buf[5];
