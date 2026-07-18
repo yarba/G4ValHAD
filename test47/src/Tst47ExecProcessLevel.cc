@@ -117,6 +117,39 @@ void Tst47ExecProcessLevel::InitProcess( const TstReader* pset )
          G4cout << "NucModel11_2 = " << G4HadronicParameters::Instance()->IsBertiniNucleiModelAs11_2() << G4endl;
       
       } // end turning bertini back to its 11.2 state
+      if ( name.find("LvgOff") != std::string::npos )
+      {
+         G4ApplicationState currentstate = G4StateManager::GetStateManager()->GetCurrentState();   
+         bool ok = G4StateManager::GetStateManager()->SetNewState(G4State_PreInit);
+      
+         G4cout << " Is PreInit set ? " << ok << G4endl;
+
+         bool isState_PreInit = ( G4StateManager::GetStateManager()->GetCurrentState() == G4State_PreInit );
+         G4cout << " isState_PreInit = " << isState_PreInit << G4endl;
+      
+         bool isMaster = G4Threading::IsMasterThread();
+         G4cout << " Is Master ? " << isMaster << G4endl;
+
+         // NOTE: Can NOT call G4HadronicParameters::Instance()->IsLocked() since it's private
+      
+         bool isLocked = ( !isMaster || !isState_PreInit );
+         G4cout << " Is locked ?  " << isLocked << G4endl; 
+
+         if ( !ok )
+         {
+            G4cout << " G4StateManager PROBLEM: can NOT change state to G4State_PreInit !" << G4endl;
+         } 
+         else
+         {
+	    G4HadronicParameters::Instance()->SetBertiniNucleiModelAs11_2(true);
+         }
+         ok = G4StateManager::GetStateManager()->SetNewState( currentstate );
+
+         // G4cout << "Is Bertini NOW 11_2 ? " << G4HadronicParameters::Instance()->IsBertiniAs11_2() << G4endl;
+         G4cout << "AngEmission11_2 = " << G4HadronicParameters::Instance()->IsBertiniAngularEmissionsAs11_2() << G4endl;
+         G4cout << "NucModel11_2 = " << G4HadronicParameters::Instance()->IsBertiniNucleiModelAs11_2() << G4endl;
+      }
+
 
       G4CascadeInterface* be = new G4CascadeInterface();
       if ( name.find("bertP") != std::string::npos )

@@ -31,6 +31,8 @@
 #include <vector>
 
 #include "TH1F.h"
+#include "TSystemDirectory.h"
+#include "TSystemFile.h"
 
 class TestHARPHisto : public TstHistoSet
 {
@@ -38,12 +40,15 @@ class TestHARPHisto : public TstHistoSet
 public:
 
    TestHARPHisto( G4String );
+   TestHARPHisto( const TstReader* );
    ~TestHARPHisto();
    
    void FillEvt( G4VParticleChange*, const G4LorentzVector&, const G4LorentzVector& );
 
 protected:
 
+   virtual void BookStandardHisto( G4String );
+   virtual void BookHistoWithExpData( const TstReader* );
    virtual void Write( G4int stat=1, G4double scale=1. );
 
 private:
@@ -79,6 +84,21 @@ private:
    G4int                fNTheta1;
    G4double             fThetaMin1;
    G4double             fDeltaTheta1;
+   
+   // in case fIncludeExpData=1(true)
+   std::vector<TH1D*>   fExpPiMinusFW;
+   std::vector<TH1D*>   fSimPiMinusFW;
+   std::vector<TH1D*>   fExpPiPlusFW;
+   std::vector<TH1D*>   fSimPiPlusFW;
+   std::vector<TH1D*>   fExpProtonFW;
+   std::vector<TH1D*>   fSimProtonFW;
+   //
+   // HARP does NOT have exp.data for LA sec.proton, only pi+/-
+   //
+   std::vector<TH1D*>   fExpPiMinusLA;
+   std::vector<TH1D*>   fSimPiMinusLA;
+   std::vector<TH1D*>   fExpPiPlusLA;
+   std::vector<TH1D*>   fSimPiPlusLA;
 
 };
 

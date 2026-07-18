@@ -35,6 +35,8 @@
 #include "TestHARPHisto.hh"
 #include "TestSASM6EHisto.hh"
 #include "TestIAEAHisto.hh"
+//
+# include "TestXFPlotsHisto.hh"
 
 #include "G4SystemOfUnits.hh"
 
@@ -77,7 +79,8 @@ Test19Histo::Test19Histo( const TstReader* pset )
    }
    else if ( pset->GetExpDataSet() == "HARP" )
    {
-      fHistoSet = new TestHARPHisto( fHistoTitle );
+      // fHistoSet = new TestHARPHisto( fHistoTitle );
+      fHistoSet = new TestHARPHisto( pset );
       fHistoDirName = "harp-histo";
    }
    else if ( pset->GetExpDataSet() == "SASM6E" )
@@ -89,7 +92,47 @@ Test19Histo::Test19Histo( const TstReader* pset )
    {
       fHistoSet = new TestIAEAHisto( fHistoTitle );
       fHistoDirName = "iaea-histo";
-   }   
+   } 
+   else if ( pset->GetExpDataSet() == "xFplots" )
+   {
+      pset->SyncKinematics();
+      double sqrts = 0.;
+      G4LorentzVector tmp( 0.0, 0.0, 0.0, 0.0 );
+/*
+      G4string matname = pset->GetTargetMaterial();
+      G4Material* mat = 0;
+      G4Element* ele = 0;
+      if ( matname.find("G4") == std::string::npos ) 
+      {
+         matname = "G4_" + matname;
+         mat = G4NistManager::Instance()->FindOrBuildMaterial(fMatName);
+         if (!mat) 
+         {
+            G4cout << "Material <" << matname << "> is not found" << G4endl;
+            exit(1);
+         }
+      }
+      ele = mat->GetElement(0);
+*/      
+      double tgt_mass = 938.272 * CLHEP::MeV; // proton mass
+      G4LorentzVector tgt_4mom = tmp;
+      tgt_4mom.setE( tgt_mass );
+      
+      G4LorentzVector proj_4mom = tmp;
+      proj_4mom.setVect( pset->GetBeamMomentum()*pset->GetDirection() );
+      proj_4mom.setE( pset->GetBeamEnergy() );
+
+      G4LorentzVector psum;
+      psum = tmp;
+      psum = proj_4mom + tgt_4mom;
+      double s2 = psum.mag2();
+      sqrts = std::sqrt( s2 ); 
+            
+      fHistoSet = new TestXFPlotsHisto( fHistoTitle, sqrts );
+      fHistoDirName = "xfplots-histo";
+   }
+   
+     
    // fHistoSet->SetDoResDecay(pset->ForseResDecay());
    fHistoSet->SetDoResDecay(fDoResDecay);   
 
@@ -127,8 +170,56 @@ TFile* Test19Histo::OpenHistoFile()
    {
       tmp_bname = fBeam;
    }
-//.   G4String fname = fHistoDirName + "/" + fBeam + fTarget + fBeamMomentum + fModel;
-   G4String fname = fHistoDirName + "/" + tmp_bname + fTarget + fBeamMomentum + fModel;
+
+//    G4String fname = fHistoDirName + "/" + fBeam + fTarget + fBeamMomentum + fModel;
+   // --> G4String fname = fHistoDirName + "/" + tmp_bname + fTarget + fBeamMomentum + fModel;
+   G4String fname = tmp_bname + fTarget + fBeamMomentum + fModel;
+   
+   // check if such file name already exists in fHistoDi which is 
+   // possible when running with different configs of the same model
+   // i.e. different "Universe" ("Univ")
+   //
+   // but first check if the model name already contains "Univ";
+   // if so, do nothing;
+   // otherwise extend the filename with "Univ" + serial number
+   //
+   // NOTE: but only do so if non-defult model config which is
+   //       known via fModelConfig!=NULL
+   //
+   // NOTE/FIXME: there might be more elegant ideas/approaches 
+   // but for now we'll go with this straightforwad approach
+   //
+   
+   if ( fModelConfig )
+   {
+      if ( fModel.find("Univ") == std::string::npos )
+      {
+   
+         TSystemDirectory sdir( "mydir",fHistoDirName.c_str() );
+         TList* sfiles = sdir.GetListOfFiles();
+         if (sfiles) 
+         {
+            TSystemFile* sfile;
+	    TIter next(sfiles);
+	    int counter = 0;
+	    while ( ( sfile=(TSystemFile*)next() ) )
+	    {
+	       G4String sfname = sfile->GetName();
+	       if ( sfname == "." || sfname == ".." ) continue;
+	       G4cout << " On disk: " << sfname << G4endl;
+	       if ( sfname.find(fname) != std::string::npos )
+	       {
+	          counter++;
+	       }
+	    }
+	    G4cout << " counter = " << counter << G4endl;
+	    if ( counter >= 1 ) fname += ( "Univ" + std::to_string(counter) );	 
+         }
+      
+      }
+   }
+   
+   fname = fHistoDirName + "/" + fname;
    
    if ( fJobID > -1 )
    {

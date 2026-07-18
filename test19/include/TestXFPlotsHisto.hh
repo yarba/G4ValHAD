@@ -23,40 +23,43 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-#ifndef G4MODELS_IE_H
-#define G4MODELS_IE_H
+#ifndef TestXFPlotsHisto_h
+#define TestXFPlotsHisto_h
 
-const int NModels_IE = 6;
-//
-// Fix in MR5264
-//std::string ModelName_IE[2]  = { "bertini_11.3.r08", "bertini_MR5264" };
-//std::string ModelName_IE[2]  = { "bertini11.2", "bertini11.2_MR5264" };
-//
-// general
-//
-//std::string ModelName_IE[7] = { "bertini-11.2", "bertini-11.3-11.4", 
-//                                "bertini-11.4.r04", "bertini-11.4.r04-LvgOff", 
-//                                "ftfp","ftfp_tune3", "fluka.cern.4.5.1" };
+#include "TstHistoSet.hh"
 
-std::string ModelName_IE[6] = { "bertini-11.2",  
-                                "bertini-11.2-3bodymom",
-				"bertini-default", "bertini-3bodymom",
-				"bertini-psg-kopylov",
-				"inclxx" };
+#include <vector>
 
-// std::string ModelName_IE[1] = {"ftfp"};
-//
-/* ---> for VMP business
-std::string ModelName_IE[9]  = { "ftfp-default",
-                                 "ftfp-pr0-0.1-pr1-0.1", 
-				 "ftfp-pr0-0.5-pr1-0.5",
-				 "ftfp-pr0-0.1-pr1-0.5",
-				 "ftfp-pr0-0.4-pr1-0.25",
-                                 "ftfp-pr0-a1-6.5", "ftfp-pr0-a1-19.5", 
-				 "ftfp-pr0-b1-0.85", "ftfp-pr0-b1-2.65"  };
-*/
-	 int ColorModel_IE[7] = { 7, kMagenta, 52, 14, kRed, kGreen, kBlue };
-// ---> for VMP --->int         ColorModel_IE[5] = { kRed, kGreen, kBlue /* kBlack */ , 7, kMagenta }; 
-int         SymbModel_IE[4]     = { 8, 21, 23, 25 };
+#include "TH1D.h"
+
+class TestXFPlotsHisto : public TstHistoSet
+{
+
+public:
+
+   TestXFPlotsHisto( G4String );
+   TestXFPlotsHisto( G4String, double );
+   ~TestXFPlotsHisto();
+
+   void FillEvt( G4VParticleChange*, const G4LorentzVector&, const G4LorentzVector& );
+
+protected:
+
+   virtual void Write( G4int stat=1, G4double scale=1. );
+
+private:
+
+   double fSQRTS;
+   
+   TH1D*  sec_piplus_xf;
+   TH1D*  sec_all_xf;
+   TH1D*  sec_all_xf_2body;
+   TH1D*  sec_all_xf_3body;
+   TH1D*  sec_all_xf_manybody;
+//   TH1D*  sec_all_xf_5body;
+      
+   TH1D*  fNSec;
+
+};
 
 #endif

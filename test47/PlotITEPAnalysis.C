@@ -72,14 +72,16 @@ int ColorVersion[5] = { kRed, kGreen, 7, kBlack, 14 };
 
 // model comparison business
 //
-const int NModels = 5;
+const int NModels = 4;
 // std::string Models[3] = { "bertini", "binary", "ftfp" };
 // std::string Models[4] = { "bertini", "inclxx", "binary", "ftfp" };
-std::string Models[5] = { "bertini", "ftfp", "ftfp_tune3", "fluka.cern.4.4.0", "bertini.11.2" };
-// std::string Models[3] = { "fluka", "fluka_g4interface_fix", "fluka_fix_g4xsec" };
+// std::string Models[4] = { "bertini", "ftfp", "ftfp_tune3", /* "fluka.cern.4.4.0", */ "bertini.11.2" };
+std::string Models[4] = { "bertini-11.2", "bertini-11.3-11.4", 
+                          "bertini", "bertini-LvgOff" };
 // int ColorModel[6] = { 6, 3, 14 };
 // int  ColorModel[5] = { kMagenta, kRed, kBlack, 7, 14 }; // 14 = grey, 7 = light "sky"-blue
-int         ColorModel[6] = { kMagenta, kRed, kGreen, kBlue, 7, 14 }; // 14 = grey, 7 = light "sky"-blue
+// int         ColorModel[6] = { kMagenta, kRed, kGreen, kBlue, 7, 14 }; // 14 = grey, 7 = light "sky"-blue
+int ColorModel[4] = { 7, kMagenta, 52, 14 };
 
 // --> General purspose exp.data read-in
 //
@@ -196,7 +198,8 @@ void calcChi2KESpectrumITEP( std::string beam, std::string target, std::string e
 
 {
    
-   if ( (energy == "1.40" && model == "ftfp") || ( energy == "7.50" && model == "binary" ) )
+   if ( (energy == "1.40" && model.find("ftfp") != std::string::npos ) || 
+      ( energy == "7.50" && model.find("binary") != std::string::npos ) )
    {
       std::cout << " Model " << model << " is not good/tested at " << energy << "GeV; giving up." << std::endl;
       return; 
@@ -249,14 +252,18 @@ double Chi2KESpectrumITEP( std::string beam, std::string target, std::string ene
    std::string location = "";
    if ( version == CurrentVersion || version == "." )
    {
-         location = "";
+         // location = "";
+	 // location = "./converted-root-files/";
+	 location = "./itep-histo/";
    }
    else
    {
-         location = regre_test_dir + "/test47/" + version + "/";
+         location = regre_test_dir + "/test47/" + version + "/itep-histo/"; // "/converted-root-files/" ;
    }
-   std::string histofile = location + beam + target + model + energy + "GeV.root"; 
+   // --> old format --> std::string histofile = location + beam + target + model + energy + "GeV.root"; 
+   std::string histofile = location + beam + target + energy + "GeV" + model + ".root"; 
 
+/* --> old format
    std::string histoname = "KE" + secondary_type + "0" + beam + target + model + energy + "GeV";
    int counter = 5 - sec_angle.length();
    for ( int il=0; il<counter; il++ )
@@ -264,6 +271,8 @@ double Chi2KESpectrumITEP( std::string beam, std::string target, std::string ene
       histoname += " "; // pad up for the fact that initially sec.angle was supposed to be char[6] - no more, no less...
    }
    histoname += sec_angle;
+*/
+   std::string histoname = secondary_type + "_at_" + sec_angle + "deg";
    
    TFile* hfile = new TFile( histofile.c_str() );
    
@@ -287,7 +296,6 @@ double Chi2KESpectrumITEP( std::string beam, std::string target, std::string ene
    return chi2;
 
 }
-
 
 void plotModelRegreSummary( std::string beam, std::string target, std::string model )
 {
@@ -638,14 +646,18 @@ void plotMC2Data( std::string beam, std::string target, std::string energy,
    std::string location = "";
    if ( Versions[iv] == CurrentVersion )
    {
-         location = "";
+         // location = "";
+	 // location = "./converted-root-files/";
+	 location = "./itep-histo/"; 
    }
    else
    {
-         location = regre_test_dir + "/test47/" + Versions[iv] + "/";
+         location = regre_test_dir + "/test47/" + Versions[iv] + "/itep-histo/"; // "/converted-root-files/";
    }
-   std::string histofile = location + beam + target + model + energy + "GeV.root"; 
+   // --> old format --> std::string histofile = location + beam + target + model + energy + "GeV.root"; 
+   std::string histofile = location + beam + target + energy + "GeV" + model + ".root"; 
 
+/*
    std::string histoname = "KE" + secondary_type + "0" + beam + target + model + energy + "GeV";
    int counter = 5 - sec_angle.length();
    for ( int il=0; il<counter; il++ )
@@ -653,7 +665,9 @@ void plotMC2Data( std::string beam, std::string target, std::string energy,
       histoname += " "; // pad up for the fact that initially sec.angle was supposed to be char[6] - no more, no less...
    }
    histoname += sec_angle;
-   
+*/   
+   std::string histoname = secondary_type + "_at_" + sec_angle + "deg";
+
    TFile* hfile = new TFile( histofile.c_str() );
    
    TH1F* hi = (TH1F*)hfile->Get( histoname.c_str() );
@@ -748,6 +762,8 @@ void plotMC2Data( std::string beam, std::string target, std::string energy,
 }
 
 
+// UPDATED TO THIS POINT, FROM HERE ON STILL NEEDS AN UPDATE
+
 // --> models comparison
 
 
@@ -795,7 +811,7 @@ void plotModelsMC2DataSummary( std::string beam, std::string target, std::string
    pad1->Draw();
    pad1->cd();
    gPad->SetLogy();
-   plotModelsMC2Data( beam, target, energy, "proton", "59.1" );
+   plotModelsMC2Data( beam, target, energy, "proton", /*"10.1"*/ "59.1" );
    
    TPad* pad2 = new TPad("pad2","", 0.01, 0.14, 0.49, 0.56 );
    // myc1->cd(2);   
@@ -803,7 +819,7 @@ void plotModelsMC2DataSummary( std::string beam, std::string target, std::string
    pad2->Draw();
    pad2->cd();
    gPad->SetLogy();
-   plotModelsMC2Data( beam, target, energy, "proton", "119.0" );
+   plotModelsMC2Data( beam, target, energy, "proton", /*"29.5"*/ "119.0");
 
    myc1->cd();
 
@@ -828,6 +844,8 @@ void plotModelsMC2DataSummary( std::string beam, std::string target, std::string
       NDF = 0;
       chi2 += Chi2KESpectrumITEP( beam, target, energy, "proton", "59.1",  Models[m], NDF );
       chi2 += Chi2KESpectrumITEP( beam, target, energy, "proton", "119.0", Models[m], NDF );
+      // chi2 += Chi2KESpectrumITEP( beam, target, energy, "proton", "10.1",  Models[m], NDF );
+      // chi2 += Chi2KESpectrumITEP( beam, target, energy, "proton", "29.5", Models[m], NDF );
       std::ostringstream os;
       if ( (chi2/NDF) < 100 )
       {
@@ -862,6 +880,14 @@ void plotModelsMC2DataSummary( std::string beam, std::string target, std::string
       icounter++;
    }
    
+/* 
+   myc1->cd();
+   
+   std::string output1 = beam + "-" + target + "-" + energy + "GeV-models.gif";
+   myc1->Print( output1.c_str() );
+
+   return;
+ */
    
    TPad* pad3 = new TPad("pad3","",0.51,0.57,0.99,0.99);   
 //   myc1->cd(3);
@@ -941,10 +967,10 @@ void plotModelsMC2DataSummary( std::string beam, std::string target, std::string
    }
    
    myc1->cd();
-   
+/*   */
    std::string output1 = beam + "-" + target + "-" + energy + "GeV-models.gif";
    myc1->Print( output1.c_str() );
-
+/* */
    return;
 
 }
@@ -1002,6 +1028,7 @@ void plotModelsMC2Data( std::string beam, std::string target, std::string energy
       if ( Models[iv] == skip ) continue;
       
    // open G4 output root file (histo)
+/* --> old format
    std::string histofile = beam + target + Models[iv] + energy + "GeV.root";
    std::string histoname = "KE" + secondary_type + "0" + beam + target + Models[iv] + energy + "GeV";
    int counter = 5 - sec_angle.length();
@@ -1010,6 +1037,11 @@ void plotModelsMC2Data( std::string beam, std::string target, std::string energy
       histoname += " "; // pad up for the fact that initially sec.angle was supposed to be char[6] - no more, no less...
    }
    histoname += sec_angle;
+*/   
+
+   // std::string histofile = "./converted-root-files/" + beam + target + energy + "GeV" + Models[iv] + ".root";
+   std::string histofile = "./itep-histo/" + beam + target + energy + "GeV" + Models[iv] + ".root";
+   std::string histoname = secondary_type + "_at_" + sec_angle + "deg";
    
    TFile* hfile = new TFile( histofile.c_str() );
    
@@ -1089,7 +1121,7 @@ void plotModelsMC2Data( std::string beam, std::string target, std::string energy
    if ( ymax < 3. ) ymax = 3.;
    // gr1->GetYaxis()->SetRangeUser(ymin-0.1, ymax+0.2);  
    // gr1->GetYaxis()->SetRangeUser(ymin, ymax); 
-   gr1->GetYaxis()->SetRangeUser( 0.2, 5.); // 0.1, 30. ); 
+   gr1->GetYaxis()->SetRangeUser( 0.2, 5. /*0.5, 3.*/ ); // 0.1, 30. ); 
    
    gr1->Draw("apl");
    

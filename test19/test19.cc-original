@@ -45,8 +45,6 @@
 #include "G4SystemOfUnits.hh"
 
 #include "G4ParticleTable.hh"
-#include "G4IonTable.hh"
-
 #include "G4HadronicProcessStore.hh"
 #include "G4BGGNucleonInelasticXS.hh"
 #include "G4BGGPionInelasticXS.hh"
@@ -93,30 +91,6 @@ int main(int argc, char** argv)
       
 //      std::cout << " Engine is " << CLHEP::HepRandom::distributionName() << std::endl;
 //      CLHEP::HepRandom::showEngineStatus(); 
-      
-      
-      G4LorentzVector tmp( 0.0, 0.0, 0.0, 0.0 );
-      const G4Element* ele = exec->GetTarget()->GetCurrentMaterial()->GetElement(0);
-      int resi_mass_num = ele->GetN();
-      int resi_charge = ele->GetZasInt();
-      double resi_mass = G4ParticleTable::GetParticleTable()->GetIonTable()
-                                ->GetIonMass( resi_charge, resi_mass_num );
-      G4LorentzVector resi_target_4mom;
-      resi_target_4mom = tmp;
-      resi_target_4mom.setE( resi_mass );
-      
-      const G4ThreeVector proj_3mom = exec->GetBeam()->GetBeamMomentum();
-      double proj_mass = exec->GetBeam()->GetBeamPartMass();
-      double proj_ene = exec->GetBeam()->GetBeamEnergy();
-      G4LorentzVector proj_4mom;
-      proj_4mom.setVect( proj_3mom );
-      proj_4mom.setE( proj_ene );
-      
-      G4LorentzVector psum;
-      psum = tmp;
-      psum = proj_4mom + resi_target_4mom;
-      double s2 = psum.mag2();
-      double sqrts = std::sqrt( s2 ); 
       
       
       G4Timer timer;

@@ -40,6 +40,10 @@
 #include "QGSPWrapper.hh"
 #include "G4CascadeInterface.hh"
 #include "G4INCLXXInterface.hh"
+// Binary for XFPlots
+#include "G4BinaryCascade.hh"
+// --> no need --> #include "G4BinaryLightIonReaction.hh"
+// --> end Bunary for XFPlots
 
 #include "G4UImanager.hh"
 #include "G4StateManager.hh"
@@ -392,8 +396,11 @@ void Test19ExecProcessLevel::InitProcess( const TstReader* pset )
    else if ( name.find("bert") != std::string::npos )
    {
       //
-/* 
+ 
       G4CascadeParameters::Instance();
+      G4cout << " Bertini: usePhaseSpace = " << G4CascadeParameters::usePhaseSpace() << G4endl;
+      
+/* */
       G4UImanager* uim = 0;
       G4ApplicationState currentstate = G4StateManager::GetStateManager()->GetCurrentState();   
       bool ok = G4StateManager::GetStateManager()->SetNewState(G4State_PreInit);
@@ -404,11 +411,35 @@ void Test19ExecProcessLevel::InitProcess( const TstReader* pset )
       else
       {
          uim = G4UImanager::GetUIpointer();   
-         // uim->ApplyCommand( "/process/had/cascade/nuclearRadiusScale 1.5" ); 
-         // std::cout << " Updated: Bertini RadiusScale = " << G4CascadeParameters::radiusScale() << std::endl;
+         G4HadronicDeveloperParameters& HDP = G4HadronicDeveloperParameters::GetInstance();
+	 // uim->ApplyCommand( "/process/had/cascade/nuclearRadiusScale 1.5" ); 
+	 //
+	 // NOTE: The attempted change via HDP does NOT work in full.
+	 //       Specifically, one can change available parameters in HDP 
+	 //       but the change will NOT propagate to G4CascadeParameters
+	 //       or Bertini code because G4CascadeParameters::Initialize()
+	 //       is NOT called after such change in HDP thus nothing happens.
+	 //       Calling G4CascadeParameters::Initialize() explicitly is NOT
+	 //       possible because it's a private function of the class.
+	 //double rsc_new = 1.5;
+	 //HDP.Set( "BERT_RADIUS_SCALE", rsc_new ); 
+	 //double rsc_update = 0.;
+	 //HDP.DeveloperGet( "BERT_RADIUS_SCALE", rsc_update ); 
+	 //std::cout << " Updated: Bertini RadiusScale from HDP = " << rsc_update << std::endl;
+         //
+	 std::cout << " Updated: Bertini RadiusScale from CascadeParameters = " 
+	           << G4CascadeParameters::radiusScale() << std::endl;
          std::cout << " Bertini UsePreCo = " << G4CascadeParameters::usePreCompound() << std::endl;
-         uim->ApplyCommand( "/process/had/cascade/usePreCompound 1" ); 
-         std::cout << " Update: Bertini UsePreCo = " << G4CascadeParameters::usePreCompound() << std::endl;
+         // uim->ApplyCommand( "/process/had/cascade/usePreCompound 1" ); 
+         // std::cout << " Update: Bertini UsePreCo = " << G4CascadeParameters::usePreCompound() << std::endl;
+	 // uim->ApplyCommand("/process/had/cascade/usePhaseSpace 1");
+         G4cout << " Update Bertini: usePhaseSpace = " << G4CascadeParameters::usePhaseSpace() << G4endl;
+	 
+	 // 3-body FS mom generator
+	 //
+	 std::cout << " Bertini Use3BodyMom = " << G4CascadeParameters::use3BodyMom() << std::endl;
+	 uim->ApplyCommand( "/process/had/cascade/use3BodyMom 1" );
+	 std::cout << " Updated: Bertini Use3BodyMom = " << G4CascadeParameters::use3BodyMom() << std::endl;
 
          // G4DeexPrecoParameters* precoparams = G4NuclearLevelData::GetInstance()->GetParameters();
 	 // precoparams->SetLevelDensity( 0.01/CLHEP::MeV );
@@ -419,7 +450,7 @@ void Test19ExecProcessLevel::InitProcess( const TstReader* pset )
 	 // precoparams->SetDeexChannelsType(fGEM); // it's an enum, with fEvaporation=0, etc.
       }
       ok = G4StateManager::GetStateManager()->SetNewState( currentstate );
-*/
+/* */
       // turning Bartini back to its 11.2 state, if requested
       //
       if ( name.find("11.2") != std::string::npos || name.find("11_2") != std::string::npos ) 
@@ -451,7 +482,6 @@ void Test19ExecProcessLevel::InitProcess( const TstReader* pset )
          {
 	    G4HadronicParameters::Instance()->SetBertiniAs11_2(true);
          }
-
          ok = G4StateManager::GetStateManager()->SetNewState( currentstate );
 
          G4cout << "Is Bertini NOW 11_2 ? " << G4HadronicParameters::Instance()->IsBertiniAs11_2() << G4endl;
@@ -459,10 +489,43 @@ void Test19ExecProcessLevel::InitProcess( const TstReader* pset )
          G4cout << "NucModel11_2 = " << G4HadronicParameters::Instance()->IsBertiniNucleiModelAs11_2() << G4endl;
       
       }  // end turning Bertini to its 11.2 state (if requested)
+      if ( name_lc.find("lvgoff") != std::string::npos )
+      {
+         G4ApplicationState currentstate = G4StateManager::GetStateManager()->GetCurrentState();   
+         bool ok = G4StateManager::GetStateManager()->SetNewState(G4State_PreInit);
+      
+         G4cout << " Is PreInit set ? " << ok << G4endl;
+
+         bool isState_PreInit = ( G4StateManager::GetStateManager()->GetCurrentState() == G4State_PreInit );
+         G4cout << " isState_PreInit = " << isState_PreInit << G4endl;
+      
+         bool isMaster = G4Threading::IsMasterThread();
+         G4cout << " Is Master ? " << isMaster << G4endl;
+
+         // NOTE: Can NOT call G4HadronicParameters::Instance()->IsLocked() since it's private
+      
+         bool isLocked = ( !isMaster || !isState_PreInit );
+         G4cout << " Is locked ?  " << isLocked << G4endl; 
+
+         if ( !ok )
+         {
+            G4cout << " G4StateManager PROBLEM: can NOT change state to G4State_PreInit !" << G4endl;
+         } 
+         else
+         {
+	    G4HadronicParameters::Instance()->SetBertiniNucleiModelAs11_2(true);
+         }
+         ok = G4StateManager::GetStateManager()->SetNewState( currentstate );
+
+         // G4cout << "Is Bertini NOW 11_2 ? " << G4HadronicParameters::Instance()->IsBertiniAs11_2() << G4endl;
+         G4cout << "AngEmission11_2 = " << G4HadronicParameters::Instance()->IsBertiniAngularEmissionsAs11_2() << G4endl;
+         G4cout << "NucModel11_2 = " << G4HadronicParameters::Instance()->IsBertiniNucleiModelAs11_2() << G4endl;
+      }
 
       //
       pw = new ProcessWrapper( "BertiniProcessWrapper" );
       G4CascadeInterface* bert = new G4CascadeInterface();
+      bert->SetMinEnergy(1.*MeV);
       bert->SetMaxEnergy(15.*GeV);
       pw->RegisterMe(bert);      
    }
@@ -483,6 +546,14 @@ void Test19ExecProcessLevel::InitProcess( const TstReader* pset )
 				     //
 				     // in principle INCL++ is good up to 3AGeV for p,n,pi, A(<18)
       pw->RegisterMe(inclxx);
+   }
+   else if ( name.find("binary") != std::string::npos || name.find("bic") != std::string::npos )
+   {
+      pw = new ProcessWrapper( "BinaryProcessWrapper" );
+      G4BinaryCascade* bic = new G4BinaryCascade();
+      bic->SetMinEnergy(1.*MeV);
+      bic->SetMaxEnergy(5.*GeV);
+      pw->RegisterMe(bic);
    }
 #ifdef G4_USE_FLUKA
    else if ( name_lc.find("fluka") != std::string::npos )

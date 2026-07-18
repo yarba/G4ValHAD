@@ -78,7 +78,6 @@ HistoTest47::HistoTest47( const TstReader* pset )
    
    if ( pset->GetExpDataSet() == "ITEP" )
    {
-      fHistoTitle = fBeamNameTmp + " + " + fTarget ;
       fHistoSet = new HistoITEPTest47( fHistoTitle );
    }
    else if ( pset->GetExpDataSet() == "BNL" )
@@ -102,9 +101,7 @@ HistoTest47::HistoTest47( const TstReader* pset )
 TFile* HistoTest47::OpenHistoFile()
 {
 
-   // --> old format --> G4String fname = "./" + fBeamNameTmp + fTarget + fModel + fBeamMomentum;
-   // NOTE: no need to add "GeV" explicitly as it's already part of fBeamMomentun 
-   G4String fname = fBeamNameTmp + fTarget + fBeamMomentum + fModel;
+   G4String fname = "./" + fBeamNameTmp + fTarget + fModel + fBeamMomentum; 
    
    if ( fJobID > -1 )
    {

@@ -107,7 +107,6 @@ HistoITEPTest47::HistoITEPTest47( G4String htitle )
    
    // Now book histogramms.
    //
-/*
    std::string tmpname, name, title, t1;
       
    // Now I need to decompose htitle and extract beam, target, energy(mom).
@@ -125,12 +124,11 @@ HistoITEPTest47::HistoITEPTest47( G4String htitle )
    tmpname  = htitle.substr( 0, cnt1 );   
    tmpname += htitle.substr( cnt1+1, ((cnt2-cnt1)-1) );
    tmpname += htitle.substr( cnt2+1 ); // copy from cnt2+1 to the end
-*/      
+      
    // Now let's add theta bins (for KE spectra)
    //
    for ( size_t ii=0; ii<angles.size(); ++ii )
    {
-/*
       // unfortunately, I have to use old-style name formation 
       // which calls for an exact number of char's...
       // ... otheriwse I'll have to redo the (Root) analysis scripts
@@ -177,23 +175,8 @@ HistoITEPTest47::HistoITEPTest47( G4String htitle )
       title = htitle.substr( 0, cnt2 ) + " -> kminus at " + htitle.substr( cnt2+1 ) + ", theta = "; // + tmp.str();
       title.append( tmp );
       fKEkminus.push_back( new TH1F( name.c_str(), title.c_str(), 800, 0., 8. ) );
-*/
-      // NOTE: I wish I could use std::to_string but it it makes toooo loooong !
-      //
-      std::ostringstream tmp;
-      tmp << ( angles[ii] / CLHEP::deg );  
-      // NOTE: for historic reasons need to "patch up with .0" several whole theta values (15, 89, 119)
-      std::string stmp = tmp.str();
-      if ( stmp.find(".") == std::string::npos ) stmp += ".0";      
-      std::string hname = "proton_at_" + stmp + "deg";
-      std::string title = htitle + " -> proton + X, theta=" + stmp;
-      fKEproton.push_back( new TH1F( hname.c_str(), title.c_str(), 800, 0., 8. ) );
-      hname = "neutron_at_" + stmp + "deg";
-      title = htitle + " -> neutron + X, theta=" + stmp;
-      fKEneutron.push_back( new TH1F( hname.c_str(), title.c_str(), 800, 0., 8. ) );
    }
    
-/*
    // Now add cenergy bins (for cos(theta) spectra)
    //
    for ( unsigned int ii=0; ii<energies.size(); ++ii) 
@@ -210,7 +193,7 @@ HistoITEPTest47::HistoITEPTest47( G4String htitle )
       title = htitle.substr( 0, cnt2 ) + " -> proton at " + htitle.substr( cnt2+1 ) + ", KE = " + tmp.str() + "GeV";
       fCTneutron.push_back( new TH1F( name.c_str(), title.c_str(), 80, -1., 1. ) );   
    }
-*/
+
 }
 
 HistoITEPTest47::~HistoITEPTest47() 
@@ -227,7 +210,6 @@ HistoITEPTest47::~HistoITEPTest47()
    {
       delete fKEneutron[i];
    }
-/*
    for ( size_t i=0; i<fKEpiplus.size(); ++i )
    {
       delete fKEpiplus[i];
@@ -252,7 +234,7 @@ HistoITEPTest47::~HistoITEPTest47()
    {
       delete fCTneutron[i];
    }
-*/
+
 }
 
 void HistoITEPTest47::FillEvt(G4VParticleChange* aChange, const G4LorentzVector&, const G4LorentzVector& ) 
@@ -269,13 +251,10 @@ void HistoITEPTest47::FillEvt(G4VParticleChange* aChange, const G4LorentzVector&
     
       const G4String& pname = sec->GetDefinition()->GetParticleName();
       
-/* old format
       if ( pname != "proton" && pname != "neutron" && 
            pname != "pi+"    && pname != "pi-"     &&
 	   pname != "kaon+"  && pname != "kaon-" ) continue; 
-*/    
-      if ( pname != "proton" && pname != "neutron" ) continue;
-      
+    
       G4ThreeVector mom = sec->GetMomentum()/CLHEP::GeV;
       G4double      ke   = (sec->GetKineticEnergy())/CLHEP::GeV;
       if (ke < 0.0) ke = 0.0;
@@ -297,7 +276,6 @@ void HistoITEPTest47::FillEvt(G4VParticleChange* aChange, const G4LorentzVector&
 	     {
 	        fKEneutron[ii]->Fill(ke,wt);
 	     }
-/* old format
 	     else if ( pname == "pi+" )
 	     {
 	        fKEpiplus[ii]->Fill(ke,wt);
@@ -314,11 +292,9 @@ void HistoITEPTest47::FillEvt(G4VParticleChange* aChange, const G4LorentzVector&
 	     {
 	        fKEkminus[ii]->Fill(ke,wt);
 	     }
-*/
 	  }
       }
 
-/* old format 
       for (unsigned int ii=0; ii<energies.size(); ii++) 
       {	  
          if (ke > emin[ii] && ke <= emax[ii]) 
@@ -333,7 +309,6 @@ void HistoITEPTest47::FillEvt(G4VParticleChange* aChange, const G4LorentzVector&
 	    }
          }
       }
-*/
 
    } // end loop over secondaries
 
@@ -365,7 +340,6 @@ void HistoITEPTest47::Write( G4int nevt /* stat */, G4double xsec )
       fKEneutron[i]->Scale(scale);
       fKEneutron[i]->Write();      
    }
-/* old format
    for ( size_t i=0; i<fKEpiplus.size(); ++i )
    {
       double xbin = fKEpiplus[i]->GetBinWidth(1);
@@ -394,8 +368,7 @@ void HistoITEPTest47::Write( G4int nevt /* stat */, G4double xsec )
       fKEkminus[i]->Scale(scale);
       fKEkminus[i]->Write();      
    }
-*/
-/*   
+   
    for ( size_t i=0; i<fCTproton.size(); ++i )
    {
       double xbin = fCTproton[i]->GetBinWidth(1);
@@ -410,7 +383,7 @@ void HistoITEPTest47::Write( G4int nevt /* stat */, G4double xsec )
       fCTneutron[i]->Scale(scale);
       fCTneutron[i]->Write();      
    }
-*/
+
 // FIXME !!! 
 // Will need to restore EPTest here...
 
