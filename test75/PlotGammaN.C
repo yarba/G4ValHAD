@@ -337,16 +337,17 @@ void PlotGamma668CuRegre()
    {
       double chi2 = 0.;
       int NDF = 0;
-      chi2 += calcChi2GammaNuclear( "668", "Cu", "pi-",  "28", NDF, Versions[m] );
-      chi2 += calcChi2GammaNuclear( "668", "Cu", "pi-",  "44", NDF, Versions[m] );
-      std::ostringstream os;
-      os << (chi2/NDF);
-      std::string txt1 = "#chi^{2}/NDF = ";
-      txt1 += os.str();
-      txt1 += ( " for " + Versions[m] );
-      TLatex* ltxt1 = new TLatex(0.10, 0.6-m*0.2, txt1.c_str() );
-      ltxt1->SetTextSize(0.22);
-      ltxt1->Draw();
+      chi2 += calcChi2GammaNuclear( "668", "Cu", "pi+",  "28", NDF, Versions[m] );
+      chi2 += calcChi2GammaNuclear( "668", "Cu", "pi+",  "44", NDF, Versions[m] );
+      std::ostringstream os2;
+      os2 << (chi2/NDF);
+      std::string txt2 = "#chi^{2}/NDF = ";
+      txt2 += os2.str();
+      txt2 += ( " for " + Versions[m] );
+      TLatex* ltxt2 = new TLatex(0.10, 0.6-m*0.2, txt2.c_str() );
+      ltxt2->SetTextSize(0.22);
+      ltxt2->SetTextColor(ColorVersion[m]);
+      ltxt2->Draw();
    }
 
    myc->Print("gamma-668-Cu-pions-bert-regre.gif");
@@ -497,6 +498,7 @@ void PlotGamma668PbRegre()
       txt1 += ( " for " + Versions[m] );
       TLatex* ltxt1 = new TLatex(0.1, 0.65-m*0.2, txt1.c_str() );
       ltxt1->SetTextSize(0.2);
+      ltxt1->SetTextColor(ColorVersion[m]);
       ltxt1->Draw();
    }
 
@@ -516,7 +518,7 @@ void PlotGammaNRegression( std::string energy, std::string target, std::string s
    std::string hName = "";
 
 //   TLegend* leg1 = new TLegend(0.6, 0.70, 0.9, 0.9);
-   TLegend* leg1 = new TLegend(0.25, 0.15, 0.55, 0.35);
+   TLegend* leg1 = new TLegend(0.15, 0.15, 0.55, 0.35);
    
    if ( secondary == "proton" )
    {

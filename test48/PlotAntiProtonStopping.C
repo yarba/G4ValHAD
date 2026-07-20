@@ -614,7 +614,8 @@ void drawAntiProtonRegression( std::string target="H", std::string model="FTF" )
    leg2->SetFillColor(kWhite);
    
    myc->cd();
-   myc->Print("pbar-H-FTF-regre.gif");
+   std::string output = "pbar-H-" + model + "-regre.gif";
+   myc->Print(output.c_str());
      
    return;
 
